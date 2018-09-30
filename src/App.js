@@ -57,7 +57,8 @@ class App extends Component {
 		);
 	}
 }
-
+//Specify view pages as routes here to use navigation. 
+//https://reactnavigation.org/docs/en/getting-started.html
 const RootStack = createStackNavigator(
 	{
 		Login: LoginForm,

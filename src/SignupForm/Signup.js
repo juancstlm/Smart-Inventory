@@ -6,51 +6,56 @@ import firebase from 'firebase';
 export default class Signup extends Component {
     state = { email: '', password: '', firstName: '', lastName: '', error: '', loading: false };
 
-
+    //Sign up using Firebase authentication and store values in realtime db. 
+    //When users sign up using Firebase authentication, unique ids are generated. We use these ids as keys to identify users in our db. 
     signup = async () => {
 
         if (this.state.email && this.state.password && this.state.firstName && this.state.lastName != "") {
 
-            this.setState({ loading: true })
+            this.setState({
+                loading: true,
+                error: '',
+            })
 
-
-            firebase.auth().createUserWithEmailAndPassword(this.state.email, this.state.password).then((user) => {
+            firebase.auth().createUserWithEmailAndPassword(this.state.email, this.state.password).then(() => {
 
                 try {
-                    if (user) {
+                    var uid = firebase.auth().currentUser.uid
 
-                        var uid = firebase.auth().currentUser.uid
+                    firebase.database().ref('Users/' + uid + '/').set({
+                        firstName: this.state.firstName,
+                        lastName: this.state.lastName,
+                        email: this.state.email,
+                        password: this.state.password,
+                    })
+                        .then(() => {
 
-                        firebase.database().ref('Users/' + uid + '/').set({
-                            firstName: this.state.firstName,
-                            lastName: this.state.lastName,
-                            email: this.state.email,
-                            password: this.state.password,
+                            this.setState({
+                                email: '',
+                                password: '',
+                                firstName: '',
+                                lastName: '',
+                                loading: false,
+                                error: '',
+                            })
                         })
-                            .then(() => {
-
-                                this.setState
-                                    ({
-                                        email: '',
-                                        password: '',
-                                        firstName: '',
-                                        lastName: '',
-                                        loading: false,
-                                        error: ''
-                                    })
-                            })
-                            .catch((error) => {
-                                console.log(error)
-                            })
-                    } else { }
                 } catch (error) {
-                    console.log('error')
+                    console.log(error)
+                    this.errorMessage('Sign up failed')
                 }
-
             })
-                .catch(() => { this.setState({ error: "Sign up failed" }) })
-
+        } else {
+            this.errorMessage('Please fill in all required fields')
         }
+    }
+
+    errorMessage(s) {
+
+        this.setState({
+            loading: false,
+            error: s,
+        })
+
     }
 
     render() {
