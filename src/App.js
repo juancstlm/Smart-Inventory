@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import { Platform, StyleSheet, Text, View } from 'react-native';
-import { Header, Button, Spinner, CardSection } from './components/common'
-import firebase from 'firebase'
-import LoginForm from './components/LoginForm'
-import Signup from './SignupForm/Signup'
+import { Header, Button, Spinner, CardSection } from './components/common';
+import firebase from 'firebase';
+import LoginForm from './components/LoginForm';
+import Signup from './SignupForm/Signup';
+import InventoriesList from './components/InventoriesScreen/InventoriesList';
 import { createStackNavigator } from 'react-navigation';
 
 class App extends Component {
@@ -37,7 +38,7 @@ class App extends Component {
 					<CardSection>
 						<Button onPress={() => firebase.auth().signOut()}>
 							Log Out
-			   	</Button>
+			   			</Button>
 					</CardSection>
 				);
 			case false:
@@ -63,6 +64,7 @@ const RootStack = createStackNavigator(
 	{
 		Login: LoginForm,
 		Signup: Signup,
+		InventoriesList: InventoriesList,
 	},
 	{
 		initialRouteName: 'Login',

@@ -10,6 +10,7 @@
     "firebase": "^5.5.2",
     "react": "16.4.1",
     "react-native": "0.56.0",
+    "react-native-search-bar": "^3.4.2",
     "react-navigation": "^2.17.0"
   },
   "devDependencies": {

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Text } from 'react-native';
 import firebase from 'firebase';
-import { Button, Card, CardSection, Input, Spinner } from '../common'
+import { Button, Card, CardSection, Input, Spinner } from '../common';
 import { createStackNavigator } from 'react-navigation';
 
 
@@ -24,6 +24,9 @@ class LoginForm extends Component {
 	}
 
 	onLoginFail() {
+		//single line code below should move to onLoginSuccess
+		{this.props.navigation.navigate('InventoriesList')}
+
 		this.setState({ error: 'Authentication Failed', loading: false });
 	}
 	onLoginSuccess() {
@@ -57,7 +60,7 @@ class LoginForm extends Component {
 					<Input
 						label="Email"
 						placeholder="ibrahim@gmail.com"
-						value={this.state.emal}
+						value={this.state.email}
 						onChangeText={email => this.setState({ email })}
 					/>
 				</CardSection>
