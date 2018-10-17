@@ -25,17 +25,19 @@ class LoginForm extends Component {
 
 	onLoginFail() {
 		//single line code below should move to onLoginSuccess
-		{this.props.navigation.navigate('InventoriesList')}
+		//{this.props.navigation.navigate('InventoriesList')}
 
 		this.setState({ error: 'Authentication Failed', loading: false });
 	}
 	onLoginSuccess() {
+		{this.props.navigation.replace('InventoriesList')}
 		this.setState({
 			email: '',
 			password: '',
 			loading: false,
 			error: ''
 		});
+		
 	}
 
 	renderButton() {
