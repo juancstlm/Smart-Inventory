@@ -6,7 +6,8 @@ import {Header} from '../common/Header'
 import SearchBar from 'react-native-search-bar'
 import AddButton from '../common/AddButton';
 import InventoryCardSection from './InventoryCardSection';
-
+import ActionButton from 'react-native-action-button';
+import Icon from 'react-native-vector-icons/Ionicons';
 
 //make componet
 export default class InventoriesList extends Component {
@@ -42,18 +43,19 @@ export default class InventoriesList extends Component {
                     <Text style={styles.textStyle}>
                         Inventories
                     </Text>
-                    <AddButton onPress={()=> Linking.openURL(props.inventory.url)}>
-                        <Text>{'+'}</Text>
-                    </AddButton>
                     
                 </InventoryCardSection>
-                
                 <View>
                     {this.renderSearchBar()}
                 </View>
                 <ScrollView>
                     {this.renderInventories()}
                 </ScrollView>
+                <ActionButton buttonColor="#4d8ff9">
+                    <ActionButton.Item buttonColor='#9b59b6' title="New Inventory" onPress={() => console.log("notes tapped!")}>
+                        <Icon name="md-create" style={styles.actionButtonIcon} />
+                    </ActionButton.Item>
+                </ActionButton>
             </View>
         );
     }
@@ -63,7 +65,12 @@ const styles={
     textStyle: {
         fontSize: 40,
         marginLeft: 10,
-	}
+    },
+    actionButtonIcon: {
+        fontSize: 28,
+        height: 30,
+        color: 'white',
+      },
 };
 // make components available for App
 
