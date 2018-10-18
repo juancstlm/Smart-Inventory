@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Text } from 'react-native';
-import { Button, Card, CardSection, Input, Spinner } from '../components/common';
+import { Button, Card, CardSection, Input, Spinner } from '../ui/index';
 import firebase from 'firebase';
 
 export default class Signup extends Component {

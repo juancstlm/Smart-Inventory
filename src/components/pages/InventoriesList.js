@@ -1,12 +1,11 @@
 // imports
 import React, {Component} from 'react';
 import {Text, ScrollView, View} from 'react-native';
-import InventoryProfile from './InventoryProfile';
-import {Header} from '../common/Header'
+import InventoryProfile from '../ui/InventoryProfile';
+import {Header} from '../ui/Header'
 import SearchBar from 'react-native-search-bar'
-import AddButton from '../common/AddButton';
-import InventoryCardSection from './InventoryCardSection';
-import ActionButton from 'react-native-action-button';
+import AddButton from '../ui/AddButton';
+import InventoryCardSection from '../ui/InventoryCardSection';
 import Icon from 'react-native-vector-icons/Ionicons';
 
 //make componet
@@ -51,11 +50,6 @@ export default class InventoriesList extends Component {
                 <ScrollView>
                     {this.renderInventories()}
                 </ScrollView>
-                <ActionButton buttonColor="#4d8ff9">
-                    <ActionButton.Item buttonColor='#9b59b6' title="New Inventory" onPress={() => console.log("notes tapped!")}>
-                        <Icon name="md-create" style={styles.actionButtonIcon} />
-                    </ActionButton.Item>
-                </ActionButton>
             </View>
         );
     }

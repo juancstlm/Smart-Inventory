@@ -1,18 +1,26 @@
 import React, { Component } from 'react';
 import { Platform, StyleSheet, Text, View } from 'react-native';
-import { Header, Button, Spinner, CardSection } from './components/common';
+// import { Header, Button, Spinner, CardSection } from './components/ui/index';
 import firebase from 'firebase';
-import LoginForm from './components/LoginForm';
-import Signup from './SignupForm/Signup';
-import InventoriesList from './components/InventoriesScreen/InventoriesList';
+// import LoginForm from './components/LoginForm';
+// import Signup from './components/pages/Signup';
+// import InventoriesList from './components/pages/InventoriesList';
+import Landing from './src/components/pages/Landing'
 import { createStackNavigator } from 'react-navigation';
+import getTheme from './native-base-theme/components/index';
+import commonColor from './native-base-theme/variables/commonColor'
+import {StyleProvider} from 'native-base'
 
 class App extends Component {
 
-	state = { loggedIn: null };
+    static navigationOptions = {
+        tabBarLabel: 'Home!',
+    };
 
 	componentWillMount() {
 
+
+		//TODO move this into its own file
 		firebase.initializeApp({
 			apiKey: "AIzaSyAEmfChIahjgpB8PQu3VLaeOX8sOwm0k4g",
 			authDomain: "smartinventory-1f53b.firebaseapp.com",
@@ -31,43 +39,21 @@ class App extends Component {
 		});
 	}
 
-	renderContent() {
-		switch (this.state.loggedIn) {
-			case true:
-				return (
-					<CardSection>
-						<Button onPress={() => firebase.auth().signOut()}>
-							Log Out
-			   			</Button>
-					</CardSection>
-				);
-			case false:
-				return <LoginForm />;
-			default:
-				return <Spinner size="large" />;
-		}
-	}
-
 	render() {
-		return (
-			<RootStack />
-			//  <View>
-			//  <Header headerText="Authentication" />
-			//  {this.renderContent()}
-			//  </View>
-		);
+		return <StyleProvider style={getTheme(commonColor)}><Landing/></StyleProvider>
 	}
 }
 //Specify view pages as routes here to use navigation. 
 //https://reactnavigation.org/docs/en/getting-started.html
 const RootStack = createStackNavigator(
 	{
-		Login: LoginForm,
-		Signup: Signup,
-		InventoriesList: InventoriesList,
+		Landing: Landing,
+		// Login: LoginForm,
+		// Signup: Signup,
+		// InventoriesList: InventoriesList,
 	},
 	{
-		initialRouteName: 'Login',
+		initialRouteName: 'Landing',
 	}
 );
 
