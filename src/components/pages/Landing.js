@@ -3,6 +3,9 @@ import { View, StatusBar, Image, SafeAreaView } from "react-native";
 import { Button, Text } from "native-base";
 
 export default class Landing extends React.Component {
+  static navigationOptions = {
+    header: null
+  };
   render() {
     return (
       <SafeAreaView style={{ flex: 1, backgroundColor: "#2F3A49" }}>
@@ -37,11 +40,13 @@ export default class Landing extends React.Component {
         <Text style={{ textAlign: "center", color: "#FFFFFF", fontSize: 12 }}>
           Continue with:
         </Text>
-        <View style={{
+        <View
+          style={{
             marginLeft: 15,
             marginRight: 15,
             marginTop: 10
-        }}>
+          }}
+        >
           <Button block>
             <Text>EMAIL</Text>
           </Button>
