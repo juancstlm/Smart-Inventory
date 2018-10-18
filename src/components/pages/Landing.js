@@ -47,7 +47,9 @@ export default class Landing extends React.Component {
             marginTop: 10
           }}
         >
-          <Button block>
+          <Button block
+                  onPress={() => this.props.navigation.navigate('Authentication')}
+          >
             <Text>EMAIL</Text>
           </Button>
         </View>

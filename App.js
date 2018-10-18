@@ -10,6 +10,7 @@ import { createStackNavigator } from "react-navigation";
 import getTheme from "./native-base-theme/components/index";
 import commonColor from "./native-base-theme/variables/commonColor";
 import { StyleProvider } from "native-base";
+import Authentication from './src/components/pages/Authentication'
 
 class App extends Component {
 
@@ -45,7 +46,8 @@ class App extends Component {
 //https://reactnavigation.org/docs/en/getting-started.html
 const RootStack = createStackNavigator(
   {
-    Landing: Landing
+    Landing: Landing,
+	  Authentication: Authentication,
     // Login: LoginForm,
     // Signup: Signup,
     // InventoriesList: InventoriesList,

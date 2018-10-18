@@ -3,7 +3,7 @@ import { Text } from 'react-native';
 import { Button, Card, CardSection, Input, Spinner } from '../ui/index';
 import firebase from 'firebase';
 
-export default class Signup extends Component {
+export default class SignUp extends Component {
     state = { email: '', password: '', firstName: '', lastName: '', error: '', loading: false };
 
     //Sign up using Firebase authentication and store values in realtime db. 
