@@ -6,12 +6,42 @@ import firebase from 'firebase';
 export default class SignUp extends Component {
     state = { email: '', password: '', firstName: '', lastName: '', error: '', loading: false };
 
+    checkIfUserExists = async () => {
+
+        this.setState({
+            error: '',
+        })
+
+        if (this.state.email == "" || this.state.password == "" || this.state.firstName == "" || this.state.lastName == "") {
+            this.errorMessage('Please fill in all required fields')
+            
+        } else if (!this.isEmailValid(this.state.email)) {
+            this.errorMessage('Please use valid email address')
+            
+        } else if (this.state.password.length < 7) {
+            this.errorMessage('Password needs to be at least 8 characters')
+            
+        } else {
+        firebase.auth().fetchSignInMethodsForEmail(this.state.email).then((id) => {
+            try {
+                //if id.length is 0, then user does not exist on db so let the user sign up
+                if (id.length == 0) {
+                    this.signup()
+                } else {
+                    this.errorMessage('The email addreass is already in use. Please use different email address')
+                }
+            } catch (error) {
+                
+            }
+        })
+    }
+    }
+
+
     //Sign up using Firebase authentication and store values in realtime db. 
     //When users sign up using Firebase authentication, unique ids are generated. We use these ids as keys to identify users in our db. 
     signup = async () => {
-
-        if (this.state.email && this.state.password && this.state.firstName && this.state.lastName != "") {
-
+        
             this.setState({
                 loading: true,
                 error: '',
@@ -39,14 +69,13 @@ export default class SignUp extends Component {
                                 error: '',
                             })
                         })
+
+                    { this.props.navigation.replace('InventoriesList') }
                 } catch (error) {
-                    console.log(error)
-                    this.errorMessage('Sign up failed')
+                    this.errorMessage(error)
                 }
             })
-        } else {
-            this.errorMessage('Please fill in all required fields')
-        }
+        
     }
 
     errorMessage(s) {
@@ -56,6 +85,14 @@ export default class SignUp extends Component {
             error: s,
         })
 
+    }
+
+    isEmailValid (email) {
+
+        if(email.match(/.+@.+/)) {
+            return true;
+        }
+            return false;
     }
 
     render() {
@@ -105,14 +142,22 @@ export default class SignUp extends Component {
                 </Text>
 
                 <CardSection>
-                    <Button onPress={this.signup}>
-                        Sign up
-					</Button>
+                    {this.spiner()}
                 </CardSection>
 
             </Card>
 
         );
+    }
+
+    spiner() {
+        if (this.state.loading) {
+            return <Spinner size="small" />;
+        }
+        return ( <Button onPress={this.checkIfUserExists}>
+                        Sign up
+					</Button>
+        )
     }
 
 }

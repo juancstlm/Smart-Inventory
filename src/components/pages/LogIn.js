@@ -9,17 +9,22 @@ class LoginForm extends Component {
 
 	onButtonPress() {
 		const { email, password } = this.state;
+		this.setState({ error: '' })
+		if (email == "") {
+			this.setState({ error: 'Please enter email address' })
+		} else if (password == "") {
+			this.setState({ error: 'Please enter password' })
+		} else if (!this.isEmailValid(email)) {
+			this.setState({ error: 'Please use valid email address' })
+		} else {
+			this.setState({ error: '', loading: true });
 
-		this.setState({ error: '', loading: true });
-
-		firebase.auth().signInWithEmailAndPassword(email, password)
-			.then(this.onLoginSuccess.bind(this))
-			.catch(() => {
-				firebase.auth().createUserWithEmailAndPassword(email, password)
-					.then(this.onLoginSuccess.bind(this))
-					.catch(this.onLoginFail.bind(this));
-			});
-
+			firebase.auth().signInWithEmailAndPassword(email, password)
+				.then(this.onLoginSuccess.bind(this))
+				.catch(() => {
+					this.onLoginFail()
+				})
+		}
 	}
 
 	onLoginFail() {
@@ -29,14 +34,22 @@ class LoginForm extends Component {
 		this.setState({ error: 'Authentication Failed', loading: false });
 	}
 	onLoginSuccess() {
-		{this.props.navigation.replace('InventoriesList')}
+		{ this.props.navigation.replace('InventoriesList') }
 		this.setState({
 			email: '',
 			password: '',
 			loading: false,
 			error: ''
 		});
-		
+
+	}
+
+	isEmailValid(email) {
+
+		if (email.match(/.+@.+/)) {
+			return true;
+		}
+		return false;
 	}
 
 	renderButton() {
@@ -60,7 +73,7 @@ class LoginForm extends Component {
 				<CardSection>
 					<Input
 						label="Email"
-						placeholder="ibrahim@gmail.com"
+						placeholder="Email"
 						value={this.state.email}
 						onChangeText={email => this.setState({ email })}
 					/>

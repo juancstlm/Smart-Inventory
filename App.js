@@ -4,7 +4,7 @@ import { Platform, StyleSheet, Text, View } from "react-native";
 import firebase from "firebase";
 // import LoginForm from './components/LoginForm';
 // import Signup from './components/pages/Signup';
-// import InventoriesList from './components/pages/InventoriesList';
+import InventoriesList from './src/components/pages/InventoriesList';
 import Landing from "./src/components/pages/Landing";
 import { createStackNavigator } from "react-navigation";
 import getTheme from "./native-base-theme/components/index";
@@ -50,7 +50,7 @@ const RootStack = createStackNavigator(
 	  Authentication: Authentication,
     // Login: LoginForm,
     // Signup: Signup,
-    // InventoriesList: InventoriesList,
+     InventoriesList: InventoriesList,
   },
   {
     initialRouteName: "Landing"
