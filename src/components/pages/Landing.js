@@ -34,7 +34,7 @@ export default class Landing extends React.Component {
             Welcome to Smart Inventory
           </Text>
           <Text style={{ color: "#FFFFFF", fontSize: 14, textAlign: "center" }}>
-            The best way to keep track of all your items. Let's get started
+            The best way to keep track of all your items. Let's get started.
           </Text>
         </View>
         <Text style={{ textAlign: "center", color: "#FFFFFF", fontSize: 12 }}>
@@ -48,8 +48,7 @@ export default class Landing extends React.Component {
           }}
         >
           <Button block
-                  onPress={() => this.props.navigation.navigate('Authentication')}
-          >
+                  onPress={() => this.props.navigation.navigate('Authentication')}>
             <Text>EMAIL</Text>
           </Button>
         </View>
