@@ -2,13 +2,11 @@ import React, { Component } from "react";
 import { Platform, StyleSheet, Text, View } from "react-native";
 // import { Header, Button, Spinner, CardSection } from './components/ui/index';
 import firebase from "firebase";
-// import LoginForm from './components/LoginForm';
-// import Signup from './components/pages/Signup';
 import InventoriesList from './src/components/pages/InventoriesList';
 import Landing from "./src/components/pages/Landing";
 import { createStackNavigator } from "react-navigation";
 import getTheme from "./native-base-theme/components/index";
-import commonColor from "./native-base-theme/variables/commonColor";
+import commonColor from "./native-base-theme/variables/variables";
 import { StyleProvider } from "native-base";
 import Authentication from './src/components/pages/Authentication'
 
