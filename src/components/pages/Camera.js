@@ -54,7 +54,15 @@ export default class Camera extends Component<{}> {
     
   }
 
+  takePicture() {
+    const options = {}
 
+    this.camera.capture({metadata: options}).then((data) => {
+      console.log(data)
+    }).catch((error) => {
+      console.log(error)
+    })
+  }
 
   render() {
     var classification = null;
@@ -79,12 +87,13 @@ export default class Camera extends Component<{}> {
           <View style={styles.buttonContainer}>
                 <Text 
                 style={styles.info} 
-                onPress={() => { this.props.navigation.navigate('Item', { itemName: 'bike',});}}>
+                onPress={() => { this.props.navigation.navigate('ItemConfirmation', { itemName: '{classification}',});}}>
                   Hiiiiii
                 </Text>
           </View>
 
-          <CameraButton onPress={() => { this.props.navigation.navigate('Item', { itemName: 'bike',});}}>
+
+          <CameraButton onPress={() => { this.props.navigation.navigate('ItemConfirmation', { itemName: classification});}}>
           </CameraButton>
       </View>
     );
