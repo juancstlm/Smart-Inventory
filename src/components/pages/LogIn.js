@@ -5,7 +5,7 @@ import { Button, Card, CardSection, Input, Spinner } from '../ui/index';
 
 
 class LoginForm extends Component {
-	state = { email: '', password: '', error: '', loading: false };
+	state = { email: '1@yahoo.com', password: '123456', error: '', loading: false };
 
 	onButtonPress() {
 		const { email, password } = this.state;

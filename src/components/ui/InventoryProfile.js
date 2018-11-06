@@ -6,22 +6,31 @@ import InventoryButton from './InventoriesButton';
 
 const InventoryProfile = (props) => {
 
+    callParent = () => {
+        props.callbackFromParent(props.inventory);
+    }
+
+    renderUserProfileImages = () => {
+        return props.inventory.users.map(user => 
+            <View style={styles.thumbnailContainerStyle}>
+                <Image style={styles.thumbnailStyle} source={{uri: user.profileImage}} />
+            </View>
+        );
+    }
+
     return (
-        <InventoryCard inventory = {props.inventory}>
+        <InventoryCard image = {props.inventory.image} style={styles.imageStyle}>
+
             <InventoryCardSection>
-                <View style = {styles.thumbnailContainerStyle} >
-                    <Image style={styles.thumbnailStyle} source={{uri: props.inventory.thumbnail_image}} />
-                </View>
-                
-                 
+                {renderUserProfileImages()}
             </InventoryCardSection>
 
             <InventoryCardSection >
-                <View style={{flex: 2, height: 50, backgroundColor: '00000000'}}/>
+                <View style={{flex: 2, height: 50, backgroundColor: '000000'}}/>
             </InventoryCardSection>
 
             <InventoryCardSection>
-                <InventoryButton onPress={()=> Linking.openURL(props.inventory.url)}>
+                <InventoryButton onPress={this.callParent}>
                     <Text style={styles.headerTextStyle}>{props.inventory.name}{'\n'}</Text>
                     <Text>{props.inventory.itemCount} {' items'}</Text>
                 </InventoryButton>
@@ -54,14 +63,15 @@ const styles= {
     thumbnailContainerStyle:{
         justifyContent: 'center',
         alignItems: 'center',
-        marginLeft: 10,
-        marginRight: 10,
+        marginLeft: 5,
+        marginRight: 5,
     },
 
-    //For the album image
+    //For the inventory image
     imageStyle:{
         height: 300,
         flex: 1,
+        margin: 10,
         width: null
     }
 };

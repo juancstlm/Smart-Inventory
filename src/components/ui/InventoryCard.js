@@ -2,17 +2,23 @@ import React from 'react';
 import {View, ImageBackground} from 'react-native';
 
 
-export const InventoryCard = (props) => {
-    return (
+const InventoryCard = (props) => {
     
-        <ImageBackground
-        source={{uri: props.inventory.image}}
-        imageStyle={{resizeMode: 'stretch'}}
-        style={styles.background}>
-            <View style={styles.container}>
-                 {props.children}
-             </View>
-        </ImageBackground>
+    return (
+        <View style={{
+            backgroundColor: '#fff',
+            borderRadius: 15,
+            overflow: 'hidden',
+          }}>
+            <ImageBackground
+            source={{uri: props.image}}
+            imageStyle={{resizeMode: 'stretch' }}
+            style={styles.background}>
+                <View style={styles.container}>
+                    {props.children}
+                </View>
+            </ImageBackground>
+        </View>
     );
 };
 
@@ -22,18 +28,15 @@ const styles = {
         width: null,
         height: null,
         resizeMode: 'strech',
-        marginLeft: 10,
-        marginRight: 10,
-        marginTop: 10,
-        marginBottom: 10,
-        borderRadius: 20,
+        borderRadius: 15,
     },
     container: {
         flex: 1,
         backgroundColor:'transparent',
         justifyContent: 'center',
         alignItems: 'flex-start',
-        borderWidth: 1,
+        borderWidth: 0,
+        borderRadius: 15,
     }
 };
 
