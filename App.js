@@ -9,6 +9,12 @@ import getTheme from "./native-base-theme/components/index";
 import commonColor from "./native-base-theme/variables/variables";
 import { StyleProvider } from "native-base";
 import Authentication from './src/components/pages/Authentication'
+import Camera from './src/components/pages/Camera'
+import ItemConfirmation from './src/components/pages/ItemConfirmation'
+import Item from './src/components/pages/Item'
+import CameraTakePhoto from './src/components/pages/CameraTakePhoto'
+import CameraPassPhotoToItem from './src/components/pages/CameraPassPhotoToItem'
+
 
 class App extends Component {
 
@@ -49,9 +55,14 @@ const RootStack = createStackNavigator(
     // Login: LoginForm,
     // Signup: Signup,
      InventoriesList: InventoriesList,
+     Camera: Camera,
+     ItemConfirmation, ItemConfirmation,
+     Item, Item,
+     CameraTakePhoto: CameraTakePhoto,
+     CameraPassPhotoToItem: CameraPassPhotoToItem,
   },
   {
-    initialRouteName: "Landing"
+    initialRouteName: "CameraPassPhotoToItem"
   },
     {
         headerMode: 'none',
