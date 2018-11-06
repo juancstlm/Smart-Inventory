@@ -1,5 +1,5 @@
 import React from 'react';
-import {Text, View, Image, Linking} from 'react-native';
+import {Text, View, Image, TouchableOpacity} from 'react-native';
 import InventoryCard from './InventoryCard';
 import InventoryCardSection from './InventoryCardSection';
 import InventoryButton from './InventoriesButton';
@@ -10,20 +10,49 @@ const InventoryItem = (props) => {
         props.callbackFromParent(props.item);
     }*/
 
+    var getWidth = function() {
+        var width = '';
+        width+= props.item.quantity 
+        width+='%'
+        return width;
+    };
+
     return (
-        <InventoryCard image = {props.item.image}>
+        <View style={{flex: 1, 
+            backgroundColor: '#8190a5',
+            borderRadius: 10,
+            overflow: 'hidden'}}>
+
             <InventoryCardSection >
-                <View style={{flex: 1, height: 100, backgroundColor: '00000000'}}/>
+                <View style={{backgroundColor: '#f7931e'}}>
+                    <Text style={styles.headerTextStyle}>
+                        {props.item.quantity}
+                    </Text>
+                </View>
+                <View>
+                    <Text style={styles.headerTextStyle}>
+                            {props.item.name}
+                    </Text>
+                    <View style={{width: getWidth(),height: 3,backgroundColor: '#f7931e'}}>
+
+                    </View>
+                </View>
             </InventoryCardSection>
 
-            <InventoryCardSection>
-                <InventoryButton onPress={console.log('this.callParent')}>
-                    <Text style={styles.headerTextStyle}>{props.item.name}{'\n'}</Text>
-                    <Text>{props.item.quantity} {' items'}</Text>
-                </InventoryButton>
-            </InventoryCardSection>
+            <InventoryCard image = {props.item.image}>
+                
+                <InventoryCardSection>
 
-        </InventoryCard>
+                    <TouchableOpacity onPress={() => console.log('this.callParent')} style={styles.buttonStyle} >
+                        
+                    </TouchableOpacity>
+
+                </InventoryCardSection>
+
+             </InventoryCard>
+            
+        </View>
+        
     );
 
 };
@@ -37,6 +66,17 @@ const styles= {
 
     headerTextStyle:{
         fontSize: 20,
+        margin: 3,
+        color: 'white',
+    },
+    buttonStyle:{
+        flex: 1,
+        height: 130,
+        alignSelf: 'stretch',
+        backgroundColor: '#e1e9f7',
+        opacity: .1,
+        borderRadius: 15,
+        borderWidth: 0,
     },
 };
 

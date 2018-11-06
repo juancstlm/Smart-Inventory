@@ -12,7 +12,7 @@ const InventoryCard = (props) => {
           }}>
             <ImageBackground
             source={{uri: props.image}}
-            imageStyle={{resizeMode: 'stretch',borderRadius: 15 }}
+            imageStyle={{resizeMode: 'stretch' }}
             style={styles.background}>
                 <View style={styles.container}>
                     {props.children}
@@ -35,7 +35,7 @@ const styles = {
         backgroundColor:'transparent',
         justifyContent: 'center',
         alignItems: 'flex-start',
-        borderWidth: 1,
+        borderWidth: 0,
         borderRadius: 15,
     }
 };
