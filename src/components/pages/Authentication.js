@@ -1,34 +1,28 @@
 import React from "react";
 import { View, SafeAreaView } from "react-native";
-import { Content, Form, Item, Input } from "native-base";
-import {createMaterialTopTabNavigator} from 'react-navigation'
-import LoginForm from './LogIn'
-import SignUp from './Signup'
+import { Content, Form, Item, Input, Tab, Tabs } from "native-base";
+import LoginForm from "./LogIn";
+import SignUp from "./Signup";
 
-
-class Authentication extends React.Component {
+export default class Authentication extends React.Component {
   static navigationOptions = {
-      header: null,
+    header: null
   };
   render() {
     return (
       <SafeAreaView style={{ flex: 1, backgroundColor: "#2F3A49" }}>
         <Content>
-          <Form>
-            <Item>
-              <Input placeholder="Username" />
-            </Item>
-            <Item last>
-              <Input placeholder="Password" />
-            </Item>
-          </Form>
+          <Tabs
+          >
+            <Tab heading="Log In" >
+              <LoginForm />
+            </Tab>
+            <Tab heading="Sing Up">
+              <SignUp />
+            </Tab>
+          </Tabs>
         </Content>
       </SafeAreaView>
     );
   }
 }
-
-export default createMaterialTopTabNavigator({
-    LogIn: LoginForm,
-    SignUp: SignUp,
-});

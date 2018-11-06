@@ -9,7 +9,7 @@ import InventoryDetail from './src/components/pages/InventoryDetail';
 import Landing from "./src/components/pages/Landing";
 import { createStackNavigator } from "react-navigation";
 import getTheme from "./native-base-theme/components/index";
-import commonColor from "./native-base-theme/variables/commonColor";
+import commonColor from "./native-base-theme/variables/variables";
 import { StyleProvider } from "native-base";
 import Authentication from './src/components/pages/Authentication'
 
