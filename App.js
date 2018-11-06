@@ -62,7 +62,7 @@ const RootStack = createStackNavigator(
      CameraPassPhotoToItem: CameraPassPhotoToItem,
   },
   {
-    initialRouteName: "Camera"
+    initialRouteName: "CameraPassPhotoToItem"
   },
     {
         headerMode: 'none',
