@@ -2,26 +2,36 @@ import React, { Component } from 'react';
 import { Text } from 'react-native';
 import firebase from 'firebase';
 import { Button, Card, CardSection, Input, Spinner } from '../ui/index';
+import NavigationService from '../../../NavigationService';
 
 
 class LoginForm extends Component {
 	state = { email: '1@yahoo.com', password: '123456', error: '', loading: false };
 
+	componentWillMount(){
+		console.log("PROPS", this.props)
+	}
+
 	onButtonPress() {
 		const { email, password } = this.state;
+		console.log(email, password)
 		this.setState({ error: '' })
-		if (email == "") {
+		if (email === "") {
 			this.setState({ error: 'Please enter email address' })
-		} else if (password == "") {
+		} else if (password === "") {
 			this.setState({ error: 'Please enter password' })
 		} else if (!this.isEmailValid(email)) {
 			this.setState({ error: 'Please use valid email address' })
 		} else {
 			this.setState({ error: '', loading: true });
 
+			console.log("FIREBASE", firebase)
 			firebase.auth().signInWithEmailAndPassword(email, password)
-				.then(this.onLoginSuccess.bind(this))
-				.catch(() => {
+				.then(
+					this.onLoginSuccess.bind(this)
+
+				)
+				.catch((e) => {
 					this.onLoginFail()
 				})
 		}
@@ -34,7 +44,7 @@ class LoginForm extends Component {
 		this.setState({ error: 'Authentication Failed', loading: false });
 	}
 	onLoginSuccess() {
-		{ this.props.navigation.replace('InventoriesList') }
+		NavigationService.navigate('InventoriesList');
 		this.setState({
 			email: '',
 			password: '',
@@ -95,13 +105,6 @@ class LoginForm extends Component {
 
 				<CardSection>
 					{this.renderButton()}
-				</CardSection>
-
-
-				<CardSection>
-					<Button onPress={() => this.props.navigation.navigate('Signup')}>
-						Sign up
-					</Button>
 				</CardSection>
 
 			</Card>

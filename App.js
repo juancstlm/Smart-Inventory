@@ -12,6 +12,8 @@ import getTheme from "./native-base-theme/components/index";
 import commonColor from "./native-base-theme/variables/variables";
 import { StyleProvider } from "native-base";
 import Authentication from './src/components/pages/Authentication'
+import NavigationService from './NavigationService';
+
 
 class App extends Component {
 
@@ -38,7 +40,9 @@ class App extends Component {
   render() {
     return (
       <StyleProvider style={getTheme(commonColor)}>
-        <RootStack />
+        <RootStack ref={navigatorRef => {
+            NavigationService.setTopLevelNavigator(navigatorRef);
+        }} />
       </StyleProvider>
     );
   }
@@ -51,8 +55,8 @@ const RootStack = createStackNavigator(
 	  Authentication: Authentication,
     // Login: LoginForm,
     // Signup: Signup,
-    InventoriesList: InventoriesList,
     InventoryDetail: InventoryDetail,
+     InventoriesList: InventoriesList,
   },
   {
     initialRouteName: "Landing"
