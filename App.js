@@ -66,7 +66,7 @@ const RootStack = createStackNavigator(
     InventoryDetail: InventoryDetail,
   },
   {
-    initialRouteName: "CameraPassPhotoToItem"
+    initialRouteName: "Landing"
   },
     {
         headerMode: 'none',
