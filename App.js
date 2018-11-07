@@ -1,15 +1,12 @@
 import React, { Component } from "react";
-import { Platform, StyleSheet, Text, View } from "react-native";
-// import { Header, Button, Spinner, CardSection } from './components/ui/index';
 import firebase from "firebase";
 import InventoriesList from './src/components/pages/InventoriesList';
 import Landing from "./src/components/pages/Landing";
 import { createStackNavigator } from "react-navigation";
-import getTheme from "./native-base-theme/components/index";
-import commonColor from "./native-base-theme/variables/variables";
-import { StyleProvider } from "native-base";
 import Authentication from './src/components/pages/Authentication'
 import NavigationService from './NavigationService';
+// import {ThemeProvider} from 'react-native-elements';
+
 
 
 class App extends Component {
@@ -36,11 +33,9 @@ class App extends Component {
 
   render() {
     return (
-      <StyleProvider style={getTheme(commonColor)}>
         <RootStack ref={navigatorRef => {
             NavigationService.setTopLevelNavigator(navigatorRef);
         }} />
-      </StyleProvider>
     );
   }
 }

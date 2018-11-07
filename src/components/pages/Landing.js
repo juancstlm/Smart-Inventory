@@ -1,6 +1,7 @@
 import React from "react";
-import { View, StatusBar, Image, SafeAreaView } from "react-native";
-import { Button, Text } from "native-base";
+import { View, StatusBar, Image, SafeAreaView, Text } from "react-native";
+import { Button } from 'react-native-elements';
+
 
 export default class Landing extends React.Component {
   static navigationOptions = {
@@ -47,10 +48,11 @@ export default class Landing extends React.Component {
             marginTop: 10
           }}
         >
-          <Button block
+          <Button title={"EMAIL"}
+                  backgroundColor={"#e79627"}
+                  raised borderRadius={4}
                   onPress={() => this.props.navigation.navigate('Authentication')}
           >
-            <Text>EMAIL</Text>
           </Button>
         </View>
       </SafeAreaView>

@@ -2,7 +2,6 @@
 import React, {Component} from 'react';
 import {Text, ScrollView, View} from 'react-native';
 import InventoryProfile from '../ui/InventoryProfile';
-import {Container, Header, Item, Input, Icon} from 'native-base'
 import AddButton from '../ui/AddButton';
 import InventoryCardSection from '../ui/InventoryCardSection';
 // import Icon from 'react-native-vector-icons/Ionicons';
@@ -31,14 +30,6 @@ export default class InventoriesList extends Component {
 
     render() {
         return (
-          <Container>
-            <Header searchBar rounded>
-              <Item>
-                {/*<Icon name="ios-search" />*/}
-                <Input placeholder="Search" />
-                {/*<Icon name="ios-people" />*/}
-              </Item>
-            </Header>
             <View style={{flex: 1}}>
               <InventoryCardSection>
                 <Text style={styles.textStyle}>
@@ -50,7 +41,6 @@ export default class InventoriesList extends Component {
                 {this.renderInventories()}
               </ScrollView>
             </View>
-          </Container>
         );
     }
 }

@@ -1,6 +1,6 @@
 import React from "react";
 import { View, SafeAreaView } from "react-native";
-import { Content, Form, Item, Input, Tab, Tabs } from "native-base";
+import { Button } from "react-native-elements";
 import LoginForm from "./LogIn";
 import SignUp from "./Signup";
 
@@ -12,19 +12,25 @@ export default class Authentication extends React.Component {
   render() {
     return (
       <SafeAreaView style={{ flex: 1, backgroundColor: "#2F3A49" }}>
-        <Content>
-            <Form>
-                <Tabs
-                >
-                    <Tab heading="Log In" >
-                        <LoginForm />
-                    </Tab>
-                    <Tab heading="Sing Up">
-                        <SignUp />
-                    </Tab>
-                </Tabs>
-            </Form>
-        </Content>
+        <View style={{flexDirection:'row', flexWrap:'wrap', justifyContent: 'center',
+        alignContent: 'center'}}>
+          <Button
+            buttonStyle={{maxWidth: 85}}
+            backgroundColor={"#e79627"}
+            raised
+            borderRadius={4}
+            title={"Log In"}
+            onPress={console.log("log in")}
+          />
+          <Button
+            buttonStyle={{maxWidth: 85}}
+            backgroundColor={"#e79627"}
+            raised
+            borderRadius={4}
+            title={"Sign Up"}
+            onPress={console.log("sign up")}
+          />
+        </View>
       </SafeAreaView>
     );
   }

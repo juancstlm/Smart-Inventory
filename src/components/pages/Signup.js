@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import { Text, StyleSheet } from "react-native";
 import { Button, Card, CardSection, Input, Spinner } from "../ui/index";
 import firebase from "firebase";
-import { Item, Content, Form, Label } from "native-base";
 import NavigationService from '../../../NavigationService';
 
 export default class SignUp extends Component {
@@ -110,29 +109,7 @@ export default class SignUp extends Component {
 
   render() {
     return (
-      <Content style={{ backgroundColor: "#2F3A49" }}>
-        <Form>
-          <Item >
-            <Input
-              label="FirstName"
-              placeholder="First Name"
-              value={this.state.firstName}
-              onChangeText={firstName => this.setState({ firstName })}
-            />
-          </Item>
-          <Item>
-            <Input
-              label="Email"
-              placeholder="Email"
-              value={this.state.emal}
-              onChangeText={email => this.setState({ email })}
-            />
-          </Item>
-        </Form>
-        <Button block style={{ margin: 15, marginTop: 50 }}>
-          <Text>Sign Up</Text>
-        </Button>
-      </Content>
+      <Text >Sing Up</Text>
     );
   }
 
