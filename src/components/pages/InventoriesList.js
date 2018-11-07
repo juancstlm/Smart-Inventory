@@ -2,11 +2,10 @@
 import React, {Component} from 'react';
 import {Text, ScrollView, View} from 'react-native';
 import InventoryProfile from '../ui/InventoryProfile';
-import {Header} from '../ui/Header'
-import SearchBar from 'react-native-search-bar'
+import {Container, Header, Item, Input, Icon} from 'native-base'
 import AddButton from '../ui/AddButton';
 import InventoryCardSection from '../ui/InventoryCardSection';
-import Icon from 'react-native-vector-icons/Ionicons';
+// import Icon from 'react-native-vector-icons/Ionicons';
 
 //make componet
 export default class InventoriesList extends Component {
@@ -30,27 +29,28 @@ export default class InventoriesList extends Component {
         );
     }
 
-    renderSearchBar(){
-        return <SearchBar placeholder={'Type inventory name to search'} />;
-    }
-
     render() {
         return (
-
+          <Container>
+            <Header searchBar rounded>
+              <Item>
+                {/*<Icon name="ios-search" />*/}
+                <Input placeholder="Search" />
+                {/*<Icon name="ios-people" />*/}
+              </Item>
+            </Header>
             <View style={{flex: 1}}>
-                <InventoryCardSection>
-                    <Text style={styles.textStyle}>
-                        Inventories
-                    </Text>
-                    
-                </InventoryCardSection>
-                <View>
-                    {this.renderSearchBar()}
-                </View>
-                <ScrollView>
-                    {this.renderInventories()}
-                </ScrollView>
+              <InventoryCardSection>
+                <Text style={styles.textStyle}>
+                  Inventories
+                </Text>
+
+              </InventoryCardSection>
+              <ScrollView>
+                {this.renderInventories()}
+              </ScrollView>
             </View>
+          </Container>
         );
     }
 }
