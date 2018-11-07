@@ -1,5 +1,5 @@
 {
-  "name": "SmartInventory",
+  "name": "Smart Inventory",
   "version": "0.0.1",
   "private": true,
   "scripts": {
@@ -8,10 +8,8 @@
   },
   "dependencies": {
     "firebase": "^5.5.2",
-    "native-base": "^2.8.1",
     "react": "16.4.1",
     "react-native": "0.56.0",
-    "react-native-search-bar": "^3.4.2",
     "react-native-vector-icons": "^6.0.2",
     "react-navigation": "^2.17.0"
   },
