@@ -1,3 +1,6 @@
+import { Input } from "react-native-elements";
+import React from "react";
+
 export const theme = {
   Button: {
     raised: true,
@@ -6,7 +9,7 @@ export const theme = {
       height: 45,
       borderColor: "transparent",
       borderWidth: 0,
-      borderRadius: 5
+      borderRadius: 6
     },
     loadingProps: {
       size: 'large',
@@ -17,8 +20,9 @@ export const theme = {
     placeholderTextColor: '#959DAD',
     inputContainerStyle: {
       backgroundColor: "#454F63",
-      borderRadius: 4,
-      borderColor: "#2f3a49",
+      borderRadius: 6,
+      borderColor: "transparent",
+      borderBottomColor:'transparent',
       borderWidth: 0,
     },
     inputStyle: {

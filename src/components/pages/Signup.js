@@ -1,8 +1,8 @@
 import React, { Component } from "react";
-import { Text, StyleSheet } from "react-native";
-import { Button, Card, CardSection, Input, Spinner } from "../ui/index";
+import { Text, StyleSheet, View } from "react-native";
 import firebase from "firebase";
 import NavigationService from '../../../NavigationService';
+import { Button, Input } from "react-native-elements";
 
 export default class SignUp extends Component {
   state = {
@@ -109,7 +109,47 @@ export default class SignUp extends Component {
 
   render() {
     return (
-      <Text >Sing Up</Text>
+      <View>
+        <View style={{alignItems: "center"}}>
+          <Input
+            placeholder="Email"
+            errorMessage={
+              this.state.error ? "Please enter a valid Email address" : null
+            }
+            onChangeText={text => this.handleEmailChange(text)}
+            containerStyle={styles.containerStyle}
+          />
+          <Input
+            placeholder="First Name"
+            containerStyle={styles.containerStyle}
+            // errorMessage={
+            //   this.state.error ? "Please enter a valid Email address" : null
+            // }
+            // onChangeText={text => this.handleEmailChange(text)}
+          />
+          <Input
+            placeholder="Last Name"
+            containerStyle={styles.containerStyle}
+            // errorMessage={
+            //   this.state.error ? "Please enter a valid Email address" : null
+            // }
+            // onChangeText={text => this.handleEmailChange(text)}
+          />
+          <Input
+            placeholder="Password"
+            containerStyle={styles.containerStyle}
+            secureTextEntry
+            onChangeText={text => this.setState({ password: text })}
+          />
+        </View>
+        <View style={{marginLeft: 18, marginRight: 18, marginTop: 20}}>
+        <Button
+          title="Continue"
+          loading={this.state.loading}
+          onPress={this.handleLogIn}
+        />
+        </View>
+      </View>
     );
   }
 
@@ -121,14 +161,14 @@ export default class SignUp extends Component {
   }
 }
 
-const styles = StyleSheet.create({
+const styles = {
   errorTextStyle: {
     fontSize: 20,
     alignSelf: "center",
     color: "red"
   },
-  inputTextStyle: {
-    color: "red",
-    borderColor: "blue"
+  containerStyle: {
+    paddingBottom: 10,
+    paddingTop: 10,
   }
-});
+};

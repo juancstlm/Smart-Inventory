@@ -52,24 +52,29 @@ class LoginForm extends Component {
   render() {
     return (
       <View>
-        <Input
-          placeholder="Email"
-          placeholderTextColor="#959DAD"
-          errorMessage={
-            this.state.error ? "Please enter a valid Email address" : null
-          }
-          onChangeText={text => this.handleEmailChange(text)}
-        />
-        <Input
-          placeholder="Password"
-          secureTextEntry
-          onChangeText={text => this.setState({ password: text })}
-        />
+        <View style={{alignItems: "center"}}>
+          <Input
+            containerStyle={styles.containerStyle}
+            placeholder="Email"
+            errorMessage={
+              this.state.error ? "Please enter a valid Email address" : null
+            }
+            onChangeText={text => this.handleEmailChange(text)}
+          />
+          <Input
+            placeholder="Password"
+            containerStyle={styles.containerStyle}
+            secureTextEntry
+            onChangeText={text => this.setState({ password: text })}
+          />
+        </View>
+        <View style={{marginLeft: 18, marginRight: 18, marginTop: 20}}>
         <Button
           title="Continue"
           loading={this.state.loading}
           onPress={this.handleLogIn}
         />
+        </View>
       </View>
     );
   }
@@ -80,6 +85,10 @@ const styles = {
     fontSize: 20,
     alignSelf: "center",
     color: "red"
+  },
+  containerStyle: {
+    paddingBottom: 10,
+    paddingTop: 10,
   }
 };
 
