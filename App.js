@@ -50,7 +50,8 @@ const RootStack = createStackNavigator(
     InventoriesList: InventoriesList
   },
   {
-    initialRouteName: "Landing"
+    // initialRouteName: "Landing"
+    initialRouteName: "InventoriesList" // FOR TEST ONLY
   },
   {
     headerMode: "none",
