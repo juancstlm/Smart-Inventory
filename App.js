@@ -1,16 +1,14 @@
 import React, { Component } from "react";
 import firebase from "firebase";
-import InventoriesList from './src/components/pages/InventoriesList';
+import InventoriesList from "./src/components/pages/InventoriesList";
 import Landing from "./src/components/pages/Landing";
 import { createStackNavigator } from "react-navigation";
-import Authentication from './src/components/pages/Authentication'
-import NavigationService from './NavigationService';
-// import {ThemeProvider} from 'react-native-elements';
-
-
+import Authentication from "./src/components/pages/Authentication";
+import NavigationService from "./NavigationService";
+import { ThemeProvider } from "react-native-elements";
+import {theme} from './theme'
 
 class App extends Component {
-
   componentWillMount() {
     //TODO move this into its own file
     firebase.initializeApp({
@@ -33,9 +31,13 @@ class App extends Component {
 
   render() {
     return (
-        <RootStack ref={navigatorRef => {
+      <ThemeProvider theme={theme}>
+        <RootStack
+          ref={navigatorRef => {
             NavigationService.setTopLevelNavigator(navigatorRef);
-        }} />
+          }}
+        />
+      </ThemeProvider>
     );
   }
 }
@@ -44,18 +46,18 @@ class App extends Component {
 const RootStack = createStackNavigator(
   {
     Landing: Landing,
-	  Authentication: Authentication,
-     InventoriesList: InventoriesList,
+    Authentication: Authentication,
+    InventoriesList: InventoriesList
   },
   {
     initialRouteName: "Landing"
   },
-    {
-        headerMode: 'none',
-        navigationOptions: {
-            headerVisible: false,
-        }
+  {
+    headerMode: "none",
+    navigationOptions: {
+      headerVisible: false
     }
+  }
 );
 
 export default App;
