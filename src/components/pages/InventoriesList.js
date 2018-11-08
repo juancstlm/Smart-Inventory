@@ -1,6 +1,6 @@
 // imports
 import React, { Component } from "react";
-import { Text, ScrollView, View } from "react-native";
+import { Text, ScrollView, SafeAreaView, View } from "react-native";
 import InventoryProfile from "../ui/InventoryProfile";
 import AddButton from "../ui/AddButton";
 import InventoryCardSection from "../ui/InventoryCardSection";
@@ -53,7 +53,6 @@ export default class InventoriesList extends Component {
   }
 
   renderInventories() {
-    //console.log(this.state.inventories);
     return this.state.inventories.data.map(inventory => (
       <InventoryProfile key={inventory.name} inventory={inventory} />
     ));
@@ -61,7 +60,7 @@ export default class InventoriesList extends Component {
 
   render() {
     return (
-      <View style={{ flex: 1 }}>
+      <View style={{ flex: 1, backgroundColor: '#2f3a49' }}>
         <Header
           statusBarProps={{ barStyle: "light-content" }}
           centerComponent={
@@ -70,14 +69,14 @@ export default class InventoriesList extends Component {
                 width: "120%",
                 backgroundColor: "transparent",
                 borderTopColor: "transparent",
-                borderBottomColor: "transparent",
+                borderBottomColor: "transparent"
               }}
               inputContainerStyle={{
-                backgroundColor:'#47576E',
-                borderColor: '#47576E',
-                borderWidth: 1,
+                backgroundColor: "#47576E",
+                borderColor: "#47576E",
+                borderWidth: 1
               }}
-              inputStyle={{backgroundColor: 'transparent'}}
+              inputStyle={{ backgroundColor: "transparent" }}
               // onChangeText={someMethod}
               // onClear={someMethod}
               placeholder="Search"
@@ -86,13 +85,16 @@ export default class InventoriesList extends Component {
           centerContainerStyle={{ width: "100%" }}
           containerStyle={{
             backgroundColor: "#2f3a49",
+            borderBottomColor: "#2f3a49",
             justifyContent: "space-around"
           }}
         />
         <InventoryCardSection>
           <Text style={styles.textStyle}>Inventories</Text>
         </InventoryCardSection>
-        <ScrollView>{this.renderInventories()}</ScrollView>
+        <ScrollView style={{ backgroundColor: "transparent" }}>
+          {this.renderInventories()}
+        </ScrollView>
       </View>
     );
   }
@@ -101,7 +103,9 @@ export default class InventoriesList extends Component {
 const styles = {
   textStyle: {
     fontSize: 40,
-    marginLeft: 10
+    marginLeft: 10,
+    color: "#fff",
+    backgroundColor: "transparent"
   },
   actionButtonIcon: {
     fontSize: 28,
