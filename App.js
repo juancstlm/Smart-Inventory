@@ -1,9 +1,8 @@
 import React, { Component } from "react";
 import { Platform, StyleSheet, Text, View } from "react-native";
-// import { Header, Button, Spinner, CardSection } from './components/ui/index';
 import firebase from "firebase";
-// import LoginForm from './components/LoginForm';
-// import Signup from './components/pages/Signup';
+import LoginForm from './src/components/pages/LoginForm';
+import Signup from './src/components/pages/Signup';
 import InventoriesList from './src/components/pages/InventoriesList';
 import InventoryDetail from './src/components/pages/InventoryDetail';
 import Landing from "./src/components/pages/Landing";
@@ -66,7 +65,7 @@ const RootStack = createStackNavigator(
     InventoryDetail: InventoryDetail,
   },
   {
-    initialRouteName: "Landing"
+    initialRouteName: "CameraPassPhotoToItem"
   },
     {
         headerMode: 'none',

@@ -3,8 +3,9 @@ import { View, Image } from 'react-native';
 import firebase from 'firebase';
 import { Button, Text } from "native-base";
 import ItemConfirmationDetails from './ItemConfirmationDetails'
- //{{ uri: this.state.path }}
-
+//{{ uri: this.state.path }}
+// source= {{ uri: JSON.parse(JSON.stringify(itemName)) }}
+// source= {require("../../img/bike2.jpeg")}
 class ItemConfirmation extends Component {
 
 	render() {
@@ -70,7 +71,7 @@ const styles = {
 	itemNameStyle: {
 		textAlign: 'center',
 		textAlignVertical: 'center',
-		fontSize: 10,
+		fontSize: 40,
 		color: '#FCFCFC'
 	},
 	card2: {
