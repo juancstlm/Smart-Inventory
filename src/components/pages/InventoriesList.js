@@ -64,11 +64,30 @@ export default class InventoriesList extends Component {
       <View style={{ flex: 1 }}>
         <Header
           statusBarProps={{ barStyle: "light-content" }}
-        />
-        <SearchBar
-          // onChangeText={someMethod}
-          // onClear={someMethod}
-
+          centerComponent={
+            <SearchBar
+              containerStyle={{
+                width: "120%",
+                backgroundColor: "transparent",
+                borderTopColor: "transparent",
+                borderBottomColor: "transparent",
+              }}
+              inputContainerStyle={{
+                backgroundColor:'#47576E',
+                borderColor: '#47576E',
+                borderWidth: 1,
+              }}
+              inputStyle={{backgroundColor: 'transparent'}}
+              // onChangeText={someMethod}
+              // onClear={someMethod}
+              placeholder="Search"
+            />
+          }
+          centerContainerStyle={{ width: "100%" }}
+          containerStyle={{
+            backgroundColor: "#2f3a49",
+            justifyContent: "space-around"
+          }}
         />
         <InventoryCardSection>
           <Text style={styles.textStyle}>Inventories</Text>
