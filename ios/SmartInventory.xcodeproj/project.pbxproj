@@ -5,7 +5,6 @@
 	};
 	objectVersion = 46;
 	objects = {
-
 /* Begin PBXBuildFile section */
 		00C302E51ABCBA2D00DB3ED1 /* libRCTActionSheet.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302AC1ABCB8CE00DB3ED1 /* libRCTActionSheet.a */; };
 		00C302E71ABCBA2D00DB3ED1 /* libRCTGeolocation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302BA1ABCB90400DB3ED1 /* libRCTGeolocation.a */; };
@@ -99,6 +98,13 @@
 			proxyType = 1;
 			remoteGlobalIDString = 13B07F861A680F5B00A75B9A;
 			remoteInfo = SmartInventory;
+		};
+		0D44752D21981CE700E6965D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = EB9FDBC08A344AB094A63276 /* RNSearchBar.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 134814201AA4EA6300B7C361;
+			remoteInfo = RNSearchBar;
 		};
 		0D7E8043219417230054F6B2 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -528,6 +534,14 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		0D44750521981CE700E6965D /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				0D44752E21981CE700E6965D /* libRNSearchBar.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		0D7E80192194171F0054F6B2 /* Recovered References */ = {
 			isa = PBXGroup;
 			children = (
@@ -897,6 +911,10 @@
 					ProjectRef = AB01923BBA6A44D88721C9FA /* RNBlur.xcodeproj */;
 				},
 				{
+					ProductGroup = 0D44750521981CE700E6965D /* Products */;
+					ProjectRef = EB9FDBC08A344AB094A63276 /* RNSearchBar.xcodeproj */;
+				},
+				{
 					ProductGroup = 0D7E803F219417230054F6B2 /* Products */;
 					ProjectRef = 14BC14BE03DD480A97A5E043 /* RNVectorIcons.xcodeproj */;
 				},
@@ -945,6 +963,13 @@
 			fileType = archive.ar;
 			path = libRCTVibration.a;
 			remoteRef = 00C302E31ABCB9EE00DB3ED1 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		0D44752E21981CE700E6965D /* libRNSearchBar.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libRNSearchBar.a;
+			remoteRef = 0D44752D21981CE700E6965D /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		0D7E8044219417230054F6B2 /* libRNVectorIcons.a */ = {
