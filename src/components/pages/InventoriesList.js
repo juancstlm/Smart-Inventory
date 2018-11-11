@@ -22,7 +22,7 @@ export default class InventoriesList extends Component {
     });
 
     var inventories = Firebase.firestore.collection('Inventories')
-    var querry = inventories.where('owner_id', '==', '2T31JnJW4kTaxeomSAZs4xhixrM2')
+    var querry = inventories.where('owner_id', '==', Firebase.auth.currentUser.uid)
     querry.get().then((snapshot) => {
       const invs = snapshot.docs.map(doc => {
         console.log('doc data', doc.data())
