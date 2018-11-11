@@ -64,6 +64,7 @@ class LoginForm extends Component {
             placeholder="Password"
             containerStyle={styles.containerStyle}
             secureTextEntry
+            keyboardType={'email-address'}
             onChangeText={text => this.setState({ password: text })}
           />
         </View>

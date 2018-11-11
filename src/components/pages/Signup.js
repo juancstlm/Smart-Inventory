@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import { Text, StyleSheet, View } from "react-native";
-import firebase from "firebase";
-import NavigationService from '../../../NavigationService';
+import NavigationService from "../../../NavigationService";
 import { Button, Input } from "react-native-elements";
+import Firebase from "../../Firebase";
 
 export default class SignUp extends Component {
   state = {
@@ -31,21 +31,18 @@ export default class SignUp extends Component {
     } else if (this.state.password.length < 7) {
       this.errorMessage("Password needs to be at least 8 characters");
     } else {
-      firebase
-        .auth()
-        .fetchSignInMethodsForEmail(this.state.email)
-        .then(id => {
-          try {
-            //if id.length is 0, then user does not exist on db so let the user sign up
-            if (id.length == 0) {
-              this.signup();
-            } else {
-              this.errorMessage(
-                "The email addreass is already in use. Please use different email address"
-              );
-            }
-          } catch (error) {}
-        });
+      Firebase.auth.fetchSignInMethodsForEmail(this.state.email).then(id => {
+        try {
+          //if id.length is 0, then user does not exist on db so let the user sign up
+          if (id.length == 0) {
+            this.signup();
+          } else {
+            this.errorMessage(
+              "The email address is already in use. Please use different email address"
+            );
+          }
+        } catch (error) {}
+      });
     }
   };
 
@@ -56,22 +53,18 @@ export default class SignUp extends Component {
       loading: true,
       error: ""
     });
-
-    firebase
-      .auth()
+    Firebase.auth
       .createUserWithEmailAndPassword(this.state.email, this.state.password)
       .then(() => {
         try {
-          var uid = firebase.auth().currentUser.uid;
+          var uid = Firebase.auth.currentUser.uid;
 
-          firebase
-            .database()
+          Firebase.database
             .ref("Users/" + uid + "/")
             .set({
               firstName: this.state.firstName,
               lastName: this.state.lastName,
-              email: this.state.email,
-              password: this.state.password
+              email: this.state.email
             })
             .then(() => {
               this.setState({
@@ -85,12 +78,12 @@ export default class SignUp extends Component {
             });
 
           {
-              NavigationService.navigate('InventoriesList');
+            NavigationService.navigate("InventoriesList");
           }
         } catch (error) {
           this.errorMessage(error);
         }
-      });
+      })
   };
 
   errorMessage(s) {
@@ -107,21 +100,36 @@ export default class SignUp extends Component {
     return false;
   }
 
+  setEmail = (email: string) => {
+    this.setState({ email: email });
+  };
+  setFirstName = (firstName: string) => {
+    this.setState({ firstName: firstName });
+  };
+  setLastName = (lastName: string) => {
+    this.setState({ lastName: lastName });
+  };
+  setPasssword = (password: string) => {
+    this.setState({ password: password });
+  };
+
   render() {
     return (
       <View>
-        <View style={{alignItems: "center"}}>
+        <View style={{ alignItems: "center" }}>
           <Input
             placeholder="Email"
             errorMessage={
               this.state.error ? "Please enter a valid Email address" : null
             }
-            onChangeText={text => this.handleEmailChange(text)}
+            keyboardType={'email-address'}
+            onChangeText={this.setEmail}
             containerStyle={styles.containerStyle}
           />
           <Input
             placeholder="First Name"
             containerStyle={styles.containerStyle}
+            onChangeText={this.setFirstName}
             // errorMessage={
             //   this.state.error ? "Please enter a valid Email address" : null
             // }
@@ -134,30 +142,24 @@ export default class SignUp extends Component {
             //   this.state.error ? "Please enter a valid Email address" : null
             // }
             // onChangeText={text => this.handleEmailChange(text)}
+            onChangeText={this.setLastName}
           />
           <Input
             placeholder="Password"
             containerStyle={styles.containerStyle}
             secureTextEntry
-            onChangeText={text => this.setState({ password: text })}
+            onChangeText={this.setPasssword}
           />
         </View>
-        <View style={{marginLeft: 18, marginRight: 18, marginTop: 20}}>
-        <Button
-          title="Continue"
-          loading={this.state.loading}
-          onPress={this.handleLogIn}
-        />
+        <View style={{ marginLeft: 18, marginRight: 18, marginTop: 20 }}>
+          <Button
+            title="Continue"
+            loading={this.state.loading}
+            onPress={this.checkIfUserExists}
+          />
         </View>
       </View>
     );
-  }
-
-  spiner() {
-    if (this.state.loading) {
-      return <Spinner size="small" />;
-    }
-    return <Button onPress={this.checkIfUserExists}>Sign up</Button>;
   }
 }
 
@@ -169,6 +171,6 @@ const styles = {
   },
   containerStyle: {
     paddingBottom: 10,
-    paddingTop: 10,
+    paddingTop: 10
   }
 };
