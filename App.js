@@ -6,42 +6,48 @@ import { createStackNavigator } from "react-navigation";
 import Authentication from "./src/components/pages/Authentication";
 import NavigationService from "./NavigationService";
 import { ThemeProvider } from "react-native-elements";
-import {theme} from './theme'
-import Firebase from './src/Firebase'
+import { theme } from "./theme";
+import Firebase from "./src/Firebase";
 
-class App extends Component {
+interface AppState {
+  authStatusReported: boolean;
+  isUserAuthenticated: boolean;
+}
 
-  constructor(){
+class App extends Component<AppState> {
+  constructor() {
     super();
   }
 
-  state = {
-    loggedIn: false
-  }
+  state: AppState = {
+    authStatusReported: false,
+    isUserAuthenticated: false
+  };
 
   componentWillMount() {
     Firebase.init();
 
     Firebase.auth.onAuthStateChanged(user => {
-      if (user) {
-        this.setState({ loggedIn: true });
-      } else {
-        this.setState({ loggedIn: false });
-      }
-    })
+      // if (user) {
+      //   this.setState({ authStatusReported });
+      // } else {
+      //   this.setState({ loggedIn: false });
+      // }
+      this.setState({
+        authStatusReported: true,
+        isUserAuthenticated: !!user
+      });
+    });
   }
 
   render() {
-
     const RootStack = createStackNavigator(
       {
-        Landing: Landing,
-        Authentication: Authentication,
         InventoriesList: InventoriesList
       },
       {
-        initialRouteName: this.state.loggedIn ? 'InventoriesList' :"Landing"
-        // initialRouteName: "InventoriesList" // FOR TEST ONLY
+        // initialRouteName: this.state.loggedIn ? 'InventoriesList' :"Landing"
+        initialRouteName: "InventoriesList" // FOR TEST ONLY
       },
       {
         headerMode: "none",
@@ -53,17 +59,24 @@ class App extends Component {
 
     return (
       <ThemeProvider theme={theme}>
-        <RootStack
-          ref={navigatorRef => {
-            NavigationService.setTopLevelNavigator(navigatorRef);
-          }}
-        />
+        {this.state.authStatusReported && this.state.isUserAuthenticated ? (
+          this.state.isUserAuthenticated ? (
+            <RootStack
+              ref={navigatorRef => {
+                NavigationService.setTopLevelNavigator(navigatorRef);
+              }}
+            />
+          ) : (
+            <Authentication />
+          )
+        ) : (
+          <Landing />
+        )}
       </ThemeProvider>
     );
   }
 }
 //Specify view pages as routes here to use navigation.
 //https://reactnavigation.org/docs/en/getting-started.html
-
 
 export default App;

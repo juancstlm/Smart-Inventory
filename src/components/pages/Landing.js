@@ -38,9 +38,6 @@ export default class Landing extends React.Component {
             The best way to keep track of all your items. Let's get started
           </Text>
         </View>
-        <Text style={{ textAlign: "center", color: "#FFFFFF", fontSize: 12 }}>
-          Continue with:
-        </Text>
         <View
           style={{
             marginLeft: 15,
@@ -48,12 +45,6 @@ export default class Landing extends React.Component {
             marginTop: 10
           }}
         >
-          <Button title={"EMAIL"}
-                  backgroundColor={"#e79627"}
-                  raised borderRadius={4}
-                  onPress={() => this.props.navigation.navigate('Authentication')}
-          >
-          </Button>
         </View>
       </SafeAreaView>
     );
