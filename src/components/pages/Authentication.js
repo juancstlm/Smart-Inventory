@@ -1,9 +1,8 @@
 import React from "react";
-import { View, SafeAreaView } from "react-native";
-import { Button, ButtonGroup } from "react-native-elements";
+import { View, SafeAreaView, StatusBar } from "react-native";
+import { Button, ButtonGroup} from "react-native-elements";
 import LoginForm from "./LogIn";
 import SignUp from "./Signup";
-import {firestore} from 'firebase'
 
 export default class Authentication extends React.Component {
 
@@ -32,11 +31,15 @@ export default class Authentication extends React.Component {
 
     return (
       <SafeAreaView style={{ flex: 1, backgroundColor: "#2F3A49" }}>
+        <StatusBar
+          backgroundColor="blue"
+          barStyle="light-content"
+        />
         <ButtonGroup
           onPress={this.updateIndex}
           selectedIndex={selectedIndex}
           buttons={buttons}
-          containerStyle={{height: 40, borderWidth: 0}}
+          containerStyle={{height: 40, borderWidth: 0, marginTop: 40}}
           innerBorderStyle={{color: '#e79100'}}
           selectedBackgroundColor={"#e79627"}
           selectedTextStyle={{color: '#fff'}}
