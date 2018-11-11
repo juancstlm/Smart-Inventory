@@ -59,7 +59,7 @@ class App extends Component<AppState> {
 
     return (
       <ThemeProvider theme={theme}>
-        {this.state.authStatusReported && this.state.isUserAuthenticated ? (
+        {this.state.authStatusReported ? (
           this.state.isUserAuthenticated ? (
             <RootStack
               ref={navigatorRef => {
