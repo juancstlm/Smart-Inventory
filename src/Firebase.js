@@ -12,12 +12,13 @@ var config = {
 
 export default class Firebase {
   // static firestore: firebase.firestore.Firestore;
-  static auth;
+  static auth: firebase.auth.Auth;
+  static firestore: firebase.firestore.Firestore;
 
 
   static init() {
     firebase.initializeApp(config);
     Firebase.auth = firebase.auth();
-    // Firebase.firestore = firebase.firestore();
+    Firebase.firestore = firebase.firestore();
   }
 }

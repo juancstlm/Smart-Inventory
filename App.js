@@ -10,19 +10,47 @@ import {theme} from './theme'
 import Firebase from './src/Firebase'
 
 class App extends Component {
+
+  constructor(){
+    super();
+  }
+
+  state = {
+    loggedIn: false
+  }
+
   componentWillMount() {
     Firebase.init();
 
-    // Firebase.auth().onAuthStateChanged(user => {
-    //   if (user) {
-    //     this.setState({ loggedIn: true });
-    //   } else {
-    //     this.setState({ loggedIn: false });
-    //   }
-    // })
+    Firebase.auth.onAuthStateChanged(user => {
+      if (user) {
+        this.setState({ loggedIn: true });
+      } else {
+        this.setState({ loggedIn: false });
+      }
+    })
   }
 
   render() {
+
+    const RootStack = createStackNavigator(
+      {
+        Landing: Landing,
+        Authentication: Authentication,
+        InventoriesList: InventoriesList
+      },
+      {
+        initialRouteName: this.state.loggedIn ? 'InventoriesList' :"Landing"
+        // initialRouteName: "InventoriesList" // FOR TEST ONLY
+      },
+      {
+        headerMode: "none",
+        navigationOptions: {
+          headerVisible: false
+        }
+      }
+    );
+
     return (
       <ThemeProvider theme={theme}>
         <RootStack
@@ -36,22 +64,6 @@ class App extends Component {
 }
 //Specify view pages as routes here to use navigation.
 //https://reactnavigation.org/docs/en/getting-started.html
-const RootStack = createStackNavigator(
-  {
-    Landing: Landing,
-    Authentication: Authentication,
-    InventoriesList: InventoriesList
-  },
-  {
-    initialRouteName: "Landing"
-    // initialRouteName: "InventoriesList" // FOR TEST ONLY
-  },
-  {
-    headerMode: "none",
-    navigationOptions: {
-      headerVisible: false
-    }
-  }
-);
+
 
 export default App;

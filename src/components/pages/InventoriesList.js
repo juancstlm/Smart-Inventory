@@ -5,6 +5,7 @@ import InventoryProfile from "../ui/InventoryProfile";
 import AddButton from "../ui/AddButton";
 import InventoryCardSection from "../ui/InventoryCardSection";
 import { Header, SearchBar } from "react-native-elements";
+import Firebase from '../../Firebase'
 
 //make componet
 export default class InventoriesList extends Component {
@@ -16,45 +17,27 @@ export default class InventoriesList extends Component {
   };
 
   componentWillMount() {
-
     this.setState({
-      inventories: {
-        data: [
-          {
-            name: "Home",
-            itemCount: "101",
-            url: "https://www.amazon.com/Taylor-Swift/dp/B0014I4KH6",
-            image: "https://www.gstatic.com/webp/gallery/1.png",
-            thumbnail_image: "https://i.imgur.com/K3KJ3w4h.jpg"
-          },
-          {
-            name: "Default",
-            itemCount: "50",
-            url: "https://www.amazon.com/Taylor-Swift/dp/B0014I4KH6",
-            image: "https://www.gstatic.com/webp/gallery/4.jpg",
-            thumbnail_image: "https://i.imgur.com/K3KJ3w4h.jpg"
-          },
-          {
-            name: "office",
-            itemCount: "101",
-            url: "https://www.amazon.com/Taylor-Swift/dp/B0014I4KH6",
-            image: "https://www.gstatic.com/webp/gallery/1.png",
-            thumbnail_image: "https://i.imgur.com/K3KJ3w4h.jpg"
-          },
-          {
-            name: "storage",
-            itemCount: "50",
-            url: "https://www.amazon.com/Taylor-Swift/dp/B0014I4KH6",
-            image: "https://www.gstatic.com/webp/gallery/4.jpg",
-            thumbnail_image: "https://i.imgur.com/K3KJ3w4h.jpg"
-          }
-        ]
-      }
+      inventories: []
     });
+
+    var inventories = Firebase.firestore.collection('Inventories')
+    var querry = inventories.where('owner_id', '==', '2T31JnJW4kTaxeomSAZs4xhixrM2')
+    querry.get().then((snapshot) => {
+      const invs = snapshot.docs.map(doc => {
+        console.log('doc data', doc.data())
+        return doc.data()})
+      console.log('invs', invs)
+      this.setState({inventories: invs})
+      })
+      .catch((err) => {
+        console.log('Error getting documents', err);
+      });
+
   }
 
   renderInventories() {
-    return this.state.inventories.data.map(inventory => (
+    return this.state.inventories.map(inventory => (
       <InventoryProfile key={inventory.name} inventory={inventory} />
     ));
   }
