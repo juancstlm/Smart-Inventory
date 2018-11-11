@@ -1,9 +1,9 @@
 import React, { Component } from "react";
 import { View } from "react-native";
-import firebase from "firebase";
 import NavigationService from "../../../NavigationService";
 import { Input, Button } from "react-native-elements";
 import validator from "validator";
+import Firebase from '../../Firebase'
 
 class LoginForm extends Component {
   state = { email: "", password: "", error: "", loading: false };
@@ -18,10 +18,9 @@ class LoginForm extends Component {
     } else {
       this.setState({ error: "", loading: true });
 
-      console.log("FIREBASE", firebase);
-      firebase
-        .auth()
-        .signInWithEmailAndPassword(email, password)
+
+      console.log("FIREBASE", Firebase);
+      Firebase.auth.signInWithEmailAndPassword(email, password)
         .then(this.onLoginSuccess.bind(this))
         .catch(e => {
           this.onLoginFail();

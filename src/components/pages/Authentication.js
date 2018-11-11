@@ -3,6 +3,7 @@ import { View, SafeAreaView } from "react-native";
 import { Button, ButtonGroup } from "react-native-elements";
 import LoginForm from "./LogIn";
 import SignUp from "./Signup";
+import {firestore} from 'firebase'
 
 export default class Authentication extends React.Component {
 

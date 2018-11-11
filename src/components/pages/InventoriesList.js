@@ -16,6 +16,7 @@ export default class InventoriesList extends Component {
   };
 
   componentWillMount() {
+
     this.setState({
       inventories: {
         data: [
