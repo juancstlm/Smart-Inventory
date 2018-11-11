@@ -4,8 +4,8 @@ import { Text, ScrollView, SafeAreaView, View } from "react-native";
 import InventoryProfile from "../ui/InventoryProfile";
 import AddButton from "../ui/AddButton";
 import InventoryCardSection from "../ui/InventoryCardSection";
-import { Header, SearchBar } from "react-native-elements";
-import Firebase from '../../Firebase'
+import { Header, SearchBar, Avatar } from "react-native-elements";
+import Firebase from "../../Firebase";
 
 //make componet
 export default class InventoriesList extends Component {
@@ -21,19 +21,29 @@ export default class InventoriesList extends Component {
       inventories: []
     });
 
-    var inventories = Firebase.firestore.collection('Inventories')
-    var querry = inventories.where('owner_id', '==', Firebase.auth.currentUser.uid)
-    querry.get().then((snapshot) => {
-      const invs = snapshot.docs.map(doc => {
-        console.log('doc data', doc.data())
-        return doc.data()})
-      console.log('invs', invs)
-      this.setState({inventories: invs})
+    var inventories = Firebase.firestore.collection("Inventories");
+    var querry = inventories.where(
+      "owner_id",
+      "==",
+      Firebase.auth.currentUser.uid
+    );
+    querry
+      .get()
+      .then(snapshot => {
+        const invs = snapshot.docs.map(doc => {
+          console.log("doc data", doc.data());
+          return doc.data();
+        });
+        console.log("invs", invs);
+        this.setState({ inventories: invs });
       })
-      .catch((err) => {
-        console.log('Error getting documents', err);
+      .catch(err => {
+        console.log("Error getting documents", err);
       });
+  }
 
+  goToProfile =()=>{
+    this.props.navigation.navigate('Profile')
   }
 
   renderInventories() {
@@ -44,7 +54,7 @@ export default class InventoriesList extends Component {
 
   render() {
     return (
-      <View style={{ flex: 1, backgroundColor: '#2f3a49' }}>
+      <View style={{ flex: 1, backgroundColor: "#2f3a49" }}>
         <Header
           statusBarProps={{ barStyle: "light-content" }}
           centerComponent={
@@ -64,6 +74,13 @@ export default class InventoriesList extends Component {
               // onChangeText={someMethod}
               // onClear={someMethod}
               placeholder="Search"
+            />
+          }
+          rightComponent={
+            <Avatar
+              rounded
+              title="MT"
+              onPress={this.goToProfile}
             />
           }
           centerContainerStyle={{ width: "100%" }}

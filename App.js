@@ -8,6 +8,7 @@ import NavigationService from "./NavigationService";
 import { ThemeProvider } from "react-native-elements";
 import { theme } from "./theme";
 import Firebase from "./src/Firebase";
+import Profile from './src/components/pages/Profile'
 
 interface AppState {
   authStatusReported: boolean;
@@ -43,11 +44,12 @@ class App extends Component<AppState> {
   render() {
     const RootStack = createStackNavigator(
       {
-        InventoriesList: InventoriesList
+        InventoriesList: InventoriesList,
+        Profile: Profile,
       },
       {
-        // initialRouteName: this.state.loggedIn ? 'InventoriesList' :"Landing"
-        initialRouteName: "InventoriesList" // FOR TEST ONLY
+        initialRouteName: "InventoriesList",
+        headerMode: 'none'
       },
       {
         headerMode: "none",
