@@ -1,43 +1,37 @@
-import React from 'react';
-import {View, ImageBackground} from 'react-native';
+import React from "react";
+import { View, ImageBackground } from "react-native";
 
+export const InventoryCard = props => {
+  console.log('invnetoruy card', props)
 
-const InventoryCard = (props) => {
-    
-    return (
-        <View style={{
-            backgroundColor: '#fff',
-            borderRadius: 15,
-            overflow: 'hidden',
-          }}>
-            <ImageBackground
-            source={{uri: props.image}}
-            imageStyle={{resizeMode: 'stretch' }}
-            style={styles.background}>
-                <View style={styles.container}>
-                    {props.children}
-                </View>
-            </ImageBackground>
-        </View>
-    );
+  return (
+    <ImageBackground
+      source={{uri: props.image }}
+      imageStyle={{ resizeMode: "stretch", borderRadius: 6 }}
+      style={styles.background}
+    >
+      <View style={styles.container}>{props.children}</View>
+    </ImageBackground>
+  );
 };
 
 const styles = {
-    background: {
-        flex: 1,
-        width: null,
-        height: null,
-        resizeMode: 'strech',
-        borderRadius: 15,
-    },
-    container: {
-        flex: 1,
-        backgroundColor:'transparent',
-        justifyContent: 'center',
-        alignItems: 'flex-start',
-        borderWidth: 0,
-        borderRadius: 15,
-    }
+  background: {
+    flex: 1,
+    resizeMode: "strech",
+    marginLeft: 10,
+    marginRight: 10,
+    marginTop: 10,
+    marginBottom: 10,
+    borderRadius: 6
+  },
+  container: {
+    flex: 1,
+    borderRadius: 6,
+    backgroundColor: "transparent",
+    justifyContent: "center",
+    alignItems: "flex-start"
+  }
 };
 
 export default InventoryCard;

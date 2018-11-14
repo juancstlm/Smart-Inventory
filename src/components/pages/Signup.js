@@ -1,9 +1,8 @@
 import React, { Component } from "react";
-import { Text, StyleSheet } from "react-native";
-import { Button, Card, CardSection, Input, Spinner } from "../ui/index";
-import firebase from "firebase";
-import { Item, Content, Form, Label } from "native-base";
-import NavigationService from '../../../NavigationService';
+import { Text, StyleSheet, View } from "react-native";
+import NavigationService from "../../../NavigationService";
+import { Button, Input } from "react-native-elements";
+import Firebase from "../../Firebase";
 
 export default class SignUp extends Component {
   state = {
@@ -32,21 +31,18 @@ export default class SignUp extends Component {
     } else if (this.state.password.length < 7) {
       this.errorMessage("Password needs to be at least 8 characters");
     } else {
-      firebase
-        .auth()
-        .fetchSignInMethodsForEmail(this.state.email)
-        .then(id => {
-          try {
-            //if id.length is 0, then user does not exist on db so let the user sign up
-            if (id.length == 0) {
-              this.signup();
-            } else {
-              this.errorMessage(
-                "The email addreass is already in use. Please use different email address"
-              );
-            }
-          } catch (error) {}
-        });
+      Firebase.auth.fetchSignInMethodsForEmail(this.state.email).then(id => {
+        try {
+          //if id.length is 0, then user does not exist on db so let the user sign up
+          if (id.length == 0) {
+            this.signup();
+          } else {
+            this.errorMessage(
+              "The email address is already in use. Please use different email address"
+            );
+          }
+        } catch (error) {}
+      });
     }
   };
 
@@ -57,22 +53,18 @@ export default class SignUp extends Component {
       loading: true,
       error: ""
     });
-
-    firebase
-      .auth()
+    Firebase.auth
       .createUserWithEmailAndPassword(this.state.email, this.state.password)
       .then(() => {
         try {
-          var uid = firebase.auth().currentUser.uid;
+          var uid = Firebase.auth.currentUser.uid;
 
-          firebase
-            .database()
+          Firebase.database
             .ref("Users/" + uid + "/")
             .set({
               firstName: this.state.firstName,
               lastName: this.state.lastName,
-              email: this.state.email,
-              password: this.state.password
+              email: this.state.email
             })
             .then(() => {
               this.setState({
@@ -86,12 +78,12 @@ export default class SignUp extends Component {
             });
 
           {
-              NavigationService.navigate('InventoriesList');
+            NavigationService.navigate("InventoriesList");
           }
         } catch (error) {
           this.errorMessage(error);
         }
-      });
+      })
   };
 
   errorMessage(s) {
@@ -108,50 +100,77 @@ export default class SignUp extends Component {
     return false;
   }
 
+  setEmail = (email: string) => {
+    this.setState({ email: email });
+  };
+  setFirstName = (firstName: string) => {
+    this.setState({ firstName: firstName });
+  };
+  setLastName = (lastName: string) => {
+    this.setState({ lastName: lastName });
+  };
+  setPasssword = (password: string) => {
+    this.setState({ password: password });
+  };
+
   render() {
     return (
-      <Content style={{ backgroundColor: "#2F3A49" }}>
-        <Form>
-          <Item >
-            <Input
-              label="FirstName"
-              placeholder="First Name"
-              value={this.state.firstName}
-              onChangeText={firstName => this.setState({ firstName })}
-            />
-          </Item>
-          <Item>
-            <Input
-              label="Email"
-              placeholder="Email"
-              value={this.state.emal}
-              onChangeText={email => this.setState({ email })}
-            />
-          </Item>
-        </Form>
-        <Button block style={{ margin: 15, marginTop: 50 }}>
-          <Text>Sign Up</Text>
-        </Button>
-      </Content>
+      <View>
+        <View style={{ alignItems: "center" }}>
+          <Input
+            placeholder="Email"
+            errorMessage={
+              this.state.error ? "Please enter a valid Email address" : null
+            }
+            keyboardType={'email-address'}
+            onChangeText={this.setEmail}
+            containerStyle={styles.containerStyle}
+          />
+          <Input
+            placeholder="First Name"
+            containerStyle={styles.containerStyle}
+            onChangeText={this.setFirstName}
+            // errorMessage={
+            //   this.state.error ? "Please enter a valid Email address" : null
+            // }
+            // onChangeText={text => this.handleEmailChange(text)}
+          />
+          <Input
+            placeholder="Last Name"
+            containerStyle={styles.containerStyle}
+            // errorMessage={
+            //   this.state.error ? "Please enter a valid Email address" : null
+            // }
+            // onChangeText={text => this.handleEmailChange(text)}
+            onChangeText={this.setLastName}
+          />
+          <Input
+            placeholder="Password"
+            containerStyle={styles.containerStyle}
+            secureTextEntry
+            onChangeText={this.setPasssword}
+          />
+        </View>
+        <View style={{ marginLeft: 18, marginRight: 18, marginTop: 20 }}>
+          <Button
+            title="Continue"
+            loading={this.state.loading}
+            onPress={this.checkIfUserExists}
+          />
+        </View>
+      </View>
     );
-  }
-
-  spiner() {
-    if (this.state.loading) {
-      return <Spinner size="small" />;
-    }
-    return <Button onPress={this.checkIfUserExists}>Sign up</Button>;
   }
 }
 
-const styles = StyleSheet.create({
+const styles = {
   errorTextStyle: {
     fontSize: 20,
     alignSelf: "center",
     color: "red"
   },
-  inputTextStyle: {
-    color: "red",
-    borderColor: "blue"
+  containerStyle: {
+    paddingBottom: 10,
+    paddingTop: 10
   }
-});
+};

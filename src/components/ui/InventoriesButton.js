@@ -1,17 +1,18 @@
 import React from 'react';
 import {Text, TouchableOpacity} from 'react-native';
+import { BlurView, VibrancyView } from 'react-native-blur';
 
 
 const InventoryButton= (props) => {
 
     return (
-        <TouchableOpacity onPress={props.onPress} style={styles.buttonStyle} >
+      <BlurView blurType="light" style={styles.buttonStyle} blurAmount={10}>
+        <TouchableOpacity onPress={props.onPress}>
             <Text style={styles.textStyle}>
-                {props.children}
+              {props.children}
             </Text>
-            
-
         </TouchableOpacity>
+        </BlurView>
     );
 };
 
@@ -20,18 +21,16 @@ const styles={
     buttonStyle:{
         flex: 1,
         alignSelf: 'stretch',
-        backgroundColor: '#e1e9f7',
-        opacity: .7,
-        borderRadius: 5,
-        borderWidth: 1,
-        borderColor: '#fff',
+        borderRadius: 6,
         marginLeft: 5,
-        marginRight: 5
+        marginRight: 5,
+      paddingRight: 5,
+      paddingLeft: 5,
     },
 
     textStyle:{
         alignSelf: 'flex-start',
-        color: '#000',
+        color: '#fff',
         fontSize: 16,
         fontWeight: '600',
         paddingTop: 5,

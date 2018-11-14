@@ -1,72 +1,78 @@
 import React, { Component } from "react";
-import { Platform, StyleSheet, Text, View } from "react-native";
-// import { Header, Button, Spinner, CardSection } from './components/ui/index';
-import firebase from "firebase";
-// import LoginForm from './components/LoginForm';
-// import Signup from './components/pages/Signup';
-import InventoriesList from './src/components/pages/InventoriesList';
-import InventoryDetail from './src/components/pages/InventoryDetail';
+import InventoriesList from "./src/components/pages/InventoriesList";
 import Landing from "./src/components/pages/Landing";
 import { createStackNavigator } from "react-navigation";
-import getTheme from "./native-base-theme/components/index";
-import commonColor from "./native-base-theme/variables/variables";
-import { StyleProvider } from "native-base";
-import Authentication from './src/components/pages/Authentication'
-import NavigationService from './NavigationService';
+import Authentication from "./src/components/pages/Authentication";
+import NavigationService from "./NavigationService";
+import { ThemeProvider } from "react-native-elements";
+import { theme } from "./theme";
+import Firebase from "./src/Firebase";
+import Profile from './src/components/pages/Profile'
 
+interface AppState {
+  authStatusReported: boolean;
+  isUserAuthenticated: boolean;
+}
 
-class App extends Component {
+class App extends Component<AppState> {
+  constructor() {
+    super();
+  }
+
+  state: AppState = {
+    authStatusReported: false,
+    isUserAuthenticated: false
+  };
 
   componentWillMount() {
-    //TODO move this into its own file
-    firebase.initializeApp({
-      apiKey: "AIzaSyAEmfChIahjgpB8PQu3VLaeOX8sOwm0k4g",
-      authDomain: "smartinventory-1f53b.firebaseapp.com",
-      databaseURL: "https://smartinventory-1f53b.firebaseio.com",
-      projectId: "smartinventory-1f53b",
-      storageBucket: "smartinventory-1f53b.appspot.com",
-      messagingSenderId: "164089194254"
-    });
+    Firebase.init();
 
-    firebase.auth().onAuthStateChanged(user => {
-      if (user) {
-        this.setState({ loggedIn: true });
-      } else {
-        this.setState({ loggedIn: false });
-      }
+    Firebase.auth.onAuthStateChanged(user => {
+      // if (user) {
+      //   this.setState({ authStatusReported });
+      // } else {
+      //   this.setState({ loggedIn: false });
+      // }
+      // }
+      this.setState({
+        authStatusReported: true,
+        isUserAuthenticated: !!user
+      });
     });
   }
 
   render() {
+    const RootStack = createStackNavigator(
+      {
+        InventoriesList: InventoriesList,
+        Profile: Profile,
+      },
+      {
+        initialRouteName: "InventoriesList",
+        // headerMode: 'none'
+      }
+    );
+
     return (
-      <StyleProvider style={getTheme(commonColor)}>
-        <RootStack ref={navigatorRef => {
-            NavigationService.setTopLevelNavigator(navigatorRef);
-        }} />
-      </StyleProvider>
+      <ThemeProvider theme={theme}>
+        {this.state.authStatusReported ? (
+          this.state.isUserAuthenticated ? (
+            <RootStack
+              ref={navigatorRef => {
+                NavigationService.setTopLevelNavigator(navigatorRef);
+              }}
+            />
+          ) : (
+            <Authentication />
+          )
+        ) : (
+          <Landing />
+        )}
+      </ThemeProvider>
     );
   }
 }
 //Specify view pages as routes here to use navigation.
 //https://reactnavigation.org/docs/en/getting-started.html
-const RootStack = createStackNavigator(
-  {
-    Landing: Landing,
-	  Authentication: Authentication,
-    // Login: LoginForm,
-    // Signup: Signup,
-    InventoryDetail: InventoryDetail,
-     InventoriesList: InventoriesList,
-  },
-  {
-    initialRouteName: "Landing"
-  },
-    {
-        headerMode: 'none',
-        navigationOptions: {
-            headerVisible: false,
-        }
-    }
-);
 
 export default App;
