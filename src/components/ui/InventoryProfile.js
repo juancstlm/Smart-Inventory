@@ -7,20 +7,22 @@ import InventoryButton from './InventoriesButton';
 
 const InventoryProfile = (props) => {
 
-    callParent = () => {
-        props.callbackFromParent(props.inventory);
-    }
+    // callParent = () => {
+    //     props.callbackFromParent(props.inventory);
+    // }
 
-    renderUserProfileImages = () => {
-        return props.inventory.users.map(user => 
-            <View style={styles.thumbnailContainerStyle}>
-                <Image style={styles.thumbnailStyle} source={{uri: user.profileImage}} />
-            </View>
-        );
-    }
+    // renderUserProfileImages = () => {
+    //     return props.inventory.users.map(user =>
+    //         <View style={styles.thumbnailContainerStyle}>
+    //             <Image style={styles.thumbnailStyle} source={{uri: user.profileImage}} />
+    //         </View>
+    //     );
+    // }
+
+  console.log('Inventory profile', props)
 
     return (
-        <InventoryCard image = {props.inventory.image} style={styles.imageStyle}>
+        <InventoryCard image={props.inventory.image} style={styles.imageStyle}>
 
             <InventoryCardSection>
               <Avatar

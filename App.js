@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import firebase from "firebase";
 import InventoriesList from "./src/components/pages/InventoriesList";
 import Landing from "./src/components/pages/Landing";
 import { createStackNavigator } from "react-navigation";
@@ -34,6 +33,7 @@ class App extends Component<AppState> {
       // } else {
       //   this.setState({ loggedIn: false });
       // }
+      console.log("uid", user.uid)
       this.setState({
         authStatusReported: true,
         isUserAuthenticated: !!user

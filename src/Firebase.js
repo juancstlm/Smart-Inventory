@@ -18,9 +18,13 @@ export default class Firebase {
 
 
   static init() {
+    const settings = {
+      timestampsInSnapshots: true,
+    };
     firebase.initializeApp(config);
     Firebase.auth = firebase.auth();
     Firebase.firestore = firebase.firestore();
+    Firebase.firestore.settings(settings)
     Firebase.database = firebase.database()
   }
 }

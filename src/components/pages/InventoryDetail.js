@@ -11,7 +11,7 @@ export default class InventoryDetail extends Component {
     state = {inventory: null};
 
     componentWillMount(){
-        inventoryData = this.props.navigation.getParam('inventory', "No Data");
+        // inventoryData = this.props.navigation.getParam('inventory', "No Data");
         console.log('Details screen..............');
         this.setState({ inventory: inventoryData }, () => {
          console.log(this.state.inventory);
