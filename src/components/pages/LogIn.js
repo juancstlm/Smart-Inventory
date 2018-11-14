@@ -1,124 +1,95 @@
-import React, { Component } from 'react';
-import { Text } from 'react-native';
-import firebase from 'firebase';
-import { Button, Card, CardSection, Input, Spinner } from '../ui/index';
-import NavigationService from '../../../NavigationService';
-
+import React, { Component } from "react";
+import { View } from "react-native";
+import NavigationService from "../../../NavigationService";
+import { Input, Button } from "react-native-elements";
+import validator from "validator";
+import Firebase from '../../Firebase'
 
 class LoginForm extends Component {
-	state = { email: '', password: '', error: '', loading: false };
+  state = { email: "", password: "", error: "", loading: false };
 
-	componentWillMount(){
-		console.log("PROPS", this.props)
-	}
+  handleLogIn = () => {
+    const { email, password } = this.state;
+    this.setState({ error: "" });
+    if (email === "") {
+      this.setState({ error: "Please enter email address" });
+    } else if (password === "") {
+      this.setState({ error: "Please enter password" });
+    } else {
+      this.setState({ error: "", loading: true });
 
-	onButtonPress() {
-		const { email, password } = this.state;
-		console.log(email, password)
-		this.setState({ error: '' })
-		if (email === "") {
-			this.setState({ error: 'Please enter email address' })
-		} else if (password === "") {
-			this.setState({ error: 'Please enter password' })
-		} else if (!this.isEmailValid(email)) {
-			this.setState({ error: 'Please use valid email address' })
-		} else {
-			this.setState({ error: '', loading: true });
 
-			console.log("FIREBASE", firebase)
-			firebase.auth().signInWithEmailAndPassword(email, password)
-				.then(
-					this.onLoginSuccess.bind(this)
+      console.log("FIREBASE", Firebase);
+      Firebase.auth.signInWithEmailAndPassword(email, password)
+        .then(this.onLoginSuccess.bind(this))
+        .catch(e => {
+          this.onLoginFail();
+        });
+    }
+  };
 
-				)
-				.catch((e) => {
-					this.onLoginFail()
-				})
-		}
-	}
+  onLoginFail() {
+    //single line code below should move to onLoginSuccess
+    //{this.props.navigation.navigate('InventoriesList')}
 
-	onLoginFail() {
-		//single line code below should move to onLoginSuccess
-		//{this.props.navigation.navigate('InventoriesList')}
+    this.setState({ error: "Authentication Failed", loading: false });
+  }
+  onLoginSuccess() {
+    NavigationService.navigate("InventoriesList");
+    this.setState({
+      email: "",
+      password: "",
+      loading: false,
+      error: false
+    });
+  }
 
-		this.setState({ error: 'Authentication Failed', loading: false });
-	}
-	onLoginSuccess() {
-		NavigationService.navigate('InventoriesList');
-		this.setState({
-			email: '',
-			password: '',
-			loading: false,
-			error: ''
-		});
+  handleEmailChange = email => {
+    this.setState({ email: email, error: !validator.isEmail(email) });
+  };
 
-	}
-
-	isEmailValid(email) {
-
-		if (email.match(/.+@.+/)) {
-			return true;
-		}
-		return false;
-	}
-
-	renderButton() {
-		if (this.state.loading) {
-			return <Spinner size="small" />;
-		}
-
-		return (
-			<Button onPress={this.onButtonPress.bind(this)}>
-				Log in
-		  </Button>
-		);
-	}
-
-	render() {
-
-		return (
-
-			<Card>
-
-				<CardSection>
-					<Input
-						label="Email"
-						placeholder="Email"
-						value={this.state.email}
-						onChangeText={email => this.setState({ email })}
-					/>
-				</CardSection>
-
-				<CardSection>
-					<Input
-						placeholder="password"
-						label="Password"
-						value={this.state.password}
-						secureTextEntry
-						onChangeText={password => this.setState({ password })}
-					/>
-				</CardSection>
-
-				<Text style={styles.errorTextStyle}>
-					{this.state.error}
-				</Text>
-
-				<CardSection>
-					{this.renderButton()}
-				</CardSection>
-
-			</Card>
-
-		);
-	}
+  render() {
+    return (
+      <View>
+        <View style={{alignItems: "center"}}>
+          <Input
+            containerStyle={styles.containerStyle}
+            placeholder="Email"
+            errorMessage={
+              this.state.error ? "Please enter a valid Email address" : null
+            }
+            onChangeText={text => this.handleEmailChange(text)}
+          />
+          <Input
+            placeholder="Password"
+            containerStyle={styles.containerStyle}
+            secureTextEntry
+            keyboardType={'email-address'}
+            onChangeText={text => this.setState({ password: text })}
+          />
+        </View>
+        <View style={{marginLeft: 18, marginRight: 18, marginTop: 20}}>
+        <Button
+          title="Continue"
+          loading={this.state.loading}
+          onPress={this.handleLogIn}
+        />
+        </View>
+      </View>
+    );
+  }
 }
 
 const styles = {
-	errorTextStyle: {
-		fontSize: 20,
-		alignSelf: 'center',
-		color: 'red'
-	}
+  errorTextStyle: {
+    fontSize: 20,
+    alignSelf: "center",
+    color: "red"
+  },
+  containerStyle: {
+    paddingBottom: 10,
+    paddingTop: 10,
+  }
 };
 
 export default LoginForm;

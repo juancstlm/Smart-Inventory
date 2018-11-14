@@ -12,10 +12,10 @@ const InventoryCardSection = (props) => {
 
 const styles = {
     containerStyle: {
-        padding: 2,
+        padding: 0,
         justifyContent: 'flex-start',
         flexDirection: 'row',
-        position: 'relative'
+        position: 'relative',
     }
 };
 

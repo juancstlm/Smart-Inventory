@@ -1,27 +1,48 @@
 import React from 'react';
 import {Text, View, Image, Linking} from 'react-native';
+import {Avatar} from 'react-native-elements'
 import InventoryCard from './InventoryCard';
 import InventoryCardSection from './InventoryCardSection';
 import InventoryButton from './InventoriesButton';
 
 const InventoryProfile = (props) => {
 
+    // callParent = () => {
+    //     props.callbackFromParent(props.inventory);
+    // }
+
+    // renderUserProfileImages = () => {
+    //     return props.inventory.users.map(user =>
+    //         <View style={styles.thumbnailContainerStyle}>
+    //             <Image style={styles.thumbnailStyle} source={{uri: user.profileImage}} />
+    //         </View>
+    //     );
+    // }
+
+  console.log('Inventory profile', props)
+
     return (
-        <InventoryCard inventory = {props.inventory}>
-            <InventoryCardSection>
-                <View style = {styles.thumbnailContainerStyle} >
-                    <Image style={styles.thumbnailStyle} source={{uri: props.inventory.thumbnail_image}} />
-                </View>
-                
-                 
-            </InventoryCardSection>
-
-            <InventoryCardSection >
-                <View style={{flex: 2, height: 50, backgroundColor: '00000000'}}/>
-            </InventoryCardSection>
+        <InventoryCard image={props.inventory.image} style={styles.imageStyle}>
 
             <InventoryCardSection>
-                <InventoryButton onPress={()=> Linking.openURL(props.inventory.url)}>
+              <Avatar
+                size="small"
+                rounded
+                source={{uri: props.inventory.thumbnail_image}}
+                onPress={() => console.log("Works!")}
+                activeOpacity={0.7}
+              />
+                {/*<View style = {styles.thumbnailContainerStyle} >*/}
+                    {/*<Image style={styles.thumbnailStyle} source={{uri: props.inventory.thumbnail_image}} />*/}
+                {/*</View>*/}
+            </InventoryCardSection>
+
+            <InventoryCardSection>
+                <View style={{flex: 2, height: 50, backgroundColor: '00000000', blurRadius: 1}}/>
+            </InventoryCardSection>
+
+            <InventoryCardSection>
+                <InventoryButton onPress={this.callParent}>
                     <Text style={styles.headerTextStyle}>{props.inventory.name}{'\n'}</Text>
                     <Text>{props.inventory.itemCount} {' items'}</Text>
                 </InventoryButton>
@@ -47,21 +68,22 @@ const styles= {
     thumbnailStyle:{
         height: 50,
         width: 50,
-        borderRadius: 20,
+        borderRadius: 6,
     },
 
     //for the view tag containing the image tag
     thumbnailContainerStyle:{
         justifyContent: 'center',
         alignItems: 'center',
-        marginLeft: 10,
-        marginRight: 10,
+        marginLeft: 5,
+        marginRight: 5,
     },
 
-    //For the album image
+    //For the inventory image
     imageStyle:{
         height: 300,
         flex: 1,
+        margin: 10,
         width: null
     }
 };
