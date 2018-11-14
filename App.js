@@ -33,7 +33,7 @@ class App extends Component<AppState> {
       // } else {
       //   this.setState({ loggedIn: false });
       // }
-      console.log("uid", user.uid)
+      // }
       this.setState({
         authStatusReported: true,
         isUserAuthenticated: !!user

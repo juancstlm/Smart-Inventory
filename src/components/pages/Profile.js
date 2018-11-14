@@ -7,8 +7,9 @@ export default class Profile extends React.Component {
 
   static navigationOptions = {
     title: 'Profile',
-    headerRight: <Icon name="exit-to-app" color="#fff" onPress={this.logOut} />,
+    headerRight: <Icon name="exit-to-app" color="#fff" />,
     headerStyle:{backgroundColor: '#2f3a49'},
+    header: null,
     headerTransparent: true,
   };
 
@@ -18,20 +19,21 @@ export default class Profile extends React.Component {
   static logOut = () => {
     Firebase.auth.signOut();
   };
+
   render() {
     return (
       <SafeAreaView style={{backgroundColor: '#2f3a49'}}>
-        {/*<Header*/}
-          {/*statusBarProps={{ barStyle: "light-content" }}*/}
-          {/*containerStyle={{*/}
-            {/*backgroundColor: "#2f3a49",*/}
-            {/*borderBottomColor: "#2f3a49",*/}
-            {/*justifyContent: "space-around"*/}
-          {/*}}*/}
-          {/*rightComponent={*/}
-            {/*<Icon name="exit-to-app" color="#fff" onPress={this.logOut} />*/}
-          {/*}*/}
-        {/*/>*/}
+        <Header
+          statusBarProps={{ barStyle: "light-content" }}
+          containerStyle={{
+            backgroundColor: "#2f3a49",
+            borderBottomColor: "#2f3a49",
+            justifyContent: "space-around"
+          }}
+          rightComponent={
+            <Icon name="exit-to-app" color="#fff" onPress={this.logOut} />
+          }
+        />
       </SafeAreaView>
     );
   }
