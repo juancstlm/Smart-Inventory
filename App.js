@@ -49,13 +49,7 @@ class App extends Component<AppState> {
       },
       {
         initialRouteName: "InventoriesList",
-        headerMode: 'none'
-      },
-      {
-        headerMode: "none",
-        navigationOptions: {
-          headerVisible: false
-        }
+        // headerMode: 'none'
       }
     );
 
