@@ -8,6 +8,8 @@ import { ThemeProvider } from "react-native-elements";
 import { theme } from "./theme";
 import Firebase from "./src/Firebase";
 import Profile from './src/components/pages/Profile'
+import Item from './src/components/pages/Item'
+import ItemConfirmation from './src/components/pages/ItemConfirmation'
 
 interface AppState {
   authStatusReported: boolean;
@@ -46,9 +48,11 @@ class App extends Component<AppState> {
       {
         InventoriesList: InventoriesList,
         Profile: Profile,
+        ItemConfirmation: ItemConfirmation,
+        Item: Item
       },
       {
-        initialRouteName: "InventoriesList",
+        initialRouteName: "ItemConfirmation",
         // headerMode: 'none'
       }
     );

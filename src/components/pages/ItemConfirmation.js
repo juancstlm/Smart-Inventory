@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import { View, Image } from 'react-native';
+import { View, Image, Text } from 'react-native';
 import firebase from 'firebase';
-import { Button, Text } from "native-base";
+import Button from '../ui/ItemConfirmationButton';
 import ItemConfirmationDetails from './ItemConfirmationDetails'
 //{{ uri: this.state.path }}
 // source= {{ uri: JSON.parse(JSON.stringify(itemName)) }}
@@ -42,7 +42,7 @@ class ItemConfirmation extends Component {
 			
 			
 			    <View style={styles.card4}>
-			        <Button block onPress={() => this.props.navigation.navigate('Authentication')}>
+			        <Button block onPress={() => this.props.navigation.navigate('Item')}>
                          <Text>CONTINUE</Text>
                     </Button>
 			    </View>

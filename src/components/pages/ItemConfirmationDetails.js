@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
-import { View, Image, Dimensions } from 'react-native';
-import { Button, Text } from "native-base";
+import { Text, View, Image, Dimensions } from 'react-native';
 import { Divider } from 'react-native-elements'
 
 

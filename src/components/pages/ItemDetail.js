@@ -1,35 +1,99 @@
 import React, { Component } from 'react';
 import { View, Image, Text,ScrollView } from 'react-native';
 import { Dimensions } from 'react-native'
+import Moment from 'react-moment';
+import {format, compareAsc} from 'date-fns'
+import DatePicker from 'react-native-datepicker'
 
+
+//{moment(new Date()).format("YYYY-MM-DD hh:mm:ss")}
+//var date1 = new Date('December 17, 1995 ');
+//{date1.toString()}
+//var dt = '2016-05-02T00:00:00';
+// {Moment(dt)}
 let {width, height} = Dimensions.get('window')
 // height: 667
 
-class ItemDetail extends Component{
+class ItemDetail extends React.Component{
+
+
+	constructor (props) {
+		super(props)
+		this.state = {
+			itemPrice: 99.21,
+            Expirationdate:"2000-05-15"
+        }
+    }
+
+    displayDatePicker(){
+    	    return (
+			      <DatePicker
+			        style={{width: 200}}
+			        date={this.state.Expirationdate}
+			        mode="date"
+			        placeholder="select date"
+			        format="YYYY-MM-DD"
+			        minDate="2016-05-01"
+			        maxDate="2016-06-01"
+			        confirmBtnText="Confirm"
+			        cancelBtnText="Cancel"
+			        customStyles={{
+			          dateIcon: {
+			            position: 'absolute',
+			            left: 0,
+			            top: 4,
+			            marginLeft: 0
+			          },
+			          dateInput: {
+			            marginLeft: 36
+			          }
+			          // ... You can check the source to find the other keys.
+			        }}
+			        onDateChange={(date) => {this.setState({Expirationdate: date})}}
+			      />  
+    )
+    }
+
+	displayExpirationDate(){
+		format(new Date(2014, 1, 11), 'MM/dd/yyyy')
+		const dates = new Date(1995, 6, 2)
+
+		return(
+			<View style={styles.card2}>	             
+		             <View style={{paddingLeft: 10}}>
+		               <Text style={{fontSize: 17, color: '#8190A5'}} > Expiration Date
+		               </Text>
+		              </View>
+		       		<View style={{paddingRight: 10}}>  
+		       		 {this.displayDatePicker()}
+		            </View>
+			</View>
+		);
+	}
 
 	render(){
 		return(
 			
 		    <ScrollView style={styles.scrollViewStyle}>
 		       
-		        <View style={styles.card1}>      
+		        <View style={styles.card0}>      
 		             <View style={{paddingLeft: 10}}>
-		               <Text style={{fontSize: 20, color: '#8190A5'}} > Price
+		               <Text style={{fontSize: 17, color: '#8190A5'}} > Price
 		               </Text>
 		              </View>
 		       		<View style={{paddingRight: 10}}> 
-		                <Text style={{fontSize: 20, color: '#8190A5'}} > $699.99 
+		                <Text style={{fontSize: 17, color: '#8190A5'}} > ${this.state.itemPrice}
 		            </Text>
 		          </View>
 		        </View>
-	
+	       
 
-		    <View style={styles.card2}>
+		    <View style={styles.card1}>
 		       <View style={styles.horizontalLine}> 
 		       </View>
 		       
 		       <View style={{margin:10}}>
-		          <Text style={{fontSize: 20, color: '#8190A5'}} > Categories 
+		          <Text style={{fontSize: 17, color: '#8190A5'}} > Categories 
 			      </Text>
 			   </View>
 		       
@@ -45,14 +109,16 @@ class ItemDetail extends Component{
 		       </View>
 		    </View>
 
-
+		    <View style={styles.horizontalLine}>
+		    </View>
+	        {this.displayExpirationDate()}
 
 		    <View style={styles.card3}>
 		       <View style={styles.horizontalLine}>
 		       </View>
 
 		       <View style={{margin:10}}>
-		          <Text style={{fontSize: 20, color: '#8190A5'}} > Inventories 
+		          <Text style={{fontSize: 17, color: '#8190A5'}} > Inventories 
 			      </Text>
 			   </View>
 
@@ -86,30 +152,21 @@ const styles ={
 	background:{
 		flex:1
 	},
-	card1:{
+	card0:{
 		height:60,
 		flexDirection:'row',
         justifyContent:'space-between',
         alignItems: 'center'
 	},
-	card1TextContainer: {
-
-	},
-	card2:{
+	card1:{
 		height: 100,
 		backgroundColor: 'white'
 	},
-	card3:{
-		height:120
-	},
-	card4:{
-		height: 60
-	},
-	horizontalLine:{
-		borderBottomColor: '#D3D3D3',
-        borderBottomWidth: 1,
-        marginLeft: 10,
-        marginRight: 10
+	card2:{
+		height: 60,
+		flexDirection:'row',
+        justifyContent:'space-between',
+        alignItems: 'center'
 	},
 	categoryContainer: {
 	flex: 1,
@@ -123,31 +180,35 @@ const styles ={
     borderRadius: 10,
     borderWidth: 1,
     height: 30,
-    fontSize: 20,
+    fontSize: 17,
     borderColor: '#F7931E',
     color: '#F7931E', 
     textAlign: 'center'
-  },
-  ellipse: {
-  	flex: 1,
-  	borderRadius: 10,
-  	margin: 10,
-  	backgroundColor: '#FCFCFC',
-    shadowOpacity: 0.75,
-    shadowRadius: 5,
-    shadowColor: 'black',
-    shadowOffset: { height: 0, width: 0 },  	
-  },
+    },	
+	card3:{
+		height:120
+	},
+	ellipse: {
+		flex: 1,
+  	    borderRadius: 10,
+  	    margin: 10,
+  	    backgroundColor: '#FCFCFC',
+        shadowOpacity: 0.75,
+        shadowRadius: 5,
+        shadowColor: 'black',
+        shadowOffset: { height: 0, width: 0 },  	
+    },	
+	card4:{
+		height: 60
+	},
+	horizontalLine:{
+		borderBottomColor: '#D3D3D3',
+        borderBottomWidth: 1,
+        marginLeft: 10,
+        marginRight: 10
+	},
   scrollViewStyle:{
   	flex: 1
-  },
-  box1: {
-    height: 200,
-    backgroundColor: 'blue'
-  },
-  box2: {
-    height: 200,
-    backgroundColor: 'purple'
   }
 }
 
