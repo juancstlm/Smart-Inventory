@@ -1,6 +1,9 @@
 import React, { Component } from "react";
-import InventoriesList from "./src/components/pages/InventoriesList";
+import LoginForm from './src/components/pages/LoginForm';
+import Signup from './src/components/pages/Signup';
 import Landing from "./src/components/pages/Landing";
+import InventoriesList from "./src/components/pages/InventoriesList";
+import InventoryDetail from './src/components/pages/InventoryDetail';
 import { createStackNavigator } from "react-navigation";
 import Authentication from "./src/components/pages/Authentication";
 import NavigationService from "./NavigationService";
@@ -46,13 +49,17 @@ class App extends Component<AppState> {
   render() {
     const RootStack = createStackNavigator(
       {
-        InventoriesList: InventoriesList,
+        LoginForm: LoginForm,
+        Signup: Signup,
         Profile: Profile,
         ItemConfirmation: ItemConfirmation,
-        Item: Item
+        Item: Item,
+        InventoriesList: InventoriesList,
+        InventoryDetail: InventoryDetail,
+        Landing: Landing
       },
       {
-        initialRouteName: "ItemConfirmation",
+        initialRouteName: "LoginForm",
         // headerMode: 'none'
       }
     );

@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
-import { View, Image, Text,ScrollView } from 'react-native';
+import { View, Image, Text,ScrollView, TextInput } from 'react-native';
 import { Dimensions } from 'react-native'
 import Moment from 'react-moment';
 import {format, compareAsc} from 'date-fns'
 import DatePicker from 'react-native-datepicker'
+import ExpirationDate from './Date'
+
 
 
 //{moment(new Date()).format("YYYY-MM-DD hh:mm:ss")}
@@ -20,56 +22,27 @@ class ItemDetail extends React.Component{
 	constructor (props) {
 		super(props)
 		this.state = {
-			itemPrice: 99.21,
-            Expirationdate:"2000-05-15"
+			itemPrice: '00.00'
         }
     }
 
-    displayDatePicker(){
-    	    return (
-			      <DatePicker
-			        style={{width: 200}}
-			        date={this.state.Expirationdate}
-			        mode="date"
-			        placeholder="select date"
-			        format="YYYY-MM-DD"
-			        minDate="2016-05-01"
-			        maxDate="2016-06-01"
-			        confirmBtnText="Confirm"
-			        cancelBtnText="Cancel"
-			        customStyles={{
-			          dateIcon: {
-			            position: 'absolute',
-			            left: 0,
-			            top: 4,
-			            marginLeft: 0
-			          },
-			          dateInput: {
-			            marginLeft: 36
-			          }
-			          // ... You can check the source to find the other keys.
-			        }}
-			        onDateChange={(date) => {this.setState({Expirationdate: date})}}
-			      />  
-    )
-    }
 
-	displayExpirationDate(){
-		format(new Date(2014, 1, 11), 'MM/dd/yyyy')
-		const dates = new Date(1995, 6, 2)
+	onChangedPrice(text){ 
+		var newText = ''; 
+		var numbers = '0123456789'; 
+		
+		if(text.length < 1){ 
+			this.setState({ myNumber: '' }); 
+		} 
 
-		return(
-			<View style={styles.card2}>	             
-		             <View style={{paddingLeft: 10}}>
-		               <Text style={{fontSize: 17, color: '#8190A5'}} > Expiration Date
-		               </Text>
-		              </View>
-		       		<View style={{paddingRight: 10}}>  
-		       		 {this.displayDatePicker()}
-		            </View>
-			</View>
-		);
+		for (var i=0; i < text.length; i++) { 
+			if(numbers.indexOf(text[i]) > -1 ) { 
+				newText = newText + text[i]; 
+			} 
+				this.setState({ myNumber: newText }); 
+		} 
 	}
+
 
 	render(){
 		return(
@@ -81,9 +54,15 @@ class ItemDetail extends React.Component{
 		               <Text style={{fontSize: 17, color: '#8190A5'}} > Price
 		               </Text>
 		              </View>
+
 		       		<View style={{paddingRight: 10}}> 
-		                <Text style={{fontSize: 17, color: '#8190A5'}} > ${this.state.itemPrice}
-		            </Text>
+						<TextInput 
+						   style={styles.textInput}
+						   keyboardType='numeric'
+						   onChangeText={(text)=> this.onChangedPrice(text)}
+						   value={this.state.itemPrice}
+						   maxLength={10}  //setting limit of input
+						/>
 		          </View>
 		        </View>
 	       
@@ -111,7 +90,8 @@ class ItemDetail extends React.Component{
 
 		    <View style={styles.horizontalLine}>
 		    </View>
-	        {this.displayExpirationDate()}
+	        <ExpirationDate>
+	        </ExpirationDate>
 
 		    <View style={styles.card3}>
 		       <View style={styles.horizontalLine}>
@@ -207,9 +187,13 @@ const styles ={
         marginLeft: 10,
         marginRight: 10
 	},
-  scrollViewStyle:{
-  	flex: 1
-  }
+	scrollViewStyle:{
+		flex: 1
+	},
+	textInput: {
+		fontSize: 17, 
+		color: '#8190A5'
+	}
 }
 
 export default ItemDetail;

@@ -1,7 +1,7 @@
 import React from "react";
 import { View, SafeAreaView, StatusBar } from "react-native";
 import { Button, ButtonGroup} from "react-native-elements";
-import LoginForm from "./LogIn";
+import LoginForm from "./LoginForm";
 import SignUp from "./Signup";
 
 export default class Authentication extends React.Component {
