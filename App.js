@@ -15,6 +15,7 @@ import Item from './src/components/pages/Item'
 import ItemConfirmation from './src/components/pages/ItemConfirmation'
 import CameraImageP from './src/components/pages/CameraImageP'
 import CameraSelectItem from './src/components/pages/CameraSelectItem'
+import Camera2 from './src/components/pages/Camera2'
 
 interface AppState {
   authStatusReported: boolean;
@@ -60,10 +61,11 @@ class App extends Component<AppState> {
         InventoryDetail: InventoryDetail,
         Landing: Landing,
         CameraImageP: CameraImageP,
-        CameraSelectItem: CameraSelectItem
+        CameraSelectItem: CameraSelectItem,
+        Camera2: Camera2
       },
       {
-        initialRouteName: "CameraImageP",
+        initialRouteName: "Camera2",
         // headerMode: 'none'
       }
     );
