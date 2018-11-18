@@ -16,6 +16,8 @@ import ItemConfirmation from './src/components/pages/ItemConfirmation'
 import CameraImageP from './src/components/pages/CameraImageP'
 import CameraSelectItem from './src/components/pages/CameraSelectItem'
 import Camera2 from './src/components/pages/Camera2'
+import Camera from './src/components/pages/Camera'
+import CameraPassPhotoToItem from './src/components/pages/CameraPassPhotoToItem'
 
 interface AppState {
   authStatusReported: boolean;
@@ -62,10 +64,11 @@ class App extends Component<AppState> {
         Landing: Landing,
         CameraImageP: CameraImageP,
         CameraSelectItem: CameraSelectItem,
-        Camera2: Camera2
+        Camera2: Camera2,
+        CameraPassPhotoToItem: CameraPassPhotoToItem
       },
       {
-        initialRouteName: "Camera2",
+        initialRouteName: "CameraPassPhotoToItem",
         // headerMode: 'none'
       }
     );

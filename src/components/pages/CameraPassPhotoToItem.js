@@ -56,7 +56,10 @@ class CameraPassPhotoToItem extends Component {
       .then((data) => {
         console.log(data);
 
-        this.props.navigation.navigate('ItemConfirmation', { itemName: data.path});
+        this.props.navigation.navigate('ItemConfirmation', { 
+          imagePath: data.path,
+          itemName: 'Bike'
+        });
         this.setState({ path: data.path })
       })
       .catch(err => console.error(err));

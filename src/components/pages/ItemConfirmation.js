@@ -11,7 +11,8 @@ class ItemConfirmation extends Component {
 
 	render() {
 		const { navigation } = this.props;
-		const itemName = navigation.getParam('itemName', 'NO-Name');
+		const imagePath = navigation.getParam('imagePath', 'NO-Path');
+		const itemName = navigation.getParam('itemName','No-Item');
 
 		return (
 			<View style={styles.background}>
@@ -30,7 +31,7 @@ class ItemConfirmation extends Component {
 			              height: null,
 			              borderRadius: 10
 			            }} 
-			            source= {{ uri: JSON.parse(JSON.stringify(itemName)) }}
+			            source= {{ uri: JSON.parse(JSON.stringify(imagePath)) }}
 			        />
 			    </View>
 

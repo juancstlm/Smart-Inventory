@@ -1,7 +1,7 @@
 import React from 'react';
 import { Dimensions, Alert, StyleSheet, ActivityIndicator, Text, View, FlatList } from 'react-native';
 import { RNCamera } from 'react-native-camera';
-import CaptureButton from './CaptureButton.js'
+import CaptureButton2 from '../ui/CaptureButton2';
 
 export default class Camera2 extends React.Component {
 
@@ -100,7 +100,7 @@ export default class Camera2 extends React.Component {
 			<View style={{flex: 1}}>
             <RNCamera ref={ref => {this.camera = ref;}} style={styles.preview}>
             <ActivityIndicator size="large" style={styles.loadingIndicator} color="#fff" animating={this.state.loading}/>
-                <CaptureButton buttonDisabled={this.state.loading} onClick={this.takePicture.bind(this)}/>
+                <CaptureButton2 buttonDisabled={this.state.loading} onClick={this.takePicture.bind(this)}/>
             </RNCamera>
 
 
