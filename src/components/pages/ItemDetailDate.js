@@ -5,7 +5,7 @@ import Moment from 'react-moment';
 import {format, compareAsc} from 'date-fns'
 import DatePicker from 'react-native-datepicker'
 
-class Date extends React.Component {
+class ItemDetailDate extends React.Component {
 
     constructor (props) {
       super(props)
@@ -43,7 +43,7 @@ class Date extends React.Component {
                 },
                 dateText: {
                   fontSize: 17,
-                  color: '#8190A5'
+                  color: '#2F3A49'
                 }   
               }}
               onDateChange={(date) => {this.setState({Expirationdate: date})}}
@@ -56,7 +56,7 @@ class Date extends React.Component {
     return (
             <View style={styles.card2}>              
                  <View style={{paddingLeft: 10}}>
-                   <Text style={{fontSize: 17, color: '#8190A5'}} > Expiration Date
+                   <Text style={{fontSize: 17, color: '#2F3A49'}} > Expiration Date
                    </Text>
                   </View>
               <View style={{paddingRight: 10}}>  
@@ -76,4 +76,4 @@ const styles = {
   }
 };
 
-export default Date;
+export default ItemDetailDate;

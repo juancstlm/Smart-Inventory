@@ -59,7 +59,7 @@ class App extends Component<AppState> {
         Landing: Landing
       },
       {
-        initialRouteName: "LoginForm",
+        initialRouteName: "ItemConfirmation",
         // headerMode: 'none'
       }
     );

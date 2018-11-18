@@ -3,21 +3,17 @@ import { View, Image, Text } from 'react-native';
 import ItemDetail from './ItemDetail'
 
 class Item extends Component{
+	
 	render(){
-		return(
-			
+		return(		
 			<View style={styles.background}>
-			
-			
+
 			  <View style={styles.card1}>
-			    <View style={styles.card1NameContainer}>
-			      <Text style={styles.card1NameStyle}>
-			            Bike
-			      </Text>
-			    </View>
+			    <Text style={styles.card1NameStyle}>
+			        Bike
+			    </Text>
 			  </View>
-			
-			
+
 			  <View style={styles.card2}>
 			      <Image
 			            style={{ 
@@ -30,18 +26,14 @@ class Item extends Component{
 			      />
 			  </View>
 			
-			
 			  <View style={styles.card3}>
 			       <ItemDetail>
 			       </ItemDetail>
 			  </View>
 		    
-
-		    </View>
-		    
+		    </View>		    
 		);
 	}
-
 };
 
 const styles ={
@@ -50,9 +42,6 @@ const styles ={
 		flex: 1,
 	},
 	card1:{
-		flex:1,
-	},
-	card1NameContainer:{
 		flex: 1,
 		flexDirection: 'column',
 		justifyContent: 'center',

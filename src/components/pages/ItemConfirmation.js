@@ -6,6 +6,7 @@ import ItemConfirmationDetails from './ItemConfirmationDetails'
 //{{ uri: this.state.path }}
 // source= {{ uri: JSON.parse(JSON.stringify(itemName)) }}
 // source= {require("../../img/bike2.jpeg")}
+
 class ItemConfirmation extends Component {
 
 	render() {
@@ -21,7 +22,6 @@ class ItemConfirmation extends Component {
 			        </View>
 			    </View>
 			
-
 			    <View style={styles.card2}>
 			        <Image
 			            style={{ 
@@ -34,9 +34,8 @@ class ItemConfirmation extends Component {
 			        />
 			    </View>
 
-
 			    <View style={styles.card3}>
-			        <ItemConfirmationDetails>
+			        <ItemConfirmationDetails navigation={this.props.navigation}>
 			        </ItemConfirmationDetails>
 			    </View>
 			
