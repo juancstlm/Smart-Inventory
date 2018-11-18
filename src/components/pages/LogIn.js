@@ -6,7 +6,7 @@ import validator from "validator";
 import Firebase from '../../Firebase'
 
 class LoginForm extends Component {
-  state = { email: "", password: "", error: "", loading: false };
+  state = { email: "test@gmail.com", password: "1234567", error: "", loading: false };
 
   handleLogIn = () => {
     const { email, password } = this.state;

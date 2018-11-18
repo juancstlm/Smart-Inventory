@@ -9,7 +9,7 @@ const Create = () => {
     }
 
     return (
-        <View style={{flex: 1,width:'100%', backgroundColor: 'white'}}>
+        <View style={{flex: 1,width:'100%', backgroundColor: '#2f3a49'}}>
 
         </View>
     );
