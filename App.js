@@ -13,6 +13,8 @@ import Firebase from "./src/Firebase";
 import Profile from './src/components/pages/Profile'
 import Item from './src/components/pages/Item'
 import ItemConfirmation from './src/components/pages/ItemConfirmation'
+import CameraImageP from './src/components/pages/CameraImageP'
+import CameraSelectItem from './src/components/pages/CameraSelectItem'
 
 interface AppState {
   authStatusReported: boolean;
@@ -56,10 +58,12 @@ class App extends Component<AppState> {
         Item: Item,
         InventoriesList: InventoriesList,
         InventoryDetail: InventoryDetail,
-        Landing: Landing
+        Landing: Landing,
+        CameraImageP: CameraImageP,
+        CameraSelectItem: CameraSelectItem
       },
       {
-        initialRouteName: "ItemConfirmation",
+        initialRouteName: "CameraImageP",
         // headerMode: 'none'
       }
     );
