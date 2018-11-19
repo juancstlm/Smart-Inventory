@@ -1,56 +1,82 @@
 import React from 'react';
 import {TouchableOpacity, Text, TextInput, View, StyleSheet, Image} from 'react-native';
-import InventoryCard from './InventoryCard';
-import InventoryCardSection from './InventoryCardSection';
+import {Button} from 'react-native-elements';
 import QRCodeScanner from 'react-native-qrcode-scanner';
 
-const Join = () => {
+class Join extends React.Component {
 
-    callParent = () => {
-        //props.callbackFromParent(props.inventory);
-    }
+    state={scan: false, qrcode: '', disableJoin: true}
+
     onSuccess= (e) => {
+         this.setState({qrcode: e.data})
+
         Linking
           .openURL(e.data)
           .catch(err => console.error('An error occured', err));
     }
 
-    return (
-        <View style={{flex: 1, width:'100%', backgroundColor: '#2f3a49', alignItems: 'center'}}>
-            <TextInput
-                    style={{
-                      color: "white",
-                      height: 40,
-                      width: "80%",
-                      backgroundColor: "#8190a5",
-                      borderWidth: 1,
-                      borderRadius: 3,
-                      marginBottom: 15,
-                      marginTop: 10,
-                    }}
-                    placeholder={" Enter Quick Share Code"} 
-                    placeholderTextColor={"white"}/>
-            <Text style={{color: "white", height: 40,}}>
-                Join Via QR Code
-            </Text>  
+    setScan = () =>
+    this.setState({ scan: true });
+    
+    join = () => {
+        if (this.state.qrcode === ''){
+            console.log('QR code not set')
+        }
+        else{
+            //this.setState({disableJoin: true})
+            console.log(this.state.qrcode)
+        }
+    }
 
-            <View style={{height: 200, backgroundColor: "white"}}>
-                <QRCodeScanner
-                onRead={this.onSuccess.bind(this)}
-                topContent={
-                    <Text style={styles.centerText}>
-                        Go to <Text style={styles.textBold}>wikipedia.org/wiki/QR_code</Text> 
-                        on your computer and scan the QR code.
-                    </Text>
+    render(){
+        return (
+            <View style={{flex: 1, height: '100%',width:'100%', backgroundColor: '#2f3a49', alignItems: 'center'}}>
+                <TextInput
+                        onChangeText={(text) => {this.setState({qrcode: text});
+                        this.setState({ disableJoin: false });}} 
+                        clearButtonMode='while-editing'
+                        autoFocus={true}
+                        style={{
+                        color: "white",
+                        height: 40,
+                        fontSize: 18,
+                        width: "80%",
+                        backgroundColor: "#8190a5",
+                        borderWidth: 1,
+                        borderRadius: 3,
+                        marginBottom: 15,
+                        marginTop: 10,
+                        }}
+                        placeholder={" Enter quick share code"} 
+                        placeholderTextColor={"white"}/>
+                <Text style={{color: "white", height: 40, fontSize: 18}}>
+                    Join Via QR Code
+                </Text>  
+
+                {this.state.scan === false ? 
+                <TouchableOpacity onPress={this.setScan} style={{marginBottom: 60}}>
+                    <Image source={require("../../img/qr-button.png")}/>
+                </TouchableOpacity>
+                :
+                <View style={{height: '50%', backgroundColor: "white"}}>
+                    <QRCodeScanner
+                    onRead={this.onSuccess.bind(this)}
+                    topContent={
+                        <Text style={styles.centerText}>
+                            Go to wikipedia.org/wiki/QR_code
+                            on your computer and scan the QR code.
+                        </Text>
+                    }/>
+
+                </View>
                 }
-                bottomContent={
-                    <TouchableOpacity style={styles.buttonTouchable}>
-                        <Text style={styles.buttonText}>OK. Got it!</Text>
-                    </TouchableOpacity>
-                }/>    
-            </View>
-        </View >
-    );
+                <View style={{width: '40%', alignItems:'stretch'}}>
+                    <Button onPress={this.join} title='JOIN' disabled={this.state.disableJoin}/>
+                </View>
+                
+            </View >
+        );
+    }    
 
 };
 
@@ -61,10 +87,7 @@ const styles = StyleSheet.create({
       padding: 32,
       color: '#777',
     },
-    textBold: {
-      fontWeight: '500',
-      color: '#000',
-    },
+
     buttonText: {
       fontSize: 21,
       color: 'rgb(0,122,255)',

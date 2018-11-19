@@ -22,8 +22,6 @@ export default class InventoriesList extends React.Component {
     childData: null,
     isModalVisible: false,
     isJoin: true,
-    joinBackColor: "#2f3a49",
-    createBackColor: "",
     selectedIndex: 0
   };
 
@@ -91,17 +89,6 @@ export default class InventoriesList extends React.Component {
   _toggleModal = () =>
     this.setState({ isModalVisible: !this.state.isModalVisible });
 
-  join = () => {
-    this.setState({ isJoin: true });
-    this.setState({ joinBackColor: "" });
-    this.setState({ createBackColor: "#2f3a49" });
-  };
-  create = () => {
-    this.setState({ isJoin: false });
-    this.setState({ createBackColor: "" });
-    this.setState({ joinBackColor: "#2f3a49" });
-  };
-
   renderSearchBar() {
     return <SearchBar placeholder={"Type inventory name to search"} />;
   }
@@ -118,7 +105,7 @@ export default class InventoriesList extends React.Component {
 
 
   render() {
-    const buttons = ['Join', 'Create'];
+    const buttons = ['JOIN', 'CREATE'];
     const { selectedIndex } = this.state;
 
     return (
@@ -204,7 +191,7 @@ export default class InventoriesList extends React.Component {
                 onPress={this.updateIndex}
                 selectedIndex={selectedIndex}
                 buttons={buttons}
-                containerStyle={{height: 35, width: "80%", borderWidth: 0, marginTop: 5}}
+                containerStyle={{height: 35, width: "60%", borderWidth: 0, marginTop: 5}}
                 innerBorderStyle={{color: '#e79100'}}
                 selectedBackgroundColor={"#e79627"}
                 selectedTextStyle={{color: '#fff'}}
