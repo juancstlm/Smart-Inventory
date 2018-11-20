@@ -15,8 +15,9 @@ class Join extends React.Component {
           .catch(err => console.error('An error occured', err));
     }
 
-    setScan = () =>
-    this.setState({ scan: true });
+    setScan = () =>{
+    //this.setState({ scan: true });
+    }
     
     join = () => {
         if (this.state.qrcode === ''){
