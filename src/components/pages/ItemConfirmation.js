@@ -6,13 +6,16 @@ import ItemConfirmationDetails from './ItemConfirmationDetails'
 //{{ uri: this.state.path }}
 // source= {{ uri: JSON.parse(JSON.stringify(itemName)) }}
 // source= {require("../../img/bike2.jpeg")}
-
+//source= {{ uri: JSON.parse(JSON.stringify(imagePath)) }}
 class ItemConfirmation extends Component {
 
 	render() {
 		const { navigation } = this.props;
 		const imagePath = navigation.getParam('imagePath', 'NO-Path');
 		const itemName = navigation.getParam('itemName','No-Item');
+		
+		console.log("help help help");
+		console.log(imagePath)
 
 		return (
 			<View style={styles.background}>
@@ -31,7 +34,7 @@ class ItemConfirmation extends Component {
 			              height: null,
 			              borderRadius: 10
 			            }} 
-			            source= {{ uri: JSON.parse(JSON.stringify(imagePath)) }}
+			            source={{uri: imagePath}}
 			        />
 			    </View>
 

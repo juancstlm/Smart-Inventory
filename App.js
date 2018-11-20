@@ -15,9 +15,13 @@ import Item from './src/components/pages/Item'
 import ItemConfirmation from './src/components/pages/ItemConfirmation'
 import CameraImageP from './src/components/pages/CameraImageP'
 import CameraSelectItem from './src/components/pages/CameraSelectItem'
+import Camera4 from './src/components/pages/Camera4'
+import Camera3 from './src/components/pages/Camera3'
 import Camera2 from './src/components/pages/Camera2'
 import Camera from './src/components/pages/Camera'
 import CameraPassPhotoToItem from './src/components/pages/CameraPassPhotoToItem'
+import DisplayImage from './src/components/pages/DisplayImage'
+
 
 interface AppState {
   authStatusReported: boolean;
@@ -65,10 +69,13 @@ class App extends Component<AppState> {
         CameraImageP: CameraImageP,
         CameraSelectItem: CameraSelectItem,
         Camera2: Camera2,
-        CameraPassPhotoToItem: CameraPassPhotoToItem
+        Camera3: Camera3,
+        Camera4: Camera4,
+        CameraPassPhotoToItem: CameraPassPhotoToItem,
+        DisplayImage: DisplayImage
       },
       {
-        initialRouteName: "CameraPassPhotoToItem",
+        initialRouteName: "Camera2",
         // headerMode: 'none'
       }
     );

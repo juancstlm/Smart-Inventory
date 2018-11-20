@@ -35,12 +35,12 @@ export default class Camera2 extends React.Component {
 			const data = await this.camera.takePictureAsync(options)
 			
 			// Get the identified image
-			this.identifyImage(data.base64);
+			this.identifyImage(data);
 		}
 	}
-
+//this.displayAnswer(response.outputs[0].data.concepts)
 	identifyImage(imageData){
-
+		
 		// Initialise Clarifai api
 		const Clarifai = require('clarifai');
 
@@ -49,8 +49,11 @@ export default class Camera2 extends React.Component {
 		});
 
 		// Identify the image
-		app.models.predict(Clarifai.GENERAL_MODEL, {base64: imageData})
-			.then((response) => this.displayAnswer(response.outputs[0].data.concepts)
+		app.models.predict(Clarifai.GENERAL_MODEL, {base64: imageData.base64})
+			.then((response) => this.props.navigation.navigate('CameraImageP', {
+			 imagePath: imageData, 
+			 items: response.outputs[0].data.concepts
+			})
 			.catch((err) => alert(err))
 		);
 	}
@@ -65,7 +68,6 @@ export default class Camera2 extends React.Component {
 		}));
 
 	}
-
 
 	renderList(){
 		return(
