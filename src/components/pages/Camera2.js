@@ -38,6 +38,7 @@ export default class Camera2 extends React.Component {
 			this.identifyImage(data);
 		}
 	}
+
 //this.displayAnswer(response.outputs[0].data.concepts)
 	identifyImage(imageData){
 		
@@ -105,9 +106,7 @@ export default class Camera2 extends React.Component {
                 <CaptureButton2 buttonDisabled={this.state.loading} onClick={this.takePicture.bind(this)}/>
             </RNCamera>
 
-
             {this.renderClassifcations()}
-
             
             </View>
 		);

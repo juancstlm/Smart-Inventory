@@ -4,6 +4,10 @@ import { BlurView, VibrancyView } from 'react-native-blur';
 
 class DisplayImage extends Component {
 
+	selectItem(){
+
+	}
+
 	render() {
 
 		const viewRef = null;

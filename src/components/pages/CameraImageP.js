@@ -1,14 +1,17 @@
 import React from 'react';
-import { Dimensions, Alert, StyleSheet, ActivityIndicator, Text, View, FlatList,Image, TouchableOpacity } from 'react-native';
+import { Dimensions, Alert, StyleSheet, ActivityIndicator, Text, View, FlatList,Image, TouchableHighlight, TouchableOpacity } from 'react-native';
 import { RNCamera } from 'react-native-camera';
 import { BlurView, VibrancyView } from 'react-native-blur';
 import ModalFilterPicker from 'react-native-modal-filter-picker'
 import CameraSelectItem from './CameraSelectItem'
-	  
+//onPress={this.selectItemButton(imagePath,'Bike')}
 export default class CameraImageP extends React.Component {
 
 	constructor(props){
 		super(props);
+
+		this.selectItemButton = this.selectItemButton.bind(this);
+        
         this.state = { 
         	picked: null,
 		}
@@ -31,40 +34,12 @@ export default class CameraImageP extends React.Component {
     	});
     }
 
-    renderClassification(){
-    	return(
-	     	<View style={{position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, justifyContent: 'center', alignItems: 'center'}}>
-	             <FlatList 
-		              data = {this.state.itemsFromClarifai}
-		              keyExtractor={(item, index) => item.id}
-		              contentContainerStyle={{flexGrow: 1, justifyContent: 'center'}}
-		              renderItem={({item})=>
-		              <Text>{item.name}</Text>
-		              }
-	             />
-	    	</View>   	
-    	);
-    }
 
-    renderBlurImage(){
- 		return (
-			<View style={styles.preview}>
-				<Image
-					style={{
-						flex:1,
-						resizeMode: 'stretch'
-					}}
-					source = {require("../../img/bike2.jpeg")} 
-				/>
-		        <BlurView
-		          style={styles.absolute}
-		          viewRef={this.state.viewRef}
-		          blurType="light"
-		          blurAmount={10}
-		        />				
-				{this.renderClassification()}				           
-            </View>
-		);   	
+    selectItemButton(image,itemName){
+            this.props.navigation.navigate('ItemConfirmation', { 
+            	itemName: itemName,
+            	imagePath: image
+            });    	
     }
 
 	render() {
@@ -119,6 +94,14 @@ export default class CameraImageP extends React.Component {
 			        />
 			      </View>	
 
+		        <TouchableHighlight
+		          style={styles.capture}
+		          onPress={ () => this.selectItemButton(imagePath,'Bike') }
+		          underlayColor="rgba(255, 255, 255, 0.5)"
+		        >
+		          <View />
+		        </TouchableHighlight>
+
             </View>
 		);
 	}
@@ -161,5 +144,13 @@ const styles = StyleSheet.create({
 		borderRadius: 5,
 		marginLeft: 10,
 		marginRight: 10
-	}
+	},
+	capture: {
+	    width: 70,
+	    height: 70,
+	    borderRadius: 35,
+	    borderWidth: 5,
+	    borderColor: '#FFF',
+	    marginBottom: 15,
+  }
 });
