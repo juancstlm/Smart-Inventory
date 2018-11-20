@@ -51,7 +51,7 @@ export default class Camera2 extends React.Component {
 
 		// Identify the image
 		app.models.predict(Clarifai.GENERAL_MODEL, {base64: imageData.base64})
-			.then((response) => this.props.navigation.navigate('CameraImageP', {
+			.then((response) => this.props.navigation.navigate('CameraSelectItem', {
 			 imagePath: imageData, 
 			 items: response.outputs[0].data.concepts
 			})
