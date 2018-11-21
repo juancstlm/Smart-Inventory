@@ -3,6 +3,7 @@ package com.smartinventory;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import com.lugg.ReactNativeConfig.ReactNativeConfigPackage;
 import fr.snapp.imagebase64.RNImgToBase64Package;
 import com.rnfs.RNFSPackage;
 import org.reactnative.camera.RNCameraPackage;
@@ -28,6 +29,7 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            new ReactNativeConfigPackage(),
             new RNImgToBase64Package(),
             new RNFSPackage(),
             new BlurViewPackage(),
