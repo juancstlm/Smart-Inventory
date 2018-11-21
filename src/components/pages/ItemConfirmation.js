@@ -1,16 +1,21 @@
 import React, { Component } from 'react';
-import { View, Image } from 'react-native';
+import { View, Image, Text } from 'react-native';
 import firebase from 'firebase';
-import { Button, Text } from "native-base";
+import Button from '../ui/ItemConfirmationButton';
 import ItemConfirmationDetails from './ItemConfirmationDetails'
-//{{ uri: this.state.path }}
-// source= {{ uri: JSON.parse(JSON.stringify(itemName)) }}
-// source= {require("../../img/bike2.jpeg")}
+
 class ItemConfirmation extends Component {
 
 	render() {
 		const { navigation } = this.props;
-		const itemName = navigation.getParam('itemName', 'NO-Name');
+		const imagePath = navigation.getParam('imagePath', 'NO-Path');
+		const itemName = navigation.getParam('itemName','No-Item');
+		
+		console.log("bitchhhhss");
+		console.log(imagePath.uri)
+		
+		console.log("bitchhhhss dosss");
+		console.log(itemName)
 
 		return (
 			<View style={styles.background}>
@@ -21,7 +26,6 @@ class ItemConfirmation extends Component {
 			        </View>
 			    </View>
 			
-
 			    <View style={styles.card2}>
 			        <Image
 			            style={{ 
@@ -30,19 +34,18 @@ class ItemConfirmation extends Component {
 			              height: null,
 			              borderRadius: 10
 			            }} 
-			            source= {{ uri: JSON.parse(JSON.stringify(itemName)) }}
+			            source={{ isStatic: true, uri: imagePath.uri }}
 			        />
 			    </View>
 
-
 			    <View style={styles.card3}>
-			        <ItemConfirmationDetails>
+			        <ItemConfirmationDetails navigation={this.props.navigation}>
 			        </ItemConfirmationDetails>
 			    </View>
 			
 			
 			    <View style={styles.card4}>
-			        <Button block onPress={() => this.props.navigation.navigate('Authentication')}>
+			        <Button block onPress={() => this.props.navigation.navigate('Item')}>
                          <Text>CONTINUE</Text>
                     </Button>
 			    </View>
