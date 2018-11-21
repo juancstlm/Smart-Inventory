@@ -22,8 +22,7 @@ export default class InventoriesList extends React.Component {
     isModalVisible: false,
     isJoin: true,
     joinBackColor: "#2f3a49",
-    createBackColor: "",
-    search: ""
+    createBackColor: ""
   };
 
   // This is so that react navigator hides the stack header
@@ -49,7 +48,6 @@ export default class InventoriesList extends React.Component {
           return doc.data();
         });
         console.log("invs", invs);
-        this.inventoryData = invs
         this.setState({ inventories: invs });
       })
       .catch(err => {
@@ -64,6 +62,17 @@ export default class InventoriesList extends React.Component {
       navigate("InventoryDetail", { inventory: dataFromChild });
     }
   };
+  // renderInventories() {
+  //   return this.state.inventories.data.map(inventory => (
+  //     <View style={styles.profileContainer}>
+  //       <InventoryProfile
+  //         key={inventory.name}
+  //         inventory={inventory}
+  //         callbackFromParent={this.profileCallback}
+  //       />
+  //     </View>
+  //   ));
+  // }
 
   _toggleModal = () =>
     this.setState({ isModalVisible: !this.state.isModalVisible });
@@ -80,24 +89,7 @@ export default class InventoriesList extends React.Component {
   };
 
   renderSearchBar() {
-
-    return <SearchBar placeholder={"Type inventory name to search"}
-      value={this.state.search}
-      onChangeText={text => this.setState({ search: text })}
-      autoCapitalize='none'
-      containerStyle={{
-        width: "120%",
-        backgroundColor: "transparent",
-        borderTopColor: "transparent",
-        borderBottomColor: "transparent"
-      }}
-      inputContainerStyle={{
-        backgroundColor: "#47576E",
-        borderColor: "#47576E",
-        borderWidth: 1
-      }}
-      inputStyle={{ backgroundColor: "transparent" }}
-      placeholder="Search" />;
+    return <SearchBar placeholder={"Type inventory name to search"} />;
   }
 
   goToProfile = () => {
@@ -105,36 +97,34 @@ export default class InventoriesList extends React.Component {
   };
 
   renderInventories() {
-
-    if (this.state.search != undefined || this.state.search != "") {
-
-      var text = this.state.search
-      var results = []
-      for (i = 0; i < this.state.inventories.length; i++) {
-        if (this.state.inventories[i].name.toLowerCase().includes(text.toLowerCase())) {
-          console.log(this.state.inventories[i].name.toLowerCase().includes(text.toLowerCase()))
-          results.push(this.state.inventories[i])
-        }
-      }
-
-      return results.map(inventory =>
-        <InventoryProfile key={inventory.name} inventory={inventory} />
-      );
-    } else {
-      return this.state.inventories.map(inventory =>
-        <InventoryProfile key={inventory.name} inventory={inventory} />
-      );
-    }
+    return this.state.inventories.map(inventory =>
+        <InventoryProfile key={inventory.name} inventory={inventory}/>
+    );
   }
 
   render() {
     return (
-
       <View style={{ flex: 1, backgroundColor: "#2f3a49" }}>
         <Header
           statusBarProps={{ barStyle: "light-content" }}
           centerComponent={
-            this.renderSearchBar()
+            <SearchBar
+              containerStyle={{
+                width: "120%",
+                backgroundColor: "transparent",
+                borderTopColor: "transparent",
+                borderBottomColor: "transparent"
+              }}
+              inputContainerStyle={{
+                backgroundColor: "#47576E",
+                borderColor: "#47576E",
+                borderWidth: 1
+              }}
+              inputStyle={{ backgroundColor: "transparent" }}
+              // onChangeText={someMethod}
+              // onClear={someMethod}
+              placeholder="Search"
+            />
           }
           rightComponent={
             <Avatar rounded title="MT" onPress={this.goToProfile} />
