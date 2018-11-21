@@ -2,6 +2,7 @@ import React from 'react';
 import { Dimensions, Alert, StyleSheet, ActivityIndicator, Text, View, FlatList } from 'react-native';
 import { RNCamera } from 'react-native-camera';
 import CaptureButton2 from '../ui/CaptureButton2';
+import apiConfig from '../../../apiKeys';
 
 export default class CameraClarifai extends React.Component {
 
@@ -31,7 +32,7 @@ export default class CameraClarifai extends React.Component {
 	identifyImage(imageData){	
 		const Clarifai = require('clarifai');
 		const app = new Clarifai.App({
-			apiKey: '5f5705d75ac94f50a803b2eaa865c201'
+			apiKey: apiConfig.key2
 		});
 		app.models.predict(Clarifai.GENERAL_MODEL, {base64: imageData.base64})
 			.then((response) => this.props.navigation.navigate('CameraSelectItem', {
