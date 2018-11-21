@@ -2,8 +2,6 @@
 ##
 .DS_Store
 
-apiKeys.*
-
 # Xcode
 #
 build/
