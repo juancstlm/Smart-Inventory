@@ -3,7 +3,6 @@ import { Dimensions, Alert, StyleSheet, ActivityIndicator, Text, View, FlatList 
 import { RNCamera } from 'react-native-camera';
 import CaptureButton2 from '../ui/CaptureButton2';
 import apiConfig from '../../../apiKeys';
-import Button from '../ui/ItemConfirmationButton';
 
 export default class CameraClarifai extends React.Component {
 
