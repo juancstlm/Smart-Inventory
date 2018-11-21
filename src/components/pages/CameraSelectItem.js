@@ -3,7 +3,7 @@ import { Dimensions, Alert, StyleSheet, ActivityIndicator, Text, View, FlatList,
 import { RNCamera } from 'react-native-camera';
 import { BlurView, VibrancyView } from 'react-native-blur';
 import ModalFilterPicker from 'react-native-modal-filter-picker'
-//onPress={this.selectItemButton(imagePath,'Bike')}
+
 export default class CameraSelectItem extends React.Component {
 
 	constructor(props){
@@ -33,14 +33,13 @@ export default class CameraSelectItem extends React.Component {
     	});
     }
 
-
     selectItemButton(image,itemName){
             this.props.navigation.navigate('ItemConfirmation', { 
             	itemName: itemName,
             	imagePath: image
             });    	
     }
-
+    
 	render() {
 
 		const { visible, picked, options } = this.state;

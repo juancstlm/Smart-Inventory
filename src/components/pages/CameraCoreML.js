@@ -12,7 +12,7 @@ import CameraButton from '../ui/CameraButton';
 
 const BEST_MATCH_THRESHOLD = 0.05;
 
-export default class Camera extends Component<{}> {
+export default class CameraCoreML extends Component<{}> {
 
   constructor(props) {
     super(props);

@@ -13,8 +13,8 @@ import Firebase from "./src/Firebase";
 import Profile from './src/components/pages/Profile'
 import Item from './src/components/pages/Item'
 import ItemConfirmation from './src/components/pages/ItemConfirmation'
-import Camera from './src/components/pages/Camera'
-import Camera2 from './src/components/pages/Camera2'
+import CameraCoreML from './src/components/pages/CameraCoreML'
+import CameraClarifai from './src/components/pages/CameraClarifai'
 import CameraSelectItem from './src/components/pages/CameraSelectItem'
 
 
@@ -61,12 +61,12 @@ class App extends Component<AppState> {
         InventoriesList: InventoriesList,
         InventoryDetail: InventoryDetail,
         Landing: Landing,
-        Camera: Camera,
-        Camera2: Camera2,                
+        CameraCoreML: CameraCoreML,
+        CameraClarifai: CameraClarifai,                
         CameraSelectItem: CameraSelectItem,
       },
       {
-        initialRouteName: "Camera2",
+        initialRouteName: "CameraClarifai",
         // headerMode: 'none'
       }
     );

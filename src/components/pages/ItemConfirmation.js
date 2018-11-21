@@ -3,11 +3,6 @@ import { View, Image, Text } from 'react-native';
 import firebase from 'firebase';
 import Button from '../ui/ItemConfirmationButton';
 import ItemConfirmationDetails from './ItemConfirmationDetails'
-//{{ uri: this.state.path }}
-// source= {{ uri: JSON.parse(JSON.stringify(itemName)) }}
-// source= {require("../../img/bike2.jpeg")}
-//source= {{ uri: JSON.parse(JSON.stringify(imagePath)) }}
-// source={{uri: imagePath}}
 
 class ItemConfirmation extends Component {
 
