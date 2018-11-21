@@ -1,7 +1,7 @@
 import React from 'react';
 import {Text,TextInput, View} from 'react-native';
-import {Button, ButtonGroup} from 'react-native-elements';
-
+import {Button, ButtonGroup, Avatar, SearchBar} from 'react-native-elements';
+import InventoryCardSection from "../ui/InventoryCardSection";
 
 class Create extends React.Component {
 
@@ -18,7 +18,8 @@ class Create extends React.Component {
             console.log('name not set')
         }
         else{
-            console.log(this.state.name)
+           //create an inventory object and add user as owner
+           
         }
     }
 
@@ -34,7 +35,7 @@ class Create extends React.Component {
             <View style={{flex: 1, height: '100%',width:'100%', backgroundColor: '#2f3a49', alignItems: 'center'}}>
                 <TextInput
                         onChangeText={(text) => {this.setState({name: text});
-                        this.setState({ disableCreate: false });}} 
+                        this.setState({ disableCreate: (this.state.name.length < 2) });}} 
                         clearButtonMode='while-editing'
                         autoFocus={true}
                         style={{
@@ -66,7 +67,11 @@ class Create extends React.Component {
                 selectedButtonStyle={{backgroundColor: '#e79627'}}
                 buttonStyle={{backgroundColor:"#2f3a49", borderWidth: 0}}
                 textStyle={{color:'#fff'}} />
-
+                
+                <InventoryCardSection>
+                     <View style={{flex: 2, height: 100, backgroundColor: '00000000', blurRadius: 1}}/>
+                </InventoryCardSection>
+                
                 <View style={{width: '40%', alignItems:'stretch'}}>
                     <Button onPress={this.create} title='CREATE' disabled={this.state.disableCreate}/>
                 </View>

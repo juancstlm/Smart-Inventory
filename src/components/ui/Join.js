@@ -21,11 +21,10 @@ class Join extends React.Component {
     
     join = () => {
         if (this.state.qrcode === ''){
-            console.log('QR code not set')
+            console.log('Join code not set')
         }
         else{
-            //this.setState({disableJoin: true})
-            console.log(this.state.qrcode)
+            //add user as member of inventory with join code 'qrcode'
         }
     }
 
@@ -34,7 +33,7 @@ class Join extends React.Component {
             <View style={{flex: 1, height: '100%',width:'100%', backgroundColor: '#2f3a49', alignItems: 'center'}}>
                 <TextInput
                         onChangeText={(text) => {this.setState({qrcode: text});
-                        this.setState({ disableJoin: false });}} 
+                        this.setState({disableJoin: (this.state.qrcode.length < 5)});}} 
                         clearButtonMode='while-editing'
                         autoFocus={true}
                         style={{

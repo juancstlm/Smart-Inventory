@@ -199,7 +199,7 @@ export default class InventoriesList extends React.Component {
                 buttonStyle={{backgroundColor:"#2f3a49", borderWidth: 0}}
                 textStyle={{color:'#fff'}} />
               
-                {this.state.selectedIndex === 0 ? <Join/> : <Create/>}
+                {this.state.selectedIndex === 0 ? <Join/> : <Create />}
                           
             </View>
         </Modal>
