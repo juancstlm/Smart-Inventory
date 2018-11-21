@@ -66,7 +66,7 @@ class App extends Component<AppState> {
         CameraSelectItem: CameraSelectItem,
       },
       {
-        initialRouteName: "CameraClarifai",
+        initialRouteName: "InventoriesList",
         // headerMode: 'none'
       }
     );
