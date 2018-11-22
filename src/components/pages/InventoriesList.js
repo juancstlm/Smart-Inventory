@@ -240,6 +240,9 @@ export default class InventoriesList extends React.Component {
             {this.state.isJoin ? <Join /> : <Create />}
           </View>
         </Modal>
+        
+        <ActionButton buttonColor="rgba(231,76,60,1)" onPress={this._toggleModal}/>
+        
       </View>
     );
   }
