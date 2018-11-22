@@ -59,23 +59,33 @@ export default class SignUp extends Component {
         try {
           var uid = Firebase.auth.currentUser.uid;
 
-          Firebase.database
-            .ref("Users/" + uid + "/")
-            .set({
-              firstName: this.state.firstName,
-              lastName: this.state.lastName,
-              email: this.state.email
-            })
-            .then(() => {
-              this.setState({
-                email: "",
-                password: "",
-                firstName: "",
-                lastName: "",
-                loading: false,
-                error: ""
-              });
+          Firebase.firestore.collection('Users').doc(Firebase.auth.currentUser.uid).set({
+            firstName: this.state.firstName,
+            lastName: this.state.lastName,
+            email: this.state.email,
+          }).then(function() {
+            console.log("Document successfully written!");
+          })
+            .catch(function(error) {
+              console.error("Error writing document: ", error);
             });
+          // Firebase.database
+          //   .ref("Users/" + uid + "/")
+          //   .set({
+          //     firstName: this.state.firstName,
+          //     lastName: this.state.lastName,
+          //     email: this.state.email
+          //   })
+          //   .then(() => {
+          //     this.setState({
+          //       email: "",
+          //       password: "",
+          //       firstName: "",
+          //       lastName: "",
+          //       loading: false,
+          //       error: ""
+          //     });
+          //   });
 
           {
             NavigationService.navigate("InventoriesList");
