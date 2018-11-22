@@ -137,6 +137,7 @@ android {
 }
 
 dependencies {
+    compile project(':react-native-fetch-blob')
     compile project(':react-native-config')
     compile project(':react-native-image-base64')
     compile project(':react-native-fs')
