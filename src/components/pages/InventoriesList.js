@@ -9,6 +9,7 @@ import {
   TextInput,
   ScrollView,
   View,
+  SafeAreaView,
   TouchableOpacity
 } from "react-native";
 import Modal from "react-native-modal";
@@ -31,10 +32,6 @@ export default class InventoriesList extends React.Component {
     header: null
   };
   componentWillMount() {
-    this.setState({
-      inventories: []
-    });
-
     var inventories = Firebase.firestore.collection("Inventories");
     var querry = inventories.where(
       "owner_id",
@@ -136,7 +133,7 @@ export default class InventoriesList extends React.Component {
 
   render() {
     return (
-      <View style={{ flex: 1, backgroundColor: "#2f3a49" }}>
+      <SafeAreaView style={{ flex: 1, backgroundColor: "#2f3a49" }}>
         <Header
           statusBarProps={{ barStyle: "light-content" }}
           centerComponent={
@@ -240,7 +237,7 @@ export default class InventoriesList extends React.Component {
             {this.state.isJoin ? <Join /> : <Create />}
           </View>
         </Modal>
-      </View>
+      </SafeAreaView>
     );
   }
 }
