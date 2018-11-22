@@ -22,7 +22,8 @@ export default class InventoriesList extends React.Component {
     isModalVisible: false,
     isJoin: true,
     joinBackColor: "#2f3a49",
-    createBackColor: ""
+    createBackColor: "",
+    search: "",
   };
 
   // This is so that react navigator hides the stack header
@@ -89,7 +90,23 @@ export default class InventoriesList extends React.Component {
   };
 
   renderSearchBar() {
-    return <SearchBar placeholder={"Type inventory name to search"} />;
+    return <SearchBar placeholder={"Type inventory name to search"}
+      value={this.state.search}
+      onChangeText={text => this.setState({ search: text })}
+      autoCapitalize='none'
+      containerStyle={{
+        width: "120%",
+        backgroundColor: "transparent",
+        borderTopColor: "transparent",
+        borderBottomColor: "transparent"
+      }}
+      inputContainerStyle={{
+        backgroundColor: "#47576E",
+        borderColor: "#47576E",
+        borderWidth: 1
+      }}
+      inputStyle={{ backgroundColor: "transparent" }}
+      placeholder="Search" />;
   }
 
   goToProfile = () => {
@@ -97,9 +114,24 @@ export default class InventoriesList extends React.Component {
   };
 
   renderInventories() {
-    return this.state.inventories.map(inventory =>
-        <InventoryProfile key={inventory.name} inventory={inventory}/>
-    );
+    if (this.state.search != undefined || this.state.search != "") {
+    
+      var text = this.state.search
+      var results = []
+      for (i = 0; i < this.state.inventories.length; i++) {
+        if (this.state.inventories[i].name.toLowerCase().includes(text.toLowerCase())) {
+          console.log(this.state.inventories[i].name.toLowerCase().includes(text.toLowerCase()))
+          results.push(this.state.inventories[i])
+        }
+      }
+      return results.map(inventory =>
+        <InventoryProfile key={inventory.name} inventory={inventory} />
+      );
+    } else {
+      return this.state.inventories.map(inventory =>
+        <InventoryProfile key={inventory.name} inventory={inventory} />
+      );
+    }
   }
 
   render() {
@@ -108,23 +140,7 @@ export default class InventoriesList extends React.Component {
         <Header
           statusBarProps={{ barStyle: "light-content" }}
           centerComponent={
-            <SearchBar
-              containerStyle={{
-                width: "120%",
-                backgroundColor: "transparent",
-                borderTopColor: "transparent",
-                borderBottomColor: "transparent"
-              }}
-              inputContainerStyle={{
-                backgroundColor: "#47576E",
-                borderColor: "#47576E",
-                borderWidth: 1
-              }}
-              inputStyle={{ backgroundColor: "transparent" }}
-              // onChangeText={someMethod}
-              // onClear={someMethod}
-              placeholder="Search"
-            />
+            this.renderSearchBar()
           }
           rightComponent={
             <Avatar rounded title="MT" onPress={this.goToProfile} />
