@@ -4,10 +4,19 @@ import {Avatar} from 'react-native-elements'
 import InventoryCard from './InventoryCard';
 import InventoryCardSection from './InventoryCardSection';
 import InventoryButton from './InventoriesButton';
+import Firebase from '../../Firebase'
 
-const InventoryProfile = (props) => {
+export default class InventoryProfile extends React.Component {
 
-    // callParent = () => {
+    state={
+      users: []
+    }
+
+    componentWillMount(): void {
+      this.getInventoryUsers()
+    }
+
+  // callParent = () => {
     //     props.callbackFromParent(props.inventory);
     // }
 
@@ -19,38 +28,62 @@ const InventoryProfile = (props) => {
     //     );
     // }
 
-  console.log('Inventory profile', props)
+  getInventoryUsers = () =>{
+    this.props.inventory.users.forEach(user => {
+      Firebase.firestore.collection('Users').doc(user).get()
+        .then(doc => {
+          var userData = doc.data()
+          this.setState({
+            users: [...this.state.users,
+              {
+                firstName: userData.firstName,
+                lastName: userData.lastName,
+                image: userData.image,
+                id: user
+              }
+            ]
+          })
+        })
+    })
+  }
+
+  renderUsers = () =>{
+    return this.state.users.map(user =>
+      <Avatar sise='small'
+                      key={user.id}
+                      rounded
+                      source={{uri: user.image}}
+                      title={user.firstName.substring(0,1) + user.lastName.substring(0,1)}
+                      activeOpacity={0.7}
+      />
+    )
+  }
+
+  render(){
+    var props = this.props
+    console.log('Inventory profile', props)
 
     return (
-        <InventoryCard image={props.inventory.image} style={styles.imageStyle}>
+      <InventoryCard image={props.inventory.image} style={styles.imageStyle}>
 
-            <InventoryCardSection>
-              <Avatar
-                size="small"
-                rounded
-                source={{uri: props.inventory.thumbnail_image}}
-                onPress={() => console.log("Works!")}
-                activeOpacity={0.7}
-              />
-                {/*<View style = {styles.thumbnailContainerStyle} >*/}
-                    {/*<Image style={styles.thumbnailStyle} source={{uri: props.inventory.thumbnail_image}} />*/}
-                {/*</View>*/}
-            </InventoryCardSection>
+        <InventoryCardSection>
+          {this.renderUsers()}
+        </InventoryCardSection>
 
-            <InventoryCardSection>
-                <View style={{flex: 2, height: 50, backgroundColor: '00000000', blurRadius: 1}}/>
-            </InventoryCardSection>
+        <InventoryCardSection>
+          <View style={{flex: 2, height: 50, backgroundColor: '00000000', blurRadius: 1}}/>
+        </InventoryCardSection>
 
-            <InventoryCardSection>
-                <InventoryButton onPress={this.callParent}>
-                    <Text style={styles.headerTextStyle}>{props.inventory.name}{'\n'}</Text>
-                    <Text>{props.inventory.itemCount} {' items'}</Text>
-                </InventoryButton>
-            </InventoryCardSection>
+        <InventoryCardSection>
+          <InventoryButton onPress={this.callParent}>
+            <Text style={styles.headerTextStyle}>{props.inventory.name}{'\n'}</Text>
+            <Text>{props.inventory.itemCount} {' items'}</Text>
+          </InventoryButton>
+        </InventoryCardSection>
 
-        </InventoryCard>
+      </InventoryCard>
     );
-
+  }
 };
 
 const styles= {
@@ -87,5 +120,3 @@ const styles= {
         width: null
     }
 };
-
-export default InventoryProfile;
