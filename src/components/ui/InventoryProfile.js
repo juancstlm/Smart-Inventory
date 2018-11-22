@@ -9,11 +9,12 @@ import Firebase from '../../Firebase'
 export default class InventoryProfile extends React.Component {
 
     state={
-      users: []
+      users: [],
     }
 
     componentWillMount(): void {
       this.getInventoryUsers()
+      this.getInventoryOwner();
     }
 
   // callParent = () => {
@@ -28,6 +29,18 @@ export default class InventoryProfile extends React.Component {
     //     );
     // }
 
+  getInventoryOwner = () =>{
+      Firebase.firestore.collection('Users').doc(this.props.inventory.owner_id)
+        .get().then(doc => {
+          const ownerData = doc.data();
+          this.setState({
+            users: [...this.state.users, {...ownerData,
+              owner: true,
+              id: this.props.inventory.owner_id}]
+          })
+      })
+  }
+
   getInventoryUsers = () =>{
     this.props.inventory.users.forEach(user => {
       Firebase.firestore.collection('Users').doc(user).get()
@@ -36,6 +49,7 @@ export default class InventoryProfile extends React.Component {
           this.setState({
             users: [...this.state.users,
               {
+                owner: false,
                 firstName: userData.firstName,
                 lastName: userData.lastName,
                 image: userData.image,
@@ -59,15 +73,26 @@ export default class InventoryProfile extends React.Component {
     )
   }
 
+  rennderOnwer = ()=>{
+    if (this.state.owner.firstName){
+      return <Avatar sise='small'
+                     containerStyle={{borderWidth: 5,
+                       borderColor: 'white',
+                       backgroundColor: 'black'}}
+                     rounded
+                     source={{uri: this.state.owner.image}}
+                     title={this.state.owner.firstName.substring(0,1) + this.state.lastName.substring(0,1)}
+                     activeOpacity={0.7}
+      />
+    }
+  }
+
   render(){
     var props = this.props
-    console.log('Inventory profile', props)
-
     return (
       <InventoryCard image={props.inventory.image} style={styles.imageStyle}>
-
         <InventoryCardSection>
-          {this.renderUsers()}
+          {this.state.users !== [] ? this.renderUsers() : null}
         </InventoryCardSection>
 
         <InventoryCardSection>

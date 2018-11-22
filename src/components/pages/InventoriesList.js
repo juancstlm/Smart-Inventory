@@ -32,6 +32,7 @@ export default class InventoriesList extends React.Component {
     header: null
   };
   componentWillMount() {
+    // Get inventories owned by the user
     var inventories = Firebase.firestore.collection("Inventories");
     var querry = inventories.where(
       "owner_id",
@@ -42,15 +43,29 @@ export default class InventoriesList extends React.Component {
       .get()
       .then(snapshot => {
         const invs = snapshot.docs.map(doc => {
-          console.log("doc data", doc.data());
           return doc.data();
         });
-        console.log("invs", invs);
         this.setState({ inventories: invs });
       })
       .catch(err => {
         console.log("Error getting documents", err);
       });
+
+    // Get Inventories shared to the user
+    Firebase.firestore.collection('Inventories').where(
+      'users',
+      'array-contains',
+      Firebase.auth.currentUser.uid,
+    ).get().then(snapshot => {
+      const sharedInvs = snapshot.docs.map(doc=>{
+        return doc.data()
+      })
+      this.setState({
+        inventories: [...this.state.inventories, ...sharedInvs]
+      })
+      console.log('SHared inv',this.state.inventories)
+      }
+    )
   }
 
   profileCallback = dataFromChild => {

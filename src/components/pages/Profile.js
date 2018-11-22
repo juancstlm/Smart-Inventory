@@ -81,7 +81,6 @@ export default class Profile extends React.Component {
 }
 
 const styles={
-
   buttonStyle:{
     flex: 1,
     alignSelf: 'stretch',
