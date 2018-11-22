@@ -76,7 +76,7 @@ export default class SignUp extends Component {
             items: [],
             name: 'Default Inventory',
             owner_id: Firebase.auth.currentUser.uid,
-            users: [Firebase.auth.currentUser.uid]
+            users: []
           }).then(ref => {
             console.log('Added document with ID: ', ref.id);
           });
