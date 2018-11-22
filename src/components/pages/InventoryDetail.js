@@ -1,97 +1,205 @@
 // imports
-import React, {Component} from 'react';
-import {Text, ScrollView, View, Image} from 'react-native';
+import React from 'react';
+import { Text, ScrollView, View, Image } from 'react-native';
 import ItemProfile from '../ui/ItemProfile';
-import {Header} from '../ui/Header';
+import { Header, SearchBar, Avatar } from "react-native-elements";
 import InventoryCardSection from '../ui/InventoryCardSection';
-
+import Firebase from "../../Firebase";
 
 //make componet
-export default class InventoryDetail extends Component {
-    state = {inventory: null};
+export default class InventoryDetail extends React.Component {
 
-    componentWillMount(){
-        // inventoryData = this.props.navigation.getParam('inventory', "No Data");
-        console.log('Details screen..............');
-        this.setState({ inventory: inventoryData }, () => {
-         console.log(this.state.inventory);
-       });
+    state = {
+        inventory: null,
+        items: [],
+        search: "",
+        users: []
+    };
+
+    static navigationOptions = {
+        header: null
+    };
+    //get user avator
+    //fix displaying item when 1
+
+    componentWillMount() {
+        inv = this.props.navigation.getParam('inventory', 'NO Inventory');
+        console.log("Inventory", inv)
+
+        this.setState({
+            inventory: inv,
+        });
+        items = []
+        users = []
+
+        inv.items.map (item => {
+
+            Firebase.firestore.collection("Items").doc(item).get()
+                .then(doc => {
+                    if (!doc.exists) {
+                        console.log('No such document!');
+                    } else {
+                        items.push(doc.data())
+                        this.setState({ items: items });
+                    }
+                })
+                .catch(err => {
+                    console.log('Error getting document', err);
+                });
+
+        })
+
+        inv.users.map (user => {
+
+            Firebase.firestore.collection("Users").doc(user).get()
+                .then(doc => {
+                    if (!doc.exists) {
+                        console.log('No such document!');
+                    } else {
+                        users.push(doc.data())
+                        this.setState({ users: users});
+                    }
+                })
+                .catch(err => {
+                    console.log('Error getting document', err);
+                });
+
+        })
     }
-   
 
-    renderItems(){
-        return this.state.inventory.items.map(item => 
-            <View style={styles.profileContainer}>
-                <ItemProfile style={styles.profile} key={item.name} item={item}/>
-            </View>
-        );
+
+    renderItems() {
+        if (this.state.search != undefined || this.state.search != "") {
+
+            var text = this.state.search
+            var results = []
+            this.state.items.map(item => {
+                 if (item.name.toLowerCase().includes(text.toLowerCase())){
+                    results.push(item)
+                }}
+            );
+            return results.map(item =>
+                <View style={styles.profileContainer}>
+                    <ItemProfile style={styles.profile} key={item.name} item={item} />
+                </View>
+            );
+        } else {
+            return this.state.inventory.items.map(item =>
+                <View style={styles.profileContainer}>
+                    <ItemProfile style={styles.profile} key={item.name} item={item} />
+                </View>
+            );
+        }
+
     }
 
-    renderUserProfileImages(){
-        return this.state.inventory.users.map(user => 
+    renderUserProfileImages() {
+        return this.state.users.map(user =>
             <View style={styles.thumbnailContainerStyle}>
-                <Image style={styles.thumbnailStyle} source={{uri: user.profileImage}} />
+                <Image style={styles.thumbnailStyle} source={{ uri: user.profileImage }} />
             </View>
         );
+    }
+
+    renderSearchBar() {
+        return <SearchBar placeholder={"Type item name to search"}
+            value={this.state.search}
+            onChangeText={text => this.setState({ search: text })}
+            autoCapitalize='none'
+            containerStyle={{
+                width: "120%",
+                backgroundColor: "transparent",
+                borderTopColor: "transparent",
+                borderBottomColor: "transparent"
+            }}
+            inputContainerStyle={{
+                backgroundColor: "#47576E",
+                borderColor: "#47576E",
+                borderWidth: 1
+            }}
+            inputStyle={{ backgroundColor: "transparent" }}
+            placeholder="Search" />;
+    }
+
+    goToProfile = () => {
+        this.props.navigation.navigate("Profile");
     }
 
     render() {
         return (
 
-            <View style={{flex: 1}}>
+            <View style={{ flex: 1, backgroundColor: "#2f3a49" }}>
+                <Header
+                    statusBarProps={{ barStyle: "light-content" }}
+                    centerComponent={
+                        this.renderSearchBar()
+                    }
+                    rightComponent={
+                        <Avatar rounded title="MT" onPress={this.goToProfile} />
+                    }
+                    centerContainerStyle={{ width: "100%" }}
+                    containerStyle={{
+                        backgroundColor: "#2f3a49",
+                        borderBottomColor: "#2f3a49",
+                        justifyContent: "space-around"
+                    }}
+                />
+
                 <InventoryCardSection>
                     <Text style={styles.textStyle}>
                         {this.state.inventory.name + ' Inventory'}
                     </Text>
                 </InventoryCardSection>
 
-                <InventoryCardSection style={{backgroundColor: '#fff'}}>
+                <InventoryCardSection style={{ backgroundColor: '#fff' }}>
                     {this.renderUserProfileImages()}
                 </InventoryCardSection>
-                
+
                 <ScrollView contentContainerStyle={styles.container}>
                     {this.renderItems()}
                 </ScrollView>
-            
+
             </View>
         );
     }
 }
 
-const styles={
+const styles = {
     textStyle: {
         fontSize: 40,
         marginLeft: 10,
+        color: "#fff",
+        backgroundColor: "transparent"
     },
     actionButtonIcon: {
         fontSize: 28,
         height: 30,
         color: 'white',
-      },
-    container:{
-     flexDirection: 'row',
-     flexWrap: 'wrap',
-     padding: 5,
-        
+    },
+    container: {
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+        padding: 5,
+
     },
 
-    thumbnailContainerStyle:{
+    thumbnailContainerStyle: {
         justifyContent: 'center',
         alignItems: 'center',
         marginLeft: 5,
         marginRight: 5,
     },
-    thumbnailStyle:{
+    thumbnailStyle: {
         height: 50,
         width: 50,
         borderRadius: 20,
     },
-    profileContainer:{
+    profileContainer: {
         width: '50%',
         margin: 5,
         flex: 1,
     },
-    profile:{
+    profile: {
         flex: 1,
         height: 200,
     },

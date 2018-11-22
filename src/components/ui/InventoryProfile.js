@@ -4,6 +4,7 @@ import {Avatar} from 'react-native-elements'
 import InventoryCard from './InventoryCard';
 import InventoryCardSection from './InventoryCardSection';
 import InventoryButton from './InventoriesButton';
+import NavigationService from "../../../NavigationService";
 
 const InventoryProfile = (props) => {
 
@@ -42,7 +43,7 @@ const InventoryProfile = (props) => {
             </InventoryCardSection>
 
             <InventoryCardSection>
-                <InventoryButton onPress={this.callParent}>
+                <InventoryButton onPress={() => NavigationService.navigate("InventoryDetail",{inventory:props.inventory})}>
                     <Text style={styles.headerTextStyle}>{props.inventory.name}{'\n'}</Text>
                     <Text>{props.inventory.itemCount} {' items'}</Text>
                 </InventoryButton>

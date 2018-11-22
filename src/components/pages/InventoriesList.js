@@ -115,15 +115,15 @@ export default class InventoriesList extends React.Component {
 
   renderInventories() {
     if (this.state.search != undefined || this.state.search != "") {
-    
+
       var text = this.state.search
       var results = []
-      for (i = 0; i < this.state.inventories.length; i++) {
-        if (this.state.inventories[i].name.toLowerCase().includes(text.toLowerCase())) {
-          console.log(this.state.inventories[i].name.toLowerCase().includes(text.toLowerCase()))
-          results.push(this.state.inventories[i])
+      this.state.inventories.map(inv => {
+        if (inv.name.toLowerCase().includes(text.toLowerCase())) {
+          results.push(inv)
         }
-      }
+      });
+      
       return results.map(inventory =>
         <InventoryProfile key={inventory.name} inventory={inventory} />
       );
