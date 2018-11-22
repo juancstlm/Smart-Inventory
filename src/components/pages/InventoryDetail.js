@@ -19,8 +19,6 @@ export default class InventoryDetail extends React.Component {
     static navigationOptions = {
         header: null
     };
-    //get user avator
-    //fix displaying item when 1
 
     componentWillMount() {
         inv = this.props.navigation.getParam('inventory', 'NO Inventory');
@@ -32,7 +30,7 @@ export default class InventoryDetail extends React.Component {
         items = []
         users = []
 
-        inv.items.map (item => {
+        inv.items.map(item => {
 
             Firebase.firestore.collection("Items").doc(item).get()
                 .then(doc => {
@@ -49,7 +47,7 @@ export default class InventoryDetail extends React.Component {
 
         })
 
-        inv.users.map (user => {
+        inv.users.map(user => {
 
             Firebase.firestore.collection("Users").doc(user).get()
                 .then(doc => {
@@ -57,7 +55,7 @@ export default class InventoryDetail extends React.Component {
                         console.log('No such document!');
                     } else {
                         users.push(doc.data())
-                        this.setState({ users: users});
+                        this.setState({ users: users });
                     }
                 })
                 .catch(err => {
@@ -74,9 +72,10 @@ export default class InventoryDetail extends React.Component {
             var text = this.state.search
             var results = []
             this.state.items.map(item => {
-                 if (item.name.toLowerCase().includes(text.toLowerCase())){
+                if (item.name.toLowerCase().includes(text.toLowerCase())) {
                     results.push(item)
-                }}
+                }
+            }
             );
             return results.map(item =>
                 <View style={styles.profileContainer}>
@@ -90,15 +89,20 @@ export default class InventoryDetail extends React.Component {
                 </View>
             );
         }
-
     }
 
     renderUserProfileImages() {
-        return this.state.users.map(user =>
-            <View style={styles.thumbnailContainerStyle}>
-                <Image style={styles.thumbnailStyle} source={{ uri: user.profileImage }} />
-            </View>
-        );
+        return this.state.users.map(user => {
+            if (user.image != undefined) {
+                return <View style={styles.thumbnailContainerStyle}>
+                    <Avatar rounded source={{ uri: user.image }} />
+                </View>
+            } else {
+                return <View style={styles.thumbnailContainerStyle}>
+                    <Avatar rounded title={user.firstName.charAt(0) + user.lastName.charAt(0)} />
+                </View>
+            }
+        });
     }
 
     renderSearchBar() {
