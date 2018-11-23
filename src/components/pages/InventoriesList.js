@@ -25,13 +25,16 @@ export default class InventoriesList extends React.Component {
     joinBackColor: "#2f3a49",
     createBackColor: "",
     search: "",
+    firstName: '',
+    lastName: '',
+    image: '',
   };
 
   // This is so that react navigator hides the stack header
   static navigationOptions = {
     header: null
   };
-  componentWillMount() {
+  async componentDidMount() {
     // Get inventories owned by the user
     var inventories = Firebase.firestore.collection("Inventories");
     var querry = inventories.where(
@@ -66,6 +69,24 @@ export default class InventoriesList extends React.Component {
       console.log('SHared inv',this.state.inventories)
       }
     )
+
+    this.getUserAvatar();
+  }
+
+  getUserAvatar= async () =>{
+    Firebase.firestore.collection('Users').doc(Firebase.auth.currentUser.uid)
+      .get().then(doc=>{
+      if (!doc.exists) {
+        console.log('No such document!');
+      } else {
+        this.setState({
+          image: doc.data().image,
+          firstName: doc.data().firstName,
+          lastName: doc.data().lastName,
+          email: doc.data().email
+        })
+      }
+    })
   }
 
   profileCallback = dataFromChild => {
@@ -155,7 +176,11 @@ export default class InventoriesList extends React.Component {
             this.renderSearchBar()
           }
           rightComponent={
-            <Avatar rounded title="MT" onPress={this.goToProfile} />
+            <Avatar rounded
+                    onPress={this.goToProfile}
+                    title={String(this.state.firstName).charAt(0) + String(this.state.lastName).charAt(0)}
+                    source={this.state.image !== '' ? {uri: this.state.image} : null}
+            />
           }
           centerContainerStyle={{ width: "100%" }}
           containerStyle={{
