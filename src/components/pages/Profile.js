@@ -2,22 +2,12 @@ import React from "react";
 import Firebase from "../../Firebase";
 import { SafeAreaView, View } from "react-native";
 import { Header, Icon, Avatar, Text } from "react-native-elements";
+import {connect} from 'react-redux'
 
-export default class Profile extends React.Component {
+class Profile extends React.Component {
 
   constructor(props) {
     super(props);
-
-    this.state={
-      image:'',
-      firstName: 'Jdjn',
-      LastName: 'Djji',
-      email: '',
-    }
-  }
-
-  async componentDidMount() {
-    await this.getUserData()
   }
 
   static navigationOptions = {
@@ -28,34 +18,13 @@ export default class Profile extends React.Component {
     headerTransparent: true,
   };
 
-  getUserData = async () => {
-    await Firebase.firestore.collection("Users")
-      .doc(Firebase.auth.currentUser.uid).get()
-      .then(doc => {
-        if (!doc.exists) {
-          console.log('No such document!');
-        } else {
-          this.setState({
-            image: doc.data().image,
-            firstName: doc.data().firstName,
-            lastName: doc.data().lastName,
-            email: doc.data().email
-          })
-        }
-      })
-      .catch(err => {
-        console.log('Error getting document', err);
-      });
-  }
-
-  componentWillMount() {
-  }
-
   logOut = () => {
+    // TODO CLEAR THE DATA FROM REDUX
     Firebase.auth.signOut();
   };
 
   render() {
+    const props = this.props
     return (
       <SafeAreaView style={{backgroundColor: '#2f3a49'}}>
         <Header
@@ -73,18 +42,20 @@ export default class Profile extends React.Component {
         />
         <View style={{justifyContent: 'center', alignItems: 'center', height:'100%'}}>
           <Avatar size="large"
-                  title={String(this.state.firstName).charAt(0) + String(this.state.lastName).charAt(0)}
+                  title={String(props.firstName).charAt(0) + String(props.lastName).charAt(0)}
                   rounded
-                  source={this.state.image !== '' ? {uri: this.state.image} : null}
+                  source={props.image !== '' ? {uri: props.image} : null}
                   />
           <Text h1 style={{color:'#fff'}}
-          >{`${this.state.firstName} ${this.state.lastName}`}</Text>
-          <Text h4 style={{color: '#fff'}}>{this.state.email}</Text>
+          >{`${props.firstName} ${props.lastName}`}</Text>
+          <Text h4 style={{color: '#fff'}}>{props.email}</Text>
         </View>
       </SafeAreaView>
     );
   }
 }
+
+export default connect(state=> state.user)(Profile)
 
 const styles={
   buttonStyle:{
