@@ -17,7 +17,7 @@ import CameraCoreML from './components/pages/CameraCoreML'
 import CameraClarifai from './components/pages/CameraClarifai'
 import CameraSelectItem from './components/pages/CameraSelectItem'
 import {connect} from 'react-redux'
-import {getUserDetails, getAuthStatus} from '../src/redux/actions/App'
+import {getUserDetails, getAuthStatus, getOwnInventories} from '../src/redux/actions/App'
 
 const mapStateToProps = ({user}) => ({
   user,
@@ -25,7 +25,8 @@ const mapStateToProps = ({user}) => ({
 
 const mapDispatchToProps = {
   getUserDetails,
-  getAuthStatus
+  getAuthStatus,
+  getOwnInventories
 }
 
 class SmartInventory extends Component {
@@ -37,7 +38,12 @@ class SmartInventory extends Component {
     Firebase.init();
 
     Firebase.auth.onAuthStateChanged(user => {
-      this.props.getUserDetails(user.uid);
+
+      if(!!user){
+        this.props.getUserDetails(user.uid);
+        this.props.getOwnInventories();
+        this.props.getAuthStatus(!!user);
+      }
       this.props.getAuthStatus(!!user);
     });
   }

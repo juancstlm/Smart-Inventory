@@ -3,11 +3,16 @@ import Firebase from "../../Firebase";
 import { SafeAreaView, View } from "react-native";
 import { Header, Icon, Avatar, Text } from "react-native-elements";
 import {connect} from 'react-redux'
+import {logOut} from '../../redux/actions/App'
 
+const mapDispatchToProps = {
+  logOut
+}
 class Profile extends React.Component {
 
   constructor(props) {
     super(props);
+
   }
 
   static navigationOptions = {
@@ -20,7 +25,7 @@ class Profile extends React.Component {
 
   logOut = () => {
     // TODO CLEAR THE DATA FROM REDUX
-    Firebase.auth.signOut();
+    this.props.logOut()
   };
 
   render() {
@@ -55,7 +60,7 @@ class Profile extends React.Component {
   }
 }
 
-export default connect(state=> state.user)(Profile)
+export default connect(state=> state.user,mapDispatchToProps)(Profile)
 
 const styles={
   buttonStyle:{

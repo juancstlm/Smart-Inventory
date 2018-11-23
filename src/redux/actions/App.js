@@ -13,20 +13,31 @@ export const getUserDetails = (uid) => {
 }
 
 export const getOwnInventories = () => {
-  return async (dispatch) => await Firebase.firestore.collection(C.USERS)
-    .doc(Firebase.auth.currentUser.uid)
-    .get().then(res => {
+  return async (dispatch) => await Firebase.firestore.collection(C.INVENTORIES)
+    .where("owner_id",
+      "==",
+      Firebase.auth.currentUser.uid).get().then(snapshot => {
+        const inventories = snapshot.docs.map(doc => {
+          return doc.data();
+        });
       dispatch({
-        type: C.GET_USER_DETAILS,
-        payload: res.data()
+        type: C.GET_OWN_INVENTORIES,
+        payload: inventories
       })
     }).catch((e) => console.log("ERROR: ", e))
-}
+};
 
 export const getAuthStatus = (user) => {
   return (dispatch) => dispatch({
     type: C.REPORT_AUTH_STATUS,
     payload: user
+  })
+}
+
+export const logOut = () => {
+  Firebase.auth.signOut()
+  return (dispatch) => dispatch({
+    type: C.LOG_OUT,
   })
 }
 

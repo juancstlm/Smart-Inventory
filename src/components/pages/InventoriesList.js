@@ -16,10 +16,17 @@ import Modal from "react-native-modal";
 import Join from "../ui/Join";
 import Create from "../ui/Create";
 import ActionButton from 'react-native-action-button'
+import {connect} from 'react-redux'
 
-export default class InventoriesList extends React.Component {
+class InventoriesList extends React.Component {
+
+  constructor(props) {
+    super(props)
+
+    // this.props.getOwnInventories()
+  }
+
   state = {
-    inventories: [],
     childData: null,
     isModalVisible: false,
     isJoin: true,
@@ -33,44 +40,45 @@ export default class InventoriesList extends React.Component {
   static navigationOptions = {
     header: null
   };
+
   async componentDidMount() {
     // Get inventories owned by the user
-    var inventories = Firebase.firestore.collection("Inventories");
-    var querry = inventories.where(
-      "owner_id",
-      "==",
-      Firebase.auth.currentUser.uid
-    );
-    querry
-      .get()
-      .then(snapshot => {
-        const invs = snapshot.docs.map(doc => {
-          return doc.data();
-        });
-        this.setState({ inventories: invs });
-      })
-      .catch(err => {
-        console.log("Error getting documents", err);
-      });
-
-    Firebase.firestore.collection("Users").doc(Firebase.auth.currentUser.uid).get()
-      .then(doc => {
-        if (!doc.exists) {
-          console.log('No such document!');
-        } else {
-          current = []
-          current = doc.data()
-          this.setState({ currentUser: current });
-        }
-      })
-      .catch(err => {
-        console.log('Error getting document', err);
-      });
+    // var inventories = Firebase.firestore.collection("Inventories");
+    // var querry = inventories.where(
+    //   "owner_id",
+    //   "==",
+    //   Firebase.auth.currentUser.uid
+    // );
+    // querry
+    //   .get()
+    //   .then(snapshot => {
+    //     const invs = snapshot.docs.map(doc => {
+    //       return doc.data();
+    //     });
+    //     this.setState({ inventories: invs });
+    //   })
+    //   .catch(err => {
+    //     console.log("Error getting documents", err);
+    //   });
+    //
+    // Firebase.firestore.collection("Users").doc(Firebase.auth.currentUser.uid).get()
+    //   .then(doc => {
+    //     if (!doc.exists) {
+    //       console.log('No such document!');
+    //     } else {
+    //       current = []
+    //       current = doc.data()
+    //       this.setState({ currentUser: current });
+    //     }
+    //   })
+    //   .catch(err => {
+    //     console.log('Error getting document', err);
+    //   });
   }
 
-  getUserAvatar= async () =>{
+  getUserAvatar = async () => {
     Firebase.firestore.collection('Users').doc(Firebase.auth.currentUser.uid)
-      .get().then(doc=>{
+      .get().then(doc => {
       if (!doc.exists) {
         console.log('No such document!');
       } else {
@@ -92,7 +100,7 @@ export default class InventoriesList extends React.Component {
     }
   };
   // renderInventories() {
-  //   return this.state.inventories.data.map(inventory => (
+  //   return this.props.inventories.data.map(inventory => (
   //     <View style={styles.profileContainer}>
   //       <InventoryProfile
   //         key={inventory.name}
@@ -119,22 +127,22 @@ export default class InventoriesList extends React.Component {
 
   renderSearchBar() {
     return <SearchBar placeholder={"Type inventory name to search"}
-      value={this.state.search}
-      onChangeText={text => this.setState({ search: text })}
-      autoCapitalize='none'
-      containerStyle={{
-        width: "120%",
-        backgroundColor: "transparent",
-        borderTopColor: "transparent",
-        borderBottomColor: "transparent"
-      }}
-      inputContainerStyle={{
-        backgroundColor: "#47576E",
-        borderColor: "#47576E",
-        borderWidth: 1
-      }}
-      inputStyle={{ backgroundColor: "transparent" }}
-      placeholder="Search" />;
+                      value={this.state.search}
+                      onChangeText={text => this.setState({ search: text })}
+                      autoCapitalize='none'
+                      containerStyle={{
+                        width: "120%",
+                        backgroundColor: "transparent",
+                        borderTopColor: "transparent",
+                        borderBottomColor: "transparent"
+                      }}
+                      inputContainerStyle={{
+                        backgroundColor: "#47576E",
+                        borderColor: "#47576E",
+                        borderWidth: 1
+                      }}
+                      inputStyle={{ backgroundColor: "transparent" }}
+                      placeholder="Search"/>;
   }
 
   goToProfile = () => {
@@ -146,27 +154,29 @@ export default class InventoriesList extends React.Component {
 
       var text = this.state.search
       var results = []
-      this.state.inventories.map(inv => {
+      this.props.inventories.map(inv => {
         if (inv.name.toLowerCase().includes(text.toLowerCase())) {
           results.push(inv)
         }
       });
 
       return results.map(inventory =>
-        <InventoryProfile key={inventory.name} inventory={inventory} />
+        <InventoryProfile key={inventory.name} inventory={inventory}/>
       );
     } else {
-      return this.state.inventories.map(inventory =>
-        <InventoryProfile key={inventory.name} inventory={inventory} />
+      return this.props.inventories.map(inventory =>
+        <InventoryProfile key={inventory.name} inventory={inventory}/>
       );
     }
   }
 
   renderProfileIcon() {
-    if (this.state.currentUser == "") {
-      return <Avatar rounded onPress={this.goToProfile} source={{uri: this.state.currentUser.image}}/>
+    if (this.props.firstName == "") {
+      return <Avatar rounded onPress={this.goToProfile} source={{ uri: this.props.image }}/>
     } else {
-      return <Avatar rounded  source={{uri: this.state.currentUser.image}} title={this.state.currentUser.firstName.charAt(0) + this.state.currentUser.lastName.charAt(0)} onPress={this.goToProfile} />
+      return <Avatar rounded source={{ uri: this.props.image }}
+                     title={String(this.props.firstName).charAt(0) + String(this.props.lastName).charAt(0)}
+                     onPress={this.goToProfile}/>
     }
   }
 
@@ -276,13 +286,15 @@ export default class InventoriesList extends React.Component {
               value={"Quick Share Code"}
             />
 
-            {this.state.isJoin ? <Join /> : <Create />}
+            {this.state.isJoin ? <Join/> : <Create/>}
           </View>
         </Modal>
       </SafeAreaView>
     );
   }
 }
+
+export default connect(state=>state.user)(InventoriesList)
 
 const styles = {
   textStyle: {
