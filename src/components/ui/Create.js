@@ -69,7 +69,7 @@ class Create extends React.Component {
                 textStyle={{color:'#fff'}} />
                 
                 <InventoryCardSection>
-                     <View style={{flex: 2, height: 100, backgroundColor: '00000000', blurRadius: 1}}/>
+                     <View style={{flex: 2, height: 120, backgroundColor: '00000000', blurRadius: 1}}/>
                 </InventoryCardSection>
                 
                 <View style={{width: '40%', alignItems:'stretch'}}>

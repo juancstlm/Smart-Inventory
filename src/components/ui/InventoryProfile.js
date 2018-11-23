@@ -7,9 +7,9 @@ import InventoryButton from './InventoriesButton';
 
 const InventoryProfile = (props) => {
 
-    // callParent = () => {
-    //     props.callbackFromParent(props.inventory);
-    // }
+    callParent = () => {
+        props.callbackFromParent(props.inventory);
+    }
 
     // renderUserProfileImages = () => {
     //     return props.inventory.users.map(user =>

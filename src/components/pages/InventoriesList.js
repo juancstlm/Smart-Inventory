@@ -14,6 +14,7 @@ import {
 import Modal from "react-native-modal";
 import Join from "../ui/Join";
 import Create from "../ui/Create";
+import ActionButton from 'react-native-action-button';
 
 export default class InventoriesList extends React.Component {
   state = {
@@ -125,7 +126,7 @@ export default class InventoriesList extends React.Component {
         }
       }
       return results.map(inventory =>
-        <InventoryProfile key={inventory.name} inventory={inventory} />
+        <InventoryProfile key={inventory.name} inventory={inventory} callbackFromParent={this.profileCallback} />
       );
     } else {
       return this.state.inventories.map(inventory =>
@@ -169,8 +170,7 @@ export default class InventoriesList extends React.Component {
             flex: 1
           }}
           supportedOrientations={["portrait", "landscape"]}
-          onBackdropPress={() => this.setState({ isVisible: false })}
-        >
+          onBackdropPress={() => this.setState({ isVisible: false })}>
           <View style={{ width: "100%", height: "40%", marginTop: 0 }}>
             <TouchableOpacity
               style={{
@@ -226,16 +226,6 @@ export default class InventoriesList extends React.Component {
                 <Text style={{ color: "white", fontSize: 20 }}>Create</Text>
               </TouchableOpacity>
             </InventoryCardSection>
-            <TextInput
-              style={{
-                color: "white",
-                height: 40,
-                width: "80%",
-                backgroundColor: "#8190a5",
-                borderWidth: 1
-              }}
-              value={"Quick Share Code"}
-            />
 
             {this.state.isJoin ? <Join /> : <Create />}
           </View>
