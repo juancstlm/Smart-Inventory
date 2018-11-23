@@ -4,6 +4,7 @@ import {Avatar} from 'react-native-elements'
 import InventoryCard from './InventoryCard';
 import InventoryCardSection from './InventoryCardSection';
 import InventoryButton from './InventoriesButton';
+import NavigationService from "../../../NavigationService";
 import Firebase from '../../Firebase'
 
 export default class InventoryProfile extends React.Component {
@@ -110,7 +111,14 @@ export default class InventoryProfile extends React.Component {
           </InventoryButton>
         </InventoryCardSection>
 
-      </InventoryCard>
+            <InventoryCardSection>
+                <InventoryButton onPress={() => NavigationService.navigate("InventoryDetail",{inventory:props.inventory})}>
+                    <Text style={styles.headerTextStyle}>{props.inventory.name}{'\n'}</Text>
+                    <Text>{props.inventory.itemCount} {' items'}</Text>
+                </InventoryButton>
+            </InventoryCardSection>
+
+        </InventoryCard>
     );
   }
 };

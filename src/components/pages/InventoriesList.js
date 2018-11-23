@@ -26,9 +26,7 @@ export default class InventoriesList extends React.Component {
     joinBackColor: "#2f3a49",
     createBackColor: "",
     search: "",
-    firstName: '',
-    lastName: '',
-    image: '',
+    currentUser: [],
   };
 
   // This is so that react navigator hides the stack header
@@ -55,23 +53,19 @@ export default class InventoriesList extends React.Component {
         console.log("Error getting documents", err);
       });
 
-    // Get Inventories shared to the user
-    Firebase.firestore.collection('Inventories').where(
-      'users',
-      'array-contains',
-      Firebase.auth.currentUser.uid,
-    ).get().then(snapshot => {
-      const sharedInvs = snapshot.docs.map(doc=>{
-        return doc.data()
+    Firebase.firestore.collection("Users").doc(Firebase.auth.currentUser.uid).get()
+      .then(doc => {
+        if (!doc.exists) {
+          console.log('No such document!');
+        } else {
+          current = []
+          current = doc.data()
+          this.setState({ currentUser: current });
+        }
       })
-      this.setState({
-        inventories: [...this.state.inventories, ...sharedInvs]
-      })
-      console.log('SHared inv',this.state.inventories)
-      }
-    )
-
-    this.getUserAvatar();
+      .catch(err => {
+        console.log('Error getting document', err);
+      });
   }
 
   getUserAvatar= async () =>{
@@ -149,15 +143,15 @@ export default class InventoriesList extends React.Component {
 
   renderInventories() {
     if (this.state.search != undefined || this.state.search != "") {
-    
+
       var text = this.state.search
       var results = []
-      for (i = 0; i < this.state.inventories.length; i++) {
-        if (this.state.inventories[i].name.toLowerCase().includes(text.toLowerCase())) {
-          console.log(this.state.inventories[i].name.toLowerCase().includes(text.toLowerCase()))
-          results.push(this.state.inventories[i])
+      this.state.inventories.map(inv => {
+        if (inv.name.toLowerCase().includes(text.toLowerCase())) {
+          results.push(inv)
         }
-      }
+      });
+
       return results.map(inventory =>
         <InventoryProfile key={inventory.name} inventory={inventory} />
       );
@@ -165,6 +159,14 @@ export default class InventoriesList extends React.Component {
       return this.state.inventories.map(inventory =>
         <InventoryProfile key={inventory.name} inventory={inventory} />
       );
+    }
+  }
+
+  renderProfileIcon() {
+    if (this.state.currentUser == "") {
+      return <Avatar rounded onPress={this.goToProfile} />
+    } else {
+      return <Avatar rounded title={this.state.currentUser.firstName.charAt(0) + this.state.currentUser.lastName.charAt(0)} onPress={this.goToProfile} />
     }
   }
 
@@ -177,11 +179,7 @@ export default class InventoriesList extends React.Component {
             this.renderSearchBar()
           }
           rightComponent={
-            <Avatar rounded
-                    onPress={this.goToProfile}
-                    title={String(this.state.firstName).charAt(0) + String(this.state.lastName).charAt(0)}
-                    source={this.state.image !== '' ? {uri: this.state.image} : null}
-            />
+            this.renderProfileIcon()
           }
           centerContainerStyle={{ width: "100%" }}
           containerStyle={{
