@@ -15,6 +15,7 @@ import {
 import Modal from "react-native-modal";
 import Join from "../ui/Join";
 import Create from "../ui/Create";
+import ActionButton from 'react-native-action-button'
 
 export default class InventoriesList extends React.Component {
   state = {
@@ -195,6 +196,9 @@ export default class InventoriesList extends React.Component {
         <ScrollView style={{ backgroundColor: "transparent" }}>
           {this.renderInventories()}
         </ScrollView>
+        <ActionButton buttonColor="rgba(231,76,60,1)" onPress={this._toggleModal}>
+
+        </ActionButton>
         <Modal
           isVisible={this.state.isModalVisible}
           avoidKeyboard={true}
