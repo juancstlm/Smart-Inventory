@@ -55,6 +55,7 @@ class LoginForm extends Component {
           <Input
             containerStyle={styles.containerStyle}
             placeholder="Email"
+            autoCapitalize = 'none'
             errorMessage={
               this.state.error ? "Please enter a valid Email address" : null
             }
@@ -65,6 +66,7 @@ class LoginForm extends Component {
             containerStyle={styles.containerStyle}
             secureTextEntry
             keyboardType={'email-address'}
+            autoCapitalize = 'none'
             onChangeText={text => this.setState({ password: text })}
           />
         </View>

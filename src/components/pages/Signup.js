@@ -59,23 +59,44 @@ export default class SignUp extends Component {
         try {
           var uid = Firebase.auth.currentUser.uid;
 
-          Firebase.database
-            .ref("Users/" + uid + "/")
-            .set({
-              firstName: this.state.firstName,
-              lastName: this.state.lastName,
-              email: this.state.email
-            })
-            .then(() => {
-              this.setState({
-                email: "",
-                password: "",
-                firstName: "",
-                lastName: "",
-                loading: false,
-                error: ""
-              });
+          Firebase.firestore.collection('Users').doc(Firebase.auth.currentUser.uid).set({
+            firstName: this.state.firstName,
+            lastName: this.state.lastName,
+            email: this.state.email,
+          }).then(function() {
+            console.log("Document successfully written!");
+          })
+            .catch(function(error) {
+              console.error("Error writing document: ", error);
             });
+
+          // Adds a default empty inventory to every user that signs up
+          Firebase.firestore.collection('Inventories').add({
+            image: 'https://c1.staticflickr.com/5/4916/45053006915_f22a94ea77_c.jpg',
+            items: [],
+            name: 'Default Inventory',
+            owner_id: Firebase.auth.currentUser.uid,
+            users: [Firebase.auth.currentUser.uid]
+          }).then(ref => {
+            console.log('Added document with ID: ', ref.id);
+          });
+          // Firebase.database
+          //   .ref("Users/" + uid + "/")
+          //   .set({
+          //     firstName: this.state.firstName,
+          //     lastName: this.state.lastName,
+          //     email: this.state.email
+          //   })
+          //   .then(() => {
+          //     this.setState({
+          //       email: "",
+          //       password: "",
+          //       firstName: "",
+          //       lastName: "",
+          //       loading: false,
+          //       error: ""
+          //     });
+          //   });
 
           {
             NavigationService.navigate("InventoriesList");
