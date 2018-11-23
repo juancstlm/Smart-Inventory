@@ -2,7 +2,7 @@
 import React from 'react';
 import { Text, ScrollView, View, Image } from 'react-native';
 import ItemProfile from '../ui/ItemProfile';
-import { Header, SearchBar, Avatar } from "react-native-elements";
+import { Header, SearchBar, Avatar, Icon } from "react-native-elements";
 import InventoryCardSection from '../ui/InventoryCardSection';
 import Firebase from "../../Firebase";
 
@@ -143,9 +143,11 @@ export default class InventoryDetail extends React.Component {
 
     renderProfileIcon() {
         if (this.state.currentUser == "") {
-            return <Avatar rounded onPress={this.goToProfile} />
+            return <Avatar rounded onPress={this.goToProfile}
+                           source={{uri: this.state.currentUser.image}}
+            />
         } else {
-            return <Avatar rounded title={this.state.currentUser.firstName.charAt(0) + this.state.currentUser.lastName.charAt(0)} onPress={this.goToProfile} />
+            return <Avatar rounded source={{uri: this.state.currentUser.image}} title={this.state.currentUser.firstName.charAt(0) + this.state.currentUser.lastName.charAt(0)} onPress={this.goToProfile} />
         }
     }
 
@@ -155,10 +157,11 @@ export default class InventoryDetail extends React.Component {
 
     render() {
         return (
-
             <View style={{ flex: 1, backgroundColor: "#2f3a49" }}>
                 <Header
                     statusBarProps={{ barStyle: "light-content" }}
+                    leftComponent={<Icon name='arrow-back' color='#fff'
+                                         onPress={()=>this.props.navigation.goBack()}/>}
                     centerComponent={
                         this.renderSearchBar()
                     }

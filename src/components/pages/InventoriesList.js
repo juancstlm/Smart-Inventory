@@ -164,9 +164,9 @@ export default class InventoriesList extends React.Component {
 
   renderProfileIcon() {
     if (this.state.currentUser == "") {
-      return <Avatar rounded onPress={this.goToProfile} />
+      return <Avatar rounded onPress={this.goToProfile} source={{uri: this.state.currentUser.image}}/>
     } else {
-      return <Avatar rounded title={this.state.currentUser.firstName.charAt(0) + this.state.currentUser.lastName.charAt(0)} onPress={this.goToProfile} />
+      return <Avatar rounded  source={{uri: this.state.currentUser.image}} title={this.state.currentUser.firstName.charAt(0) + this.state.currentUser.lastName.charAt(0)} onPress={this.goToProfile} />
     }
   }
 

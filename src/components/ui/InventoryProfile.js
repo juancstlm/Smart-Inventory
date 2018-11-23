@@ -103,20 +103,12 @@ export default class InventoryProfile extends React.Component {
         <InventoryCardSection>
           <View style={{flex: 2, height: 50, backgroundColor: '00000000', blurRadius: 1}}/>
         </InventoryCardSection>
-
         <InventoryCardSection>
-          <InventoryButton onPress={this.callParent}>
-            <Text style={styles.headerTextStyle}>{props.inventory.name}{'\n'}</Text>
-            <Text>{props.inventory.itemCount} {' items'}</Text>
-          </InventoryButton>
-        </InventoryCardSection>
-
-            <InventoryCardSection>
                 <InventoryButton onPress={() => NavigationService.navigate("InventoryDetail",{inventory:props.inventory})}>
                     <Text style={styles.headerTextStyle}>{props.inventory.name}{'\n'}</Text>
                     <Text>{props.inventory.itemCount} {' items'}</Text>
                 </InventoryButton>
-            </InventoryCardSection>
+        </InventoryCardSection>
 
         </InventoryCard>
     );
