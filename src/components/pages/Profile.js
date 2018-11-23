@@ -5,13 +5,20 @@ import { Header, Icon, Avatar, Text } from "react-native-elements";
 
 export default class Profile extends React.Component {
 
-  state={
-    image:'',
-    firstName: '',
-    LastName: '',
-    email: '',
+  constructor(props) {
+    super(props);
+
+    this.state={
+      image:'',
+      firstName: 'Jdjn',
+      LastName: 'Djji',
+      email: '',
+    }
   }
 
+  async componentDidMount() {
+    await this.getUserData()
+  }
 
   static navigationOptions = {
     title: 'Profile',
@@ -21,28 +28,27 @@ export default class Profile extends React.Component {
     headerTransparent: true,
   };
 
-  componentWillMount() {
-    // Firebase.firestore.collection('Users').doc('uid')
-    var user = Firebase.firestore.collection("Users")
-      .doc(Firebase.auth.currentUser.uid);
-    var getDoc = user.get()
+  getUserData = async () => {
+    await Firebase.firestore.collection("Users")
+      .doc(Firebase.auth.currentUser.uid).get()
       .then(doc => {
         if (!doc.exists) {
           console.log('No such document!');
         } else {
-          console.log('Document data:', doc.data().image);
           this.setState({
             image: doc.data().image,
             firstName: doc.data().firstName,
             lastName: doc.data().lastName,
             email: doc.data().email
           })
-          console.log('State', this.state)
         }
       })
       .catch(err => {
         console.log('Error getting document', err);
       });
+  }
+
+  componentWillMount() {
   }
 
   logOut = () => {
@@ -67,7 +73,7 @@ export default class Profile extends React.Component {
         />
         <View style={{justifyContent: 'center', alignItems: 'center', height:'100%'}}>
           <Avatar size="large"
-                  title={'MT'}
+                  title={String(this.state.firstName).charAt(0) + String(this.state.lastName).charAt(0)}
                   rounded
                   source={this.state.image !== '' ? {uri: this.state.image} : null}
                   />

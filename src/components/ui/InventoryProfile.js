@@ -8,12 +8,16 @@ import Firebase from '../../Firebase'
 
 export default class InventoryProfile extends React.Component {
 
-    state={
+  constructor(props) {
+    super(props);
+    this.state={
       users: [],
     }
 
-    componentWillMount(): void {
-      this.getInventoryUsers()
+  }
+
+    componentDidMount(): void {
+      this.getInventoryUsers();
       this.getInventoryOwner();
     }
 
