@@ -24,6 +24,7 @@ export default class InventoriesList extends React.Component {
     joinBackColor: "#2f3a49",
     createBackColor: "",
     search: "",
+    currentUser: [],
   };
 
   // This is so that react navigator hides the stack header
@@ -53,6 +54,20 @@ export default class InventoriesList extends React.Component {
       })
       .catch(err => {
         console.log("Error getting documents", err);
+      });
+
+    Firebase.firestore.collection("Users").doc(Firebase.auth.currentUser.uid).get()
+      .then(doc => {
+        if (!doc.exists) {
+          console.log('No such document!');
+        } else {
+          current = []
+          current = doc.data()
+          this.setState({ currentUser: current });
+        }
+      })
+      .catch(err => {
+        console.log('Error getting document', err);
       });
   }
 
@@ -123,7 +138,7 @@ export default class InventoriesList extends React.Component {
           results.push(inv)
         }
       });
-      
+
       return results.map(inventory =>
         <InventoryProfile key={inventory.name} inventory={inventory} />
       );
@@ -131,6 +146,14 @@ export default class InventoriesList extends React.Component {
       return this.state.inventories.map(inventory =>
         <InventoryProfile key={inventory.name} inventory={inventory} />
       );
+    }
+  }
+
+  renderProfileIcon() {
+    if (this.state.currentUser == "") {
+      return <Avatar rounded onPress={this.goToProfile} />
+    } else {
+      return <Avatar rounded title={this.state.currentUser.firstName.charAt(0) + this.state.currentUser.lastName.charAt(0)} onPress={this.goToProfile} />
     }
   }
 
@@ -143,7 +166,7 @@ export default class InventoriesList extends React.Component {
             this.renderSearchBar()
           }
           rightComponent={
-            <Avatar rounded title="MT" onPress={this.goToProfile} />
+            this.renderProfileIcon()
           }
           centerContainerStyle={{ width: "100%" }}
           containerStyle={{

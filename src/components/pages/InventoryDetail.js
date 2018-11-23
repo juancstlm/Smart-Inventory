@@ -13,7 +13,8 @@ export default class InventoryDetail extends React.Component {
         inventory: null,
         items: [],
         search: "",
-        users: []
+        users: [],
+        currentUser: [],
     };
 
     static navigationOptions = {
@@ -63,6 +64,21 @@ export default class InventoryDetail extends React.Component {
                 });
 
         })
+
+        Firebase.firestore.collection("Users").doc(Firebase.auth.currentUser.uid).get()
+            .then(doc => {
+                if (!doc.exists) {
+                    console.log('No such document!');
+                } else {
+                    current = []
+                    current = doc.data()
+                    this.setState({ currentUser: current });
+                }
+            })
+            .catch(err => {
+                console.log('Error getting document', err);
+            });
+
     }
 
 
@@ -78,13 +94,13 @@ export default class InventoryDetail extends React.Component {
             }
             );
             return results.map(item =>
-                <View style={styles.profileContainer}>
+                <View style={styles.profileContainer} key={item.name}>
                     <ItemProfile style={styles.profile} key={item.name} item={item} />
                 </View>
             );
         } else {
             return this.state.inventory.items.map(item =>
-                <View style={styles.profileContainer}>
+                <View style={styles.profileContainer} key={item.name}>
                     <ItemProfile style={styles.profile} key={item.name} item={item} />
                 </View>
             );
@@ -94,11 +110,11 @@ export default class InventoryDetail extends React.Component {
     renderUserProfileImages() {
         return this.state.users.map(user => {
             if (user.image != undefined) {
-                return <View style={styles.thumbnailContainerStyle}>
+                return <View style={styles.thumbnailContainerStyle} key={user.firstName}>
                     <Avatar rounded source={{ uri: user.image }} />
                 </View>
             } else {
-                return <View style={styles.thumbnailContainerStyle}>
+                return <View style={styles.thumbnailContainerStyle} key={user.firstName}>
                     <Avatar rounded title={user.firstName.charAt(0) + user.lastName.charAt(0)} />
                 </View>
             }
@@ -125,6 +141,14 @@ export default class InventoryDetail extends React.Component {
             placeholder="Search" />;
     }
 
+    renderProfileIcon() {
+        if (this.state.currentUser == "") {
+            return <Avatar rounded onPress={this.goToProfile} />
+        } else {
+            return <Avatar rounded title={this.state.currentUser.firstName.charAt(0) + this.state.currentUser.lastName.charAt(0)} onPress={this.goToProfile} />
+        }
+    }
+
     goToProfile = () => {
         this.props.navigation.navigate("Profile");
     }
@@ -139,7 +163,7 @@ export default class InventoryDetail extends React.Component {
                         this.renderSearchBar()
                     }
                     rightComponent={
-                        <Avatar rounded title="MT" onPress={this.goToProfile} />
+                        this.renderProfileIcon()
                     }
                     centerContainerStyle={{ width: "100%" }}
                     containerStyle={{
