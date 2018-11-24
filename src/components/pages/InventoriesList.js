@@ -15,42 +15,81 @@ import {
 import Modal from "react-native-modal";
 import Join from "../ui/Join";
 import Create from "../ui/Create";
+import ActionButton from 'react-native-action-button'
+import {connect} from 'react-redux'
 
-export default class InventoriesList extends React.Component {
+class InventoriesList extends React.Component {
+
+  constructor(props) {
+    super(props)
+
+    // this.props.getOwnInventories()
+  }
+
   state = {
-    inventories: [],
     childData: null,
     isModalVisible: false,
     isJoin: true,
     joinBackColor: "#2f3a49",
     createBackColor: "",
     search: "",
+    currentUser: [],
   };
 
   // This is so that react navigator hides the stack header
   static navigationOptions = {
     header: null
   };
-  componentWillMount() {
-    var inventories = Firebase.firestore.collection("Inventories");
-    var querry = inventories.where(
-      "owner_id",
-      "==",
-      Firebase.auth.currentUser.uid
-    );
-    querry
-      .get()
-      .then(snapshot => {
-        const invs = snapshot.docs.map(doc => {
-          console.log("doc data", doc.data());
-          return doc.data();
-        });
-        console.log("invs", invs);
-        this.setState({ inventories: invs });
-      })
-      .catch(err => {
-        console.log("Error getting documents", err);
-      });
+
+  async componentDidMount() {
+    // Get inventories owned by the user
+    // var inventories = Firebase.firestore.collection("Inventories");
+    // var querry = inventories.where(
+    //   "owner_id",
+    //   "==",
+    //   Firebase.auth.currentUser.uid
+    // );
+    // querry
+    //   .get()
+    //   .then(snapshot => {
+    //     const invs = snapshot.docs.map(doc => {
+    //       return doc.data();
+    //     });
+    //     this.setState({ inventories: invs });
+    //   })
+    //   .catch(err => {
+    //     console.log("Error getting documents", err);
+    //   });
+    //
+    // Firebase.firestore.collection("Users").doc(Firebase.auth.currentUser.uid).get()
+    //   .then(doc => {
+    //     if (!doc.exists) {
+    //       console.log('No such document!');
+    //     } else {
+    //       current = []
+    //       current = doc.data()
+    //       this.setState({ currentUser: current });
+    //     }
+    //   })
+    //   .catch(err => {
+    //     console.log('Error getting document', err);
+    //   });
+  }
+
+  getUserAvatar = async () => {
+    Firebase.firestore.collection('Users').doc(Firebase.auth.currentUser.uid)
+      .get().then(doc => {
+      if (!doc.exists) {
+        console.log('No such document!');
+      } else {
+        this.setState({
+          image: doc.data().image,
+          firstName: doc.data().firstName,
+          lastName: doc.data().lastName,
+          email: doc.data().email
+        })
+      }
+    })
   }
 
   profileCallback = dataFromChild => {
@@ -61,7 +100,7 @@ export default class InventoriesList extends React.Component {
     }
   };
   // renderInventories() {
-  //   return this.state.inventories.data.map(inventory => (
+  //   return this.props.inventories.data.map(inventory => (
   //     <View style={styles.profileContainer}>
   //       <InventoryProfile
   //         key={inventory.name}
@@ -88,22 +127,22 @@ export default class InventoriesList extends React.Component {
 
   renderSearchBar() {
     return <SearchBar placeholder={"Type inventory name to search"}
-      value={this.state.search}
-      onChangeText={text => this.setState({ search: text })}
-      autoCapitalize='none'
-      containerStyle={{
-        width: "120%",
-        backgroundColor: "transparent",
-        borderTopColor: "transparent",
-        borderBottomColor: "transparent"
-      }}
-      inputContainerStyle={{
-        backgroundColor: "#47576E",
-        borderColor: "#47576E",
-        borderWidth: 1
-      }}
-      inputStyle={{ backgroundColor: "transparent" }}
-      placeholder="Search" />;
+                      value={this.state.search}
+                      onChangeText={text => this.setState({ search: text })}
+                      autoCapitalize='none'
+                      containerStyle={{
+                        width: "120%",
+                        backgroundColor: "transparent",
+                        borderTopColor: "transparent",
+                        borderBottomColor: "transparent"
+                      }}
+                      inputContainerStyle={{
+                        backgroundColor: "#47576E",
+                        borderColor: "#47576E",
+                        borderWidth: 1
+                      }}
+                      inputStyle={{ backgroundColor: "transparent" }}
+                      placeholder="Search"/>;
   }
 
   goToProfile = () => {
@@ -112,22 +151,32 @@ export default class InventoriesList extends React.Component {
 
   renderInventories() {
     if (this.state.search != undefined || this.state.search != "") {
-    
+
       var text = this.state.search
       var results = []
-      for (i = 0; i < this.state.inventories.length; i++) {
-        if (this.state.inventories[i].name.toLowerCase().includes(text.toLowerCase())) {
-          console.log(this.state.inventories[i].name.toLowerCase().includes(text.toLowerCase()))
-          results.push(this.state.inventories[i])
+      this.props.inventories.map(inv => {
+        if (inv.name.toLowerCase().includes(text.toLowerCase())) {
+          results.push(inv)
         }
-      }
+      });
+
       return results.map(inventory =>
-        <InventoryProfile key={inventory.name} inventory={inventory} />
+        <InventoryProfile key={inventory.name} inventory={inventory} callbackFromParent={this.profileCallback} />
       );
     } else {
-      return this.state.inventories.map(inventory =>
-        <InventoryProfile key={inventory.name} inventory={inventory} />
+      return this.props.inventories.map(inventory =>
+        <InventoryProfile key={inventory.name} inventory={inventory}/>
       );
+    }
+  }
+
+  renderProfileIcon() {
+    if (this.props.firstName == "") {
+      return <Avatar rounded onPress={this.goToProfile} source={{ uri: this.props.image }}/>
+    } else {
+      return <Avatar rounded source={{ uri: this.props.image }}
+                     title={String(this.props.firstName).charAt(0) + String(this.props.lastName).charAt(0)}
+                     onPress={this.goToProfile}/>
     }
   }
 
@@ -140,7 +189,7 @@ export default class InventoriesList extends React.Component {
             this.renderSearchBar()
           }
           rightComponent={
-            <Avatar rounded title="MT" onPress={this.goToProfile} />
+            this.renderProfileIcon()
           }
           centerContainerStyle={{ width: "100%" }}
           containerStyle={{
@@ -155,6 +204,9 @@ export default class InventoriesList extends React.Component {
         <ScrollView style={{ backgroundColor: "transparent" }}>
           {this.renderInventories()}
         </ScrollView>
+        <ActionButton buttonColor="rgba(231,76,60,1)" onPress={this._toggleModal}>
+
+        </ActionButton>
         <Modal
           isVisible={this.state.isModalVisible}
           avoidKeyboard={true}
@@ -166,8 +218,7 @@ export default class InventoriesList extends React.Component {
             flex: 1
           }}
           supportedOrientations={["portrait", "landscape"]}
-          onBackdropPress={() => this.setState({ isVisible: false })}
-        >
+          onBackdropPress={() => this.setState({ isVisible: false })}>
           <View style={{ width: "100%", height: "40%", marginTop: 0 }}>
             <TouchableOpacity
               style={{
@@ -223,24 +274,19 @@ export default class InventoriesList extends React.Component {
                 <Text style={{ color: "white", fontSize: 20 }}>Create</Text>
               </TouchableOpacity>
             </InventoryCardSection>
-            <TextInput
-              style={{
-                color: "white",
-                height: 40,
-                width: "80%",
-                backgroundColor: "#8190a5",
-                borderWidth: 1
-              }}
-              value={"Quick Share Code"}
-            />
 
-            {this.state.isJoin ? <Join /> : <Create />}
+            {this.state.isJoin ? <Join/> : <Create/>}
           </View>
         </Modal>
+        
+        <ActionButton buttonColor="rgba(231,76,60,1)" onPress={this._toggleModal}/>
+        
       </SafeAreaView>
     );
   }
 }
+
+export default connect(state=>state.user)(InventoriesList)
 
 const styles = {
   textStyle: {
