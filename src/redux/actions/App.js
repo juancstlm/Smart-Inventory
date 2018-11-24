@@ -12,7 +12,14 @@ export const getUserDetails = (uid) => {
     }).catch((e) => console.log("ERROR: ", e))
 }
 
-
+export const setActiveInventory = (inventory) => {
+  return (dispatch)=> {
+    dispatch({
+      type: C.SET_ACTIVE_INVENTORY,
+      payload: inventory
+    })
+  }
+}
 
 export const getSharedInventories = () => {
   return async (dispatch) => await Firebase.firestore.collection(C.INVENTORIES)

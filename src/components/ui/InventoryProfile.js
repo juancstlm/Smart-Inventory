@@ -6,6 +6,8 @@ import InventoryCardSection from './InventoryCardSection';
 import InventoryButton from './InventoriesButton';
 import NavigationService from "../../../NavigationService";
 import Firebase from '../../Firebase'
+import {setActiveInventory} from '../../redux/actions/App'
+import store from '../../redux/store'
 
 export default class InventoryProfile extends React.Component {
 
@@ -95,6 +97,11 @@ export default class InventoryProfile extends React.Component {
     }
   }
 
+  handleInventorySelect=()=>{
+    store.dispatch(setActiveInventory(this.props.inventory))
+    NavigationService.navigate("InventoryDetail")
+  }
+
   render(){
     var props = this.props
     return (
@@ -107,7 +114,7 @@ export default class InventoryProfile extends React.Component {
           <View style={{flex: 2, height: 50, backgroundColor: '00000000', blurRadius: 1}}/>
         </InventoryCardSection>
         <InventoryCardSection>
-                <InventoryButton onPress={() => NavigationService.navigate("InventoryDetail",{inventory:props.inventory})}>
+                <InventoryButton onPress={this.handleInventorySelect}>
                     <Text style={styles.headerTextStyle}>{props.inventory.name}{'\n'}</Text>
                     <Text>{props.inventory.items.length} {' items'}</Text>
                 </InventoryButton>

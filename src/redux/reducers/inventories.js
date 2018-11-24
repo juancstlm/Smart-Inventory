@@ -10,6 +10,10 @@ export default (state = initialState, action) => {
     case C.GET_SHARED_INVENTORIES: return { ...state,
       all: [...state.all, ...action.payload]
     }
+    case C.SET_ACTIVE_INVENTORY: return {
+      ...state,
+      activeInventory: action.payload
+    }
     case C.GET_OWN_INVENTORIES: return {...state, all: [...state.all, ...action.payload]}
     default: return state;
   }

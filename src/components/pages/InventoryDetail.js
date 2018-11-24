@@ -5,9 +5,10 @@ import ItemProfile from '../ui/ItemProfile';
 import { Header, SearchBar, Avatar, Icon } from "react-native-elements";
 import InventoryCardSection from '../ui/InventoryCardSection';
 import Firebase from "../../Firebase";
+import {connect} from 'react-redux'
 
 //make componet
-export default class InventoryDetail extends React.Component {
+class InventoryDetail extends React.Component {
 
     state = {
         inventory: null,
@@ -22,12 +23,7 @@ export default class InventoryDetail extends React.Component {
     };
 
     componentWillMount() {
-        inv = this.props.navigation.getParam('inventory', 'NO Inventory');
-        console.log("Inventory", inv)
-
-        this.setState({
-            inventory: inv,
-        });
+        const inv = this.props.inventories.activeInventory
         items = []
         users = []
 
@@ -64,21 +60,6 @@ export default class InventoryDetail extends React.Component {
                 });
 
         })
-
-        Firebase.firestore.collection("Users").doc(Firebase.auth.currentUser.uid).get()
-            .then(doc => {
-                if (!doc.exists) {
-                    console.log('No such document!');
-                } else {
-                    current = []
-                    current = doc.data()
-                    this.setState({ currentUser: current });
-                }
-            })
-            .catch(err => {
-                console.log('Error getting document', err);
-            });
-
     }
 
 
@@ -99,7 +80,7 @@ export default class InventoryDetail extends React.Component {
                 </View>
             );
         } else {
-            return this.state.inventory.items.map(item =>
+            return this.props.inventories.activeInventory.items.map(item =>
                 <View style={styles.profileContainer} key={item.name}>
                     <ItemProfile style={styles.profile} key={item.name} item={item} />
                 </View>
@@ -142,12 +123,12 @@ export default class InventoryDetail extends React.Component {
     }
 
     renderProfileIcon() {
-        if (this.state.currentUser == "") {
+        if (this.props.user == "") {
             return <Avatar rounded onPress={this.goToProfile}
-                           source={{uri: this.state.currentUser.image}}
+                           source={{uri: this.props.user.image}}
             />
         } else {
-            return <Avatar rounded source={{uri: this.state.currentUser.image}} title={this.state.currentUser.firstName.charAt(0) + this.state.currentUser.lastName.charAt(0)} onPress={this.goToProfile} />
+            return <Avatar rounded source={{uri: this.props.user.image}} title={this.props.user.firstName.charAt(0) + this.props.user.lastName.charAt(0)} onPress={this.goToProfile} />
         }
     }
 
@@ -178,7 +159,7 @@ export default class InventoryDetail extends React.Component {
 
                 <InventoryCardSection>
                     <Text style={styles.textStyle}>
-                        {this.state.inventory.name + ' Inventory'}
+                        {this.props.inventories.activeInventory.name + ' Inventory'}
                     </Text>
                 </InventoryCardSection>
 
@@ -194,6 +175,8 @@ export default class InventoryDetail extends React.Component {
         );
     }
 }
+
+export default connect(state=>state)(InventoryDetail)
 
 const styles = {
     textStyle: {
