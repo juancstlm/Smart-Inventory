@@ -1,5 +1,5 @@
 import React from "react";
-import { Text, View, Image, TouchableOpacity } from "react-native";
+import { Text, View, Image, TouchableOpacity, ImageBackground } from "react-native";
 import InventoryCard from "./InventoryCard";
 import InventoryCardSection from "./InventoryCardSection";
 import InventoryButton from "./InventoriesButton";
@@ -28,27 +28,47 @@ const InventoryItem = props => {
         overflow: "hidden"
       }}
     >
-      <InventoryCardSection>
-        <View style={{ backgroundColor: "#f7931e" }}>
+      <View style={{
+        paddingRight: 0,
+        paddingBottom: 0,
+        paddingTop: 0,
+        paddingLeft: 0,
+        justifyContent: 'flex-start',
+        flexDirection: 'row',
+        alignItems: 'center',
+        position: 'relative',}}>
+        <View style={{
+          backgroundColor: "#f7931e",
+          borderBottomEndRadius: 6,
+          borderTopRightRadius: 6,
+          shadowColor: '#000',
+          shadowOffset: {
+            width: 0,
+            height: 3
+          },
+          shadowRadius: 5,
+          shadowOpacity: 1.0
+        }}>
           <Text style={styles.headerTextStyle}>{props.item.quantity}</Text>
         </View>
-        <View>
-          <Text style={styles.headerTextStyle}>{props.item.name}</Text>
-          <View
-            style={{ width: '100%', height: 3, backgroundColor: "#f7931e" }}
-          />
-        </View>
-      </InventoryCardSection>
+          <Text style={styles.itemNameStyle}>{props.item.name}</Text>
+      </View>
 
-      <InventoryCard image={props.item.image}>
-          <TouchableOpacity
-            onPress={() => {
-              store.dispatch(setActiveItem(props.item));
-              NavigationService.navigate('Item')
-            }}
-            style={styles.buttonStyle}
-          />
-      </InventoryCard>
+      <ImageBackground
+        source={{uri: props.item.image }}
+        imageStyle={{ resizeMode: "cover", width:'100%' }}
+        style={{
+          flex: 1,
+        }}
+      >
+        <TouchableOpacity
+          onPress={() => {
+            store.dispatch(setActiveItem(props.item));
+            NavigationService.navigate('Item')
+          }}
+          style={styles.buttonStyle}
+        />
+      </ImageBackground>
     </View>
   );
 };
@@ -62,7 +82,14 @@ const styles = {
   headerTextStyle: {
     fontSize: 20,
     margin: 3,
-    color: "white"
+    paddingLeft: 5,
+    paddingRight: 5,
+    color: "#FFF"
+  },
+  itemNameStyle: {
+    fontSize: 16,
+    marginLeft: 6,
+    color: '#fff'
   },
   buttonStyle: {
     flex: 1,
@@ -70,7 +97,6 @@ const styles = {
     alignSelf: "stretch",
     backgroundColor: "#e1e9f7",
     opacity: 0.1,
-    borderRadius: 15,
     borderWidth: 0
   }
 };
