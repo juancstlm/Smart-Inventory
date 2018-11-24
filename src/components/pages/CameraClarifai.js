@@ -3,6 +3,8 @@ import { Dimensions, Alert, StyleSheet, ActivityIndicator, Text, View, FlatList 
 import { RNCamera } from 'react-native-camera';
 import CaptureButton2 from '../ui/CaptureButton2';
 import Config from 'react-native-config'
+import Firebase from "../../Firebase";
+import RNFetchBlob from 'react-native-fetch-blob'
 
 export default class CameraClarifai extends React.Component {
 
@@ -25,9 +27,47 @@ export default class CameraClarifai extends React.Component {
                 base64: true
             };			
 			const data = await this.camera.takePictureAsync(options)
+			this.saveImageToFirebase2(data);
 			this.identifyImage(data);
 		}
 	}
+
+	 saveImageToFirebase2(image){
+	    this.setState({ loading: true })
+	    const Blob = RNFetchBlob.polyfill.Blob
+	    const fs = RNFetchBlob.fs
+	    window.XMLHttpRequest = RNFetchBlob.polyfill.XMLHttpRequest
+	    window.Blob = Blob
+	    
+	    const uid = "12345"
+	    const imageRef = Firebase.storage.ref(uid).child("dp5.jpg")
+	    let mime = 'image/jpg'
+
+	    Blob.build(image.base64, { type: `${mime};BASE64` })
+	      .then((blob) => {
+	          uploadBlob = blob
+	          return imageRef.put(blob, { contentType: mime })
+	        })
+	        .then(() => {
+	          uploadBlob.close()
+	          return imageRef.getDownloadURL()
+	        })
+	        .then((url) => {
+
+	          let userData = {}
+	          //userData[dpNo] = url
+	          //firebase.database().ref('users').child(uid).update({ ...userData})
+
+	          let obj = {}
+	          obj["loading"] = false
+	          obj["dp"] = url
+	          this.setState(obj)
+
+	        })
+	        .catch((error) => {
+	          console.log(error)
+	        })  
+	 }	
 
 	identifyImage(imageData){	
 		const Clarifai = require('clarifai');
@@ -44,6 +84,7 @@ export default class CameraClarifai extends React.Component {
 	}
     
 	render() {
+		console.log()
 		return (
 			<View style={{flex: 1}}>
             <RNCamera ref={ref => {this.camera = ref;}} style={styles.preview}>

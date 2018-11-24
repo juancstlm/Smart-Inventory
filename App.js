@@ -16,7 +16,6 @@ import ItemConfirmation from './src/components/pages/ItemConfirmation'
 import CameraCoreML from './src/components/pages/CameraCoreML'
 import CameraClarifai from './src/components/pages/CameraClarifai'
 import CameraSelectItem from './src/components/pages/CameraSelectItem'
-import Gallery from './src/components/pages/Gallery'
 
 interface AppState {
   authStatusReported: boolean;
@@ -64,10 +63,9 @@ class App extends Component<AppState> {
         CameraCoreML: CameraCoreML,
         CameraClarifai: CameraClarifai,                
         CameraSelectItem: CameraSelectItem,
-        Gallery: Gallery
       },
       {
-        initialRouteName: "Gallery",
+        initialRouteName: "CameraClarifai",
         // headerMode: 'none'
       }
     );

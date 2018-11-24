@@ -29,5 +29,6 @@ export default class Firebase {
     Firebase.firestore = firebase.firestore();
     Firebase.firestore.settings(settings)
     Firebase.database = firebase.database()
+    Firebase.storage = firebase.storage();
   }
 }
