@@ -7,12 +7,17 @@ const initialState = {
 
 export default (state = initialState, action) => {
   switch (action.type) {
+    case C.LOG_OUT: return {...initialState}
     case C.GET_SHARED_INVENTORIES: return { ...state,
       all: [...state.all, ...action.payload]
     }
     case C.SET_ACTIVE_INVENTORY: return {
       ...state,
       activeInventory: action.payload
+    }
+    case C.SET_ACTIVE_ITEM: return {
+      ...state,
+      activeItem: action.payload
     }
     case C.GET_OWN_INVENTORIES: return {...state, all: [...state.all, ...action.payload]}
     default: return state;

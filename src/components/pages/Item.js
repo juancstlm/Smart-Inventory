@@ -1,16 +1,23 @@
 import React, { Component } from 'react';
-import { View, Image, Text } from 'react-native';
+import { View, Image, Text, SafeAreaView } from 'react-native';
 import ItemDetail from './ItemDetail'
+import {connect} from 'react-redux';
 
 class Item extends Component{
+
+	static navigationOptions = {
+    header: null
+  };
 	
 	render(){
+
+		const item = this.props.inventories.activeItem
 		return(		
-			<View style={styles.background}>
+			<SafeAreaView style={styles.background}>
 
 			  <View style={styles.card1}>
 			    <Text style={styles.card1NameStyle}>
-			        Bike
+						{item.name}
 			    </Text>
 			  </View>
 
@@ -22,7 +29,7 @@ class Item extends Component{
 			              height: null,
 			              borderRadius: 10
 			            }} 
-			            source= {require("../../img/bike2.jpeg")}
+			            source= {{uri: item.image}}
 			      />
 			  </View>
 			
@@ -31,10 +38,12 @@ class Item extends Component{
 			       </ItemDetail>
 			  </View>
 		    
-		    </View>		    
+		    </SafeAreaView>
 		);
 	}
 };
+
+export default connect(state=>state)(Item);
 
 const styles ={
 	background: {
@@ -66,5 +75,3 @@ const styles ={
 		borderRadius: 10
 	}
 }
-
-export default Item;

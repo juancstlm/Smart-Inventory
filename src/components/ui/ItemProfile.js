@@ -3,6 +3,9 @@ import { Text, View, Image, TouchableOpacity } from "react-native";
 import InventoryCard from "./InventoryCard";
 import InventoryCardSection from "./InventoryCardSection";
 import InventoryButton from "./InventoriesButton";
+import store from '../../redux/store'
+import NavigationService from '../../../NavigationService'
+import {setActiveItem} from '../../redux/actions/App'
 
 const InventoryItem = props => {
   /*callParent = () => {
@@ -40,7 +43,10 @@ const InventoryItem = props => {
       <InventoryCard image={props.item.image}>
         <InventoryCardSection>
           <TouchableOpacity
-            onPress={() => console.log("this.callParent")}
+            onPress={() => {
+              store.dispatch(setActiveItem(props.item));
+              NavigationService.navigate('Item')
+            }}
             style={styles.buttonStyle}
           />
         </InventoryCardSection>

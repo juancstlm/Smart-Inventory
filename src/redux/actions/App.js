@@ -20,6 +20,14 @@ export const setActiveInventory = (inventory) => {
     })
   }
 }
+export const setActiveItem = (item) => {
+  return (dispatch)=> {
+    dispatch({
+      type: C.SET_ACTIVE_ITEM,
+      payload: item
+    })
+  }
+}
 
 export const getSharedInventories = () => {
   return async (dispatch) => await Firebase.firestore.collection(C.INVENTORIES)

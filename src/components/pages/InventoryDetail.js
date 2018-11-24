@@ -62,7 +62,6 @@ class InventoryDetail extends React.Component {
         })
     }
 
-
     renderItems() {
         if (this.state.search != undefined || this.state.search != "") {
 
@@ -82,7 +81,7 @@ class InventoryDetail extends React.Component {
         } else {
             return this.props.inventories.activeInventory.items.map(item =>
                 <View style={styles.profileContainer} key={item.name}>
-                    <ItemProfile style={styles.profile} key={item.name} item={item} />
+                    <ItemProfile style={styles.profile} key={item.name} item={item}/>
                 </View>
             );
         }
