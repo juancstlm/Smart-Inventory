@@ -554,11 +554,8 @@
 				D1FF9C8D62CC4E009C16E64E /* libRNFS.a in Frameworks */,
 				21D57139724E401B8BD0A87A /* libRNImgToBase64.a in Frameworks */,
 				CEE55BC685884DFAB989D71B /* libReactNativeConfig.a in Frameworks */,
-<<<<<<< HEAD
 				31D2C427C79E4EF9AA01E50C /* libRNFetchBlob.a in Frameworks */,
-=======
 				7A762314170C4FF0BE6F3036 /* libReactNativePermissions.a in Frameworks */,
->>>>>>> 6f1fbe72de9b8894f3c90cbc59446e45356e47e2
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -843,11 +840,8 @@
 				1E6E3D74AD4845BD8832FB8B /* RNFS.xcodeproj */,
 				6BF4909273584E30AEF45390 /* RNImgToBase64.xcodeproj */,
 				B9CB1465AF4F46E8A4FC6EC5 /* ReactNativeConfig.xcodeproj */,
-<<<<<<< HEAD
 				F06EE35E6210474DB28CE318 /* RNFetchBlob.xcodeproj */,
-=======
 				C928F5A684244917A932D22B /* ReactNativePermissions.xcodeproj */,
->>>>>>> 6f1fbe72de9b8894f3c90cbc59446e45356e47e2
 			);
 			name = Libraries;
 			sourceTree = "<group>";
@@ -922,11 +916,8 @@
 				66C9468BD7104143B85FC443 /* libRNImgToBase64.a */,
 				0C68B0BBDBD442DB8CCBF45D /* libReactNativeConfig.a */,
 				F6BA7F0117364499BEA50FF0 /* libReactNativeConfig-tvOS.a */,
-<<<<<<< HEAD
 				F57C27198ECF47F59EBAE0B2 /* libRNFetchBlob.a */,
-=======
 				3D824C4A47314DB1A0BF3C41 /* libReactNativePermissions.a */,
->>>>>>> 6f1fbe72de9b8894f3c90cbc59446e45356e47e2
 			);
 			name = "Recovered References";
 			sourceTree = "<group>";
@@ -1699,11 +1690,8 @@
 					"$(SRCROOT)/../node_modules/react-native-fs/**",
 					"$(SRCROOT)/../node_modules/react-native-image-base64/ios",
 					"$(SRCROOT)/../node_modules/react-native-config/ios/ReactNativeConfig",
-<<<<<<< HEAD
 					"$(SRCROOT)/../node_modules/react-native-fetch-blob/ios/**",
-=======
 					"$(SRCROOT)/../node_modules/react-native-permissions/ios/**",
->>>>>>> 6f1fbe72de9b8894f3c90cbc59446e45356e47e2
 				);
 				INFOPLIST_FILE = SmartInventoryTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
@@ -1748,11 +1736,8 @@
 					"$(SRCROOT)/../node_modules/react-native-fs/**",
 					"$(SRCROOT)/../node_modules/react-native-image-base64/ios",
 					"$(SRCROOT)/../node_modules/react-native-config/ios/ReactNativeConfig",
-<<<<<<< HEAD
 					"$(SRCROOT)/../node_modules/react-native-fetch-blob/ios/**",
-=======
 					"$(SRCROOT)/../node_modules/react-native-permissions/ios/**",
->>>>>>> 6f1fbe72de9b8894f3c90cbc59446e45356e47e2
 				);
 				INFOPLIST_FILE = SmartInventoryTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
@@ -1798,11 +1783,8 @@
 					"$(SRCROOT)/../node_modules/react-native-fs/**",
 					"$(SRCROOT)/../node_modules/react-native-image-base64/ios",
 					"$(SRCROOT)/../node_modules/react-native-config/ios/ReactNativeConfig",
-<<<<<<< HEAD
 					"$(SRCROOT)/../node_modules/react-native-fetch-blob/ios/**",
-=======
 					"$(SRCROOT)/../node_modules/react-native-permissions/ios/**",
->>>>>>> 6f1fbe72de9b8894f3c90cbc59446e45356e47e2
 				);
 				INFOPLIST_FILE = SmartInventory/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -1836,11 +1818,8 @@
 					"$(SRCROOT)/../node_modules/react-native-fs/**",
 					"$(SRCROOT)/../node_modules/react-native-image-base64/ios",
 					"$(SRCROOT)/../node_modules/react-native-config/ios/ReactNativeConfig",
-<<<<<<< HEAD
 					"$(SRCROOT)/../node_modules/react-native-fetch-blob/ios/**",
-=======
 					"$(SRCROOT)/../node_modules/react-native-permissions/ios/**",
->>>>>>> 6f1fbe72de9b8894f3c90cbc59446e45356e47e2
 				);
 				INFOPLIST_FILE = SmartInventory/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -1878,11 +1857,8 @@
 					"$(SRCROOT)/../node_modules/react-native-fs/**",
 					"$(SRCROOT)/../node_modules/react-native-image-base64/ios",
 					"$(SRCROOT)/../node_modules/react-native-config/ios/ReactNativeConfig",
-<<<<<<< HEAD
 					"$(SRCROOT)/../node_modules/react-native-fetch-blob/ios/**",
-=======
 					"$(SRCROOT)/../node_modules/react-native-permissions/ios/**",
->>>>>>> 6f1fbe72de9b8894f3c90cbc59446e45356e47e2
 				);
 				INFOPLIST_FILE = "SmartInventory-tvOS/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -1934,11 +1910,8 @@
 					"$(SRCROOT)/../node_modules/react-native-fs/**",
 					"$(SRCROOT)/../node_modules/react-native-image-base64/ios",
 					"$(SRCROOT)/../node_modules/react-native-config/ios/ReactNativeConfig",
-<<<<<<< HEAD
 					"$(SRCROOT)/../node_modules/react-native-fetch-blob/ios/**",
-=======
 					"$(SRCROOT)/../node_modules/react-native-permissions/ios/**",
->>>>>>> 6f1fbe72de9b8894f3c90cbc59446e45356e47e2
 				);
 				INFOPLIST_FILE = "SmartInventory-tvOS/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -1989,11 +1962,8 @@
 					"$(SRCROOT)/../node_modules/react-native-fs/**",
 					"$(SRCROOT)/../node_modules/react-native-image-base64/ios",
 					"$(SRCROOT)/../node_modules/react-native-config/ios/ReactNativeConfig",
-<<<<<<< HEAD
 					"$(SRCROOT)/../node_modules/react-native-fetch-blob/ios/**",
-=======
 					"$(SRCROOT)/../node_modules/react-native-permissions/ios/**",
->>>>>>> 6f1fbe72de9b8894f3c90cbc59446e45356e47e2
 				);
 				INFOPLIST_FILE = "SmartInventory-tvOSTests/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
@@ -2044,11 +2014,8 @@
 					"$(SRCROOT)/../node_modules/react-native-fs/**",
 					"$(SRCROOT)/../node_modules/react-native-image-base64/ios",
 					"$(SRCROOT)/../node_modules/react-native-config/ios/ReactNativeConfig",
-<<<<<<< HEAD
 					"$(SRCROOT)/../node_modules/react-native-fetch-blob/ios/**",
-=======
 					"$(SRCROOT)/../node_modules/react-native-permissions/ios/**",
->>>>>>> 6f1fbe72de9b8894f3c90cbc59446e45356e47e2
 				);
 				INFOPLIST_FILE = "SmartInventory-tvOSTests/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
