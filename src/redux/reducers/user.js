@@ -2,7 +2,6 @@ import C from '../../constants'
 const initialState = {
   authStatusReported: false,
   isUserAuthenticated: false,
-  inventories: []
 };
 
 export default(state = initialState, action) => {
@@ -17,7 +16,6 @@ export default(state = initialState, action) => {
       return{
         ...state, ...action.payload
       };
-    case C.GET_OWN_INVENTORIES: return {...state, inventories: [...state.inventories, ...action.payload]}
     default:
       return state;
   }

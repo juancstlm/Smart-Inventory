@@ -22,8 +22,6 @@ class InventoriesList extends React.Component {
 
   constructor(props) {
     super(props)
-
-    // this.props.getOwnInventories()
   }
 
   state = {
@@ -33,64 +31,12 @@ class InventoriesList extends React.Component {
     joinBackColor: "#2f3a49",
     createBackColor: "",
     search: "",
-    currentUser: [],
   };
 
   // This is so that react navigator hides the stack header
   static navigationOptions = {
     header: null
   };
-
-  async componentDidMount() {
-    // Get inventories owned by the user
-    // var inventories = Firebase.firestore.collection("Inventories");
-    // var querry = inventories.where(
-    //   "owner_id",
-    //   "==",
-    //   Firebase.auth.currentUser.uid
-    // );
-    // querry
-    //   .get()
-    //   .then(snapshot => {
-    //     const invs = snapshot.docs.map(doc => {
-    //       return doc.data();
-    //     });
-    //     this.setState({ inventories: invs });
-    //   })
-    //   .catch(err => {
-    //     console.log("Error getting documents", err);
-    //   });
-    //
-    // Firebase.firestore.collection("Users").doc(Firebase.auth.currentUser.uid).get()
-    //   .then(doc => {
-    //     if (!doc.exists) {
-    //       console.log('No such document!');
-    //     } else {
-    //       current = []
-    //       current = doc.data()
-    //       this.setState({ currentUser: current });
-    //     }
-    //   })
-    //   .catch(err => {
-    //     console.log('Error getting document', err);
-    //   });
-  }
-
-  getUserAvatar = async () => {
-    Firebase.firestore.collection('Users').doc(Firebase.auth.currentUser.uid)
-      .get().then(doc => {
-      if (!doc.exists) {
-        console.log('No such document!');
-      } else {
-        this.setState({
-          image: doc.data().image,
-          firstName: doc.data().firstName,
-          lastName: doc.data().lastName,
-          email: doc.data().email
-        })
-      }
-    })
-  }
 
   profileCallback = dataFromChild => {
     const { navigate } = this.props.navigation;
@@ -99,17 +45,6 @@ class InventoriesList extends React.Component {
       navigate("InventoryDetail", { inventory: dataFromChild });
     }
   };
-  // renderInventories() {
-  //   return this.props.inventories.data.map(inventory => (
-  //     <View style={styles.profileContainer}>
-  //       <InventoryProfile
-  //         key={inventory.name}
-  //         inventory={inventory}
-  //         callbackFromParent={this.profileCallback}
-  //       />
-  //     </View>
-  //   ));
-  // }
 
   _toggleModal = () =>
     this.setState({ isModalVisible: !this.state.isModalVisible });
@@ -154,28 +89,28 @@ class InventoriesList extends React.Component {
 
       var text = this.state.search
       var results = []
-      this.props.inventories.map(inv => {
+      this.props.inventories.all.map(inv => {
         if (inv.name.toLowerCase().includes(text.toLowerCase())) {
           results.push(inv)
         }
       });
 
       return results.map(inventory =>
-        <InventoryProfile key={inventory.name} inventory={inventory} callbackFromParent={this.profileCallback} />
+        <InventoryProfile key={inventory.id} inventory={inventory} onPress={console.log('resdfa')}/>
       );
     } else {
-      return this.props.inventories.map(inventory =>
-        <InventoryProfile key={inventory.name} inventory={inventory}/>
+      return this.props.inventories.all.map(inventory =>
+        <InventoryProfile key={inventory.name} inventory={inventory} onPress={console.log('resdfa')}/>
       );
     }
   }
 
   renderProfileIcon() {
-    if (this.props.firstName == "") {
-      return <Avatar rounded onPress={this.goToProfile} source={{ uri: this.props.image }}/>
+    if (this.props.user.firstName == "") {
+      return <Avatar rounded onPress={this.goToProfile} source={{ uri: this.props.user.image }}/>
     } else {
-      return <Avatar rounded source={{ uri: this.props.image }}
-                     title={String(this.props.firstName).charAt(0) + String(this.props.lastName).charAt(0)}
+      return <Avatar rounded source={{ uri: this.props.user.image }}
+                     title={String(this.props.user.firstName).charAt(0) + String(this.props.user.lastName).charAt(0)}
                      onPress={this.goToProfile}/>
     }
   }
@@ -286,7 +221,7 @@ class InventoriesList extends React.Component {
   }
 }
 
-export default connect(state=>state.user)(InventoriesList)
+export default connect(state=>state)(InventoriesList)
 
 const styles = {
   textStyle: {

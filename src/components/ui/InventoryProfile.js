@@ -109,7 +109,7 @@ export default class InventoryProfile extends React.Component {
         <InventoryCardSection>
                 <InventoryButton onPress={() => NavigationService.navigate("InventoryDetail",{inventory:props.inventory})}>
                     <Text style={styles.headerTextStyle}>{props.inventory.name}{'\n'}</Text>
-                    <Text>{props.inventory.itemCount} {' items'}</Text>
+                    <Text>{props.inventory.items.length} {' items'}</Text>
                 </InventoryButton>
         </InventoryCardSection>
 
