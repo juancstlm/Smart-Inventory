@@ -12,13 +12,29 @@ export const getUserDetails = (uid) => {
     }).catch((e) => console.log("ERROR: ", e))
 }
 
+
+
+export const getSharedInventories = () => {
+  return async (dispatch) => await Firebase.firestore.collection(C.INVENTORIES)
+    .where("users", 'array-contains', Firebase.auth.currentUser.uid)
+    .get().then(snapshot=>{
+      const sharedInventories = snapshot.docs.map(doc=>{
+        return {...doc.data(), id: doc.id}
+      })
+      dispatch({
+        type: C.GET_SHARED_INVENTORIES,
+        payload: sharedInventories
+      })
+    })
+}
+
 export const getOwnInventories = () => {
   return async (dispatch) => await Firebase.firestore.collection(C.INVENTORIES)
     .where("owner_id",
       "==",
       Firebase.auth.currentUser.uid).get().then(snapshot => {
         const inventories = snapshot.docs.map(doc => {
-          return doc.data();
+          return {...doc.data(), id: doc.id}
         });
       dispatch({
         type: C.GET_OWN_INVENTORIES,

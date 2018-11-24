@@ -2,8 +2,7 @@ import React from "react";
 import { View, ImageBackground } from "react-native";
 
 export const InventoryCard = props => {
-  console.log('invnetoruy card', props)
-
+  console.log("INV CARD", props.image)
   return (
     <ImageBackground
       source={{uri: props.image }}
