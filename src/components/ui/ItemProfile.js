@@ -7,70 +7,87 @@ import store from '../../redux/store'
 import NavigationService from '../../../NavigationService'
 import {setActiveItem} from '../../redux/actions/App'
 
-const InventoryItem = props => {
-  /*callParent = () => {
-        props.callbackFromParent(props.item);
-    }*/
+class InventoryItem extends React.Component {
 
-  var getWidth = function() {
-    var width = "";
-    width += props.item.quantity;
-    width += "%";
+  getWidth = function() {
+
+    let percent = Number(this.props.item.availableQuantity)/Number(this.props.item.quantity);
+    console.log('percent', this.props.item)
+    percent *= 100
+    let width = percent + "%";
+    console.log(width)
     return width;
   };
 
-  return (
-    <View
-      style={{
-        flex: 1,
-        backgroundColor: "#8190a5",
-        borderRadius: 10,
-        overflow: "hidden"
-      }}
-    >
+  render(){
+    let props = this.props;
+    const consumptionBar = (
       <View style={{
-        paddingRight: 0,
-        paddingBottom: 0,
-        paddingTop: 0,
-        paddingLeft: 0,
-        justifyContent: 'flex-start',
-        flexDirection: 'row',
-        alignItems: 'center',
-        position: 'relative',}}>
+        width: '100%',
+        height: 3,
+        backgroundColor: '#8a959a'
+      }}>
         <View style={{
-          backgroundColor: "#f7931e",
-          borderBottomEndRadius: 6,
-          borderTopRightRadius: 6,
-          shadowColor: '#000',
-          shadowOffset: {
-            width: 0,
-            height: 3
-          },
-          shadowRadius: 5,
-          shadowOpacity: 1.0
-        }}>
-          <Text style={styles.headerTextStyle}>{props.item.quantity}</Text>
-        </View>
-          <Text style={styles.itemNameStyle}>{props.item.name}</Text>
+          width: this.getWidth(),
+          height: 3,
+          backgroundColor: '#f7931e'
+        }}/>
       </View>
-
-      <ImageBackground
-        source={{uri: props.item.image }}
-        imageStyle={{ resizeMode: "cover", width:'100%' }}
+    )
+    return (
+      <View
         style={{
           flex: 1,
+          backgroundColor: "#8190a5",
+          borderRadius: 10,
+          overflow: "hidden"
         }}
       >
-        <TouchableOpacity
-          onPress={() => {
-            store.dispatch(setActiveItem(props.item));
-            NavigationService.navigate('Item')
+        <View style={{
+          paddingRight: 0,
+          paddingBottom: 0,
+          paddingTop: 0,
+          paddingLeft: 0,
+          justifyContent: 'flex-start',
+          flexDirection: 'row',
+          alignItems: 'center',
+          position: 'relative',}}>
+          <View style={{
+            backgroundColor: "#f7931e",
+            borderBottomEndRadius: 6,
+            borderTopRightRadius: 6,
+            shadowColor: '#000',
+            shadowOffset: {
+              width: 0,
+              height: 2
+            },
+            shadowRadius: 5,
+            shadowOpacity: .7
+          }}>
+            <Text style={styles.headerTextStyle}>{props.item.availableQuantity}</Text>
+          </View>
+          <Text style={styles.itemNameStyle}>{props.item.name}</Text>
+        </View>
+        {consumptionBar}
+        <ImageBackground
+          source={{uri: props.item.image }}
+          imageStyle={{ resizeMode: "cover", width:'100%' }}
+          style={{
+            flex: 1,
           }}
-          style={styles.buttonStyle}
-        />
-      </ImageBackground>
-    </View>
-  );
+        >
+          <TouchableOpacity
+            onPress={() => {
+              store.dispatch(setActiveItem(props.item));
+              NavigationService.navigate('Item')
+            }}
+            style={styles.buttonStyle}
+          />
+        </ImageBackground>
+      </View>
+    );
+  }
+
 };
 
 const styles = {
