@@ -281,7 +281,7 @@ class InventoriesList extends React.Component {
         
         <ActionButton buttonColor="rgba(231,76,60,1)" onPress={this._toggleModal}/>
         
-      </View>
+      </SafeAreaView>
     );
   }
 }
