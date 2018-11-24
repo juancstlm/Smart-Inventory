@@ -96,7 +96,7 @@ class InventoriesList extends React.Component {
       });
 
       return results.map(inventory =>
-        <InventoryProfile key={inventory.id} inventory={inventory} onPress={console.log('resdfa')}/>
+        <InventoryProfile key={inventory.name} inventory={inventory}  />
       );
     } else {
       return this.props.inventories.all.map(inventory =>
@@ -210,7 +210,7 @@ class InventoriesList extends React.Component {
               </TouchableOpacity>
             </InventoryCardSection>
 
-            {this.state.isJoin ? <Join/> : <Create/>}
+            {this.state.isJoin ? <Join/> : <Create inventories={this.props.inventories}/>}
           </View>
         </Modal>
         
