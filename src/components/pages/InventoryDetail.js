@@ -6,16 +6,19 @@ import { Header, SearchBar, Avatar, Icon } from "react-native-elements";
 import InventoryCardSection from '../ui/InventoryCardSection';
 import Firebase from "../../Firebase";
 import {connect} from 'react-redux'
+import {getActiveInventoryItems, getActiveInventoryUsers} from '../../redux/actions/App'
 
 //make componet
 class InventoryDetail extends React.Component {
 
+    constructor(props){
+        super(props)
+      this.props.dispatch(getActiveInventoryItems())
+    }
+
     state = {
-        inventory: null,
-        items: [],
         search: "",
         users: [],
-        currentUser: [],
     };
 
     static navigationOptions = {
@@ -24,25 +27,7 @@ class InventoryDetail extends React.Component {
 
     componentWillMount() {
         const inv = this.props.inventories.activeInventory
-        items = []
         users = []
-
-        inv.items.map(item => {
-
-            Firebase.firestore.collection("Items").doc(item).get()
-                .then(doc => {
-                    if (!doc.exists) {
-                        console.log('No such document!');
-                    } else {
-                        items.push(doc.data())
-                        this.setState({ items: items });
-                    }
-                })
-                .catch(err => {
-                    console.log('Error getting document', err);
-                });
-
-        })
 
         inv.users.map(user => {
 
@@ -63,27 +48,28 @@ class InventoryDetail extends React.Component {
     }
 
     renderItems() {
-        if (this.state.search != undefined || this.state.search != "") {
-
+        if(this.props.inventories.currentItemsDetails.length > 0){
+          if (this.state.search !== "" || this.state.search !== undefined) {
             var text = this.state.search
             var results = []
-            this.state.items.map(item => {
+            this.props.inventories.currentItemsDetails.map(item => {
                 if (item.name.toLowerCase().includes(text.toLowerCase())) {
-                    results.push(item)
+                  results.push(item)
                 }
-            }
+              }
             );
             return results.map(item =>
-                <View style={styles.profileContainer} key={item.name}>
-                    <ItemProfile style={styles.profile} key={item.name} item={item} />
-                </View>
+              <View style={styles.profileContainer} key={item.name}>
+                <ItemProfile style={styles.profile} key={item.name} item={item} />
+              </View>
             );
-        } else {
-            return this.props.inventories.activeInventory.items.map(item =>
-                <View style={styles.profileContainer} key={item.name}>
-                    <ItemProfile style={styles.profile} key={item.name} item={item}/>
-                </View>
+          } else {
+            return this.props.inventories.currentItemsDetails.map(item =>
+              <View style={styles.profileContainer} key={item.name}>
+                <ItemProfile style={styles.profile} key={item.name} item={item}/>
+              </View>
             );
+          }
         }
     }
 
