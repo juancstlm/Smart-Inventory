@@ -25,9 +25,6 @@ export default class InventoryProfile extends React.Component {
   // callParent = () => {
     //     props.callbackFromParent(props.inventory);
     // }
-    callParent = () => {
-        props.callbackFromParent(props.inventory);
-    }
 
     // renderUserProfileImages = () => {
     //     return props.inventory.users.map(user =>

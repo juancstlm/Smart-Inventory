@@ -92,13 +92,13 @@ class InventoriesList extends React.Component {
     })
   }
 
-  profileCallback = dataFromChild => {
-    const { navigate } = this.props.navigation;
+  //profileCallback = dataFromChild => {
+   // const { navigate } = this.props.navigation;
     //this.setState({childData: dataFromChild});
-    {
-      navigate("InventoryDetail", { inventory: dataFromChild });
-    }
-  };
+    //{
+    //  navigate("InventoryDetail", { inventory: dataFromChild });
+   // }
+ // };
   // renderInventories() {
   //   return this.props.inventories.data.map(inventory => (
   //     <View style={styles.profileContainer}>
@@ -161,7 +161,7 @@ class InventoriesList extends React.Component {
       });
 
       return results.map(inventory =>
-        <InventoryProfile key={inventory.name} inventory={inventory} callbackFromParent={this.profileCallback} />
+        <InventoryProfile key={inventory.name} inventory={inventory}  />
       );
     } else {
       return this.props.inventories.map(inventory =>
@@ -275,7 +275,7 @@ class InventoriesList extends React.Component {
               </TouchableOpacity>
             </InventoryCardSection>
 
-            {this.state.isJoin ? <Join/> : <Create/>}
+            {this.state.isJoin ? <Join/> : <Create inventories={this.props.inventories}/>}
           </View>
         </Modal>
         
