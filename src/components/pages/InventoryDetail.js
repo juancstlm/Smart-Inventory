@@ -1,12 +1,12 @@
 // imports
 import React from 'react';
-import { Text, ScrollView, View, Image } from 'react-native';
+import { Text, ScrollView, View, Image, FlatList } from 'react-native';
 import ItemProfile from '../ui/ItemProfile';
-import { Header, SearchBar, Avatar, Icon } from "react-native-elements";
+import { Header, SearchBar, Avatar, Icon, } from "react-native-elements";
 import InventoryCardSection from '../ui/InventoryCardSection';
 import Firebase from "../../Firebase";
 import {connect} from 'react-redux'
-import {getActiveInventoryItems, getActiveInventoryUsers} from '../../redux/actions/App'
+import {getActiveInventoryItems, clearActiveInventory} from '../../redux/actions/App'
 
 //make componet
 class InventoryDetail extends React.Component {
@@ -43,7 +43,6 @@ class InventoryDetail extends React.Component {
                 .catch(err => {
                     console.log('Error getting document', err);
                 });
-
         })
     }
 
@@ -117,6 +116,11 @@ class InventoryDetail extends React.Component {
         }
     }
 
+    handleGoBack=()=>{
+        this.props.dispatch(clearActiveInventory())
+      this.props.navigation.goBack()
+    }
+
     goToProfile = () => {
         this.props.navigation.navigate("Profile");
     }
@@ -127,7 +131,7 @@ class InventoryDetail extends React.Component {
                 <Header
                     statusBarProps={{ barStyle: "light-content" }}
                     leftComponent={<Icon name='arrow-back' color='#fff'
-                                         onPress={()=>this.props.navigation.goBack()}/>}
+                                         onPress={this.handleGoBack}/>}
                     centerComponent={
                         this.renderSearchBar()
                     }
@@ -144,7 +148,7 @@ class InventoryDetail extends React.Component {
 
                 <InventoryCardSection>
                     <Text style={styles.textStyle}>
-                        {this.props.inventories.activeInventory.name + ' Inventory'}
+                        {this.props.inventories.activeInventory.name}
                     </Text>
                 </InventoryCardSection>
 
@@ -152,9 +156,15 @@ class InventoryDetail extends React.Component {
                     {this.renderUserProfileImages()}
                 </InventoryCardSection>
 
-                <ScrollView contentContainerStyle={styles.container}>
-                    {this.renderItems()}
-                </ScrollView>
+                <FlatList contentContainerStyle={styles.container}
+                          data={this.props.inventories.currentItemsDetails}
+                          numColumns={2}
+                          renderItem={({item}) =>
+                            <View style={styles.profileContainer} key={item.id}>
+                              <ItemProfile style={styles.profile} key={item.id} item={item}/>
+                            </View>}
+                >
+                </FlatList>
 
             </View>
         );
@@ -176,8 +186,6 @@ const styles = {
         color: 'white',
     },
     container: {
-        flexDirection: 'row',
-        flexWrap: 'wrap',
         padding: 5,
 
     },
@@ -194,7 +202,6 @@ const styles = {
         borderRadius: 20,
     },
     profileContainer: {
-        width: '50%',
         margin: 5,
         flex: 1,
     },

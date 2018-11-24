@@ -35,13 +35,12 @@ const InventoryItem = props => {
         <View>
           <Text style={styles.headerTextStyle}>{props.item.name}</Text>
           <View
-            style={{ width: getWidth(), height: 3, backgroundColor: "#f7931e" }}
+            style={{ width: '100%', height: 3, backgroundColor: "#f7931e" }}
           />
         </View>
       </InventoryCardSection>
 
       <InventoryCard image={props.item.image}>
-        <InventoryCardSection>
           <TouchableOpacity
             onPress={() => {
               store.dispatch(setActiveItem(props.item));
@@ -49,7 +48,6 @@ const InventoryItem = props => {
             }}
             style={styles.buttonStyle}
           />
-        </InventoryCardSection>
       </InventoryCard>
     </View>
   );

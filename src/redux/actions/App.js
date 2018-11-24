@@ -12,6 +12,14 @@ export const getUserDetails = (uid) => {
     }).catch((e) => console.log("ERROR: ", e))
 }
 
+export const clearActiveInventory = () => {
+  return (dispatch)=> {
+    dispatch({
+      type: C.CLEAR_ACTIVE_INVENTORY,
+    })
+  }
+}
+
 export const setActiveInventory = (inventory) => {
   return (dispatch)=> {
     dispatch({
