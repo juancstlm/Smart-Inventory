@@ -210,7 +210,7 @@ class InventoriesList extends React.Component {
               </TouchableOpacity>
             </InventoryCardSection>
 
-            {this.state.isJoin ? <Join/> : <Create inventories={this.props.inventories}/>}
+            {this.state.isJoin ? <Join/> : <Create inventories={this.props.inventories.all}/>}
           </View>
         </Modal>
         
