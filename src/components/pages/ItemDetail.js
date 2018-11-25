@@ -10,8 +10,9 @@ import ItemDetailCategories from './ItemDetailCategories'
 import ItemDetailInventory from './ItemDetailInventory'
 
 class ItemDetail extends React.Component{
-	
+
 	render(){
+		const displayCategories = false;
 		price = this.props.itemPrice;
 		console.log("price bitch tres: ", price);
 
@@ -22,10 +23,7 @@ class ItemDetail extends React.Component{
 
 		        <ItemDetailPrice itemPrice={price}>
 		        </ItemDetailPrice>
-
-		        <ItemDetailCategories>
-		        </ItemDetailCategories>
-			    
+  
 			    <View style={styles.horizontalLine}>
 			    </View>
 

@@ -34,7 +34,6 @@ class ItemDetailPrice extends Component{
 			if(numbers.indexOf(text[i]) > -1 ) { 
 				newText = newText + text[i]; 
 			}
-      this.props.dispatch(setActiveItemPrice(newText))
 		}
 	}
 
@@ -45,7 +44,7 @@ class ItemDetailPrice extends Component{
 		               <Text style={{fontSize: 17, color: '#2F3A49'}} > Price
 		               </Text>
 		              </View>
-		       		<View style={{paddingRight: 10}}> 
+		       		<View style={{paddingRight: 15}}> 
 						<TextInput 
 						   style={styles.textInput}
 						   keyboardType='numeric'
@@ -62,7 +61,7 @@ class ItemDetailPrice extends Component{
 
 const styles ={
 	background: {
-		height:60,
+		height:35,
 		flexDirection:'row',
         justifyContent:'space-between',
         alignItems: 'center'

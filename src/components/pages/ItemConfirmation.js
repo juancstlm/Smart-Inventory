@@ -5,7 +5,40 @@ import ItemConfirmationDetails from './ItemConfirmationDetails'
 import Firebase from "../../Firebase";
 
 class ItemConfirmation extends Component {
- 
+	
+	state : {
+		price: '',
+		expirationDate: '',
+	}
+
+	constructor(props) {
+		super(props);
+		this.getData = this.getData.bind(this);
+		this.getPrice = this.getPrice.bind(this);				
+		this.state = {
+	      price: '',
+	      expirationDate: ''
+	    };
+	}
+
+	getPrice = (updatedPrice) => {
+		this.setState({
+			price: updatedPrice,
+		});
+	    console.log("updated price: ",updatedPrice);
+	}
+
+	getData = (updatedData) => {
+		this.setState({
+			expirationDate: updatedData,
+		});
+	    console.log("updated date: ",updatedData);
+	}
+
+	saveToFireBase = () => {
+		console.log("time to save to firebase");
+	}
+
 	render() {
 		const { navigation } = this.props;
 		const imagePath = navigation.getParam('imagePath', 'NO-Path');
@@ -32,13 +65,13 @@ class ItemConfirmation extends Component {
 			    </View>
 
 			    <View style={styles.card3}>
-			        <ItemConfirmationDetails navigation={this.props.navigation}>
+			        <ItemConfirmationDetails sendDate={this.getData} sendPrice={this.getPrice}>
 			        </ItemConfirmationDetails>
 			    </View>
 			
 			
 			    <View style={styles.card4}>
-			        <Button block onPress={() => this.props.navigation.navigate('Item')}>
+			        <Button block onPress={this.saveToFireBase}>
                          <Text>CONTINUE</Text>
                     </Button>
 			    </View>

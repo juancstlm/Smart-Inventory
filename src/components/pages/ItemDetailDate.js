@@ -69,7 +69,7 @@ class ItemDetailDate extends React.Component {
                    <Text style={{fontSize: 17, color: '#2F3A49'}} > Expiration Date
                    </Text>
                   </View>
-              <View style={{paddingRight: 10}}>  
+              <View style={{paddingRight: 0}}>  
                {this.displayDatePicker()}
                 </View>
            </View>

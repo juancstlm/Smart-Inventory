@@ -8,8 +8,8 @@ import {connect} from 'react-redux';
 class Item extends Component{
 
 	static navigationOptions = {
-    header: null
-  };
+		header: null
+	};
 	
 	state : {
 		name: '',
