@@ -6,6 +6,7 @@ import { Header, SearchBar, Avatar, Icon } from "react-native-elements";
 import InventoryCardSection from '../ui/InventoryCardSection';
 import Firebase from "../../Firebase";
 import {connect} from 'react-redux'
+import {Clipboard, Alert} from 'react-native';
 
 //make componet
 class InventoryDetail extends React.Component {
@@ -92,13 +93,29 @@ class InventoryDetail extends React.Component {
             if (user.image != undefined) {
                 return <View style={styles.thumbnailContainerStyle} key={user.firstName}>
                     <Avatar rounded source={{ uri: user.image }} />
+                    <Avatar rounded title='+' onPress={() =>this.invite()} />
                 </View>
             } else {
-                return <View style={styles.thumbnailContainerStyle} key={user.firstName}>
+                return <View style={styles.thumbnailContainerStyle}  key={user.firstName}>
                     <Avatar rounded title={user.firstName.charAt(0) + user.lastName.charAt(0)} />
+                    <Avatar rounded title='+' onPress={() =>this.invite()} />
                 </View>
             }
         });
+    }
+
+    invite() {
+        Alert.alert(
+            "Invitation Code",
+            this.props.inventories.activeInventory.invite_id,
+            [
+              {text: 'Cancel', onPress: () => console.log('Cancel Pressed'), style: 'cancel'},
+              {text: 'Copy', onPress: () => Clipboard.setString(this.props.inventories.activeInventory.invite_id)},
+            ],
+            { cancelable: false }
+          )
+        console.log(this.props.inventories.activeInventory.invite_id)
+
     }
 
     renderSearchBar() {
@@ -202,6 +219,7 @@ const styles = {
         alignItems: 'center',
         marginLeft: 5,
         marginRight: 5,
+        flexDirection: 'row',
     },
     thumbnailStyle: {
         height: 50,
