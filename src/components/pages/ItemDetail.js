@@ -10,12 +10,17 @@ import ItemDetailCategories from './ItemDetailCategories'
 import ItemDetailInventory from './ItemDetailInventory'
 
 class ItemDetail extends React.Component{
-
+	
 	render(){
+		price = this.props.itemPrice;
+		console.log("price bitch tres: ", price);
+
+		expirationDate = this.props.itemExpirationDate;
+		console.log("expiration date dos: ",expirationDate);
 		return(		
 		    <ScrollView style={styles.scrollViewStyle}>
 
-		        <ItemDetailPrice>
+		        <ItemDetailPrice itemPrice={price}>
 		        </ItemDetailPrice>
 
 		        <ItemDetailCategories>
@@ -24,7 +29,7 @@ class ItemDetail extends React.Component{
 			    <View style={styles.horizontalLine}>
 			    </View>
 
-		        <ItemDetailDate>
+		        <ItemDetailDate itemExpirationDate={expirationDate}>
 		        </ItemDetailDate>
 
 		        <ItemDetailInventory>

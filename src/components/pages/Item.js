@@ -1,16 +1,56 @@
 import React, { Component } from 'react';
 import { View, Image, Text } from 'react-native';
 import ItemDetail from './ItemDetail'
-
+import Firebase from "../../Firebase";
+//source= {require("../../img/bike2.jpeg")}
 class Item extends Component{
 	
+	state : {
+		name: '',
+		price: '',
+		image: '',
+		quantity: '',
+		categories: [],
+		expirationDate: '',
+	} 
+
+	constructor(props) {
+		super(props);
+		this.state = {
+			name: '',
+			price: '',
+			image: '',
+			quantity: '',
+			categories: [],
+			expirationDate: '',
+		}
+	}
+
+	async componentDidMount() {
+		var currentThis = this;
+
+		Firebase.firestore.collection("Items").doc("Sc1hSLwJfeKiGu92GdzT")
+		    .onSnapshot(function(doc) {
+		        console.log("Current data bitch: ", doc.data());
+		        currentThis.setState({ 
+		        	name: doc.data().name,
+		        	image: doc.data().image,
+		        	price: doc.data().price,
+		        	expirationDate: doc.data().expirationDate, 
+		        })
+		    });
+	}
+
 	render(){
+		var image = this.state.image;
+		var price = this.state.price;
+		var expirationDate = this.state.expirationDate;
 		return(		
 			<View style={styles.background}>
 
 			  <View style={styles.card1}>
 			    <Text style={styles.card1NameStyle}>
-			        Bike
+			        {this.state.name}
 			    </Text>
 			  </View>
 
@@ -22,12 +62,12 @@ class Item extends Component{
 			              height: null,
 			              borderRadius: 10
 			            }} 
-			            source= {require("../../img/bike2.jpeg")}
+			            source={{ uri: image }}
 			      />
 			  </View>
 			
 			  <View style={styles.card3}>
-			       <ItemDetail>
+			       <ItemDetail itemPrice={price} itemExpirationDate={expirationDate}>
 			       </ItemDetail>
 			  </View>
 		    

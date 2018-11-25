@@ -39,7 +39,7 @@ export default class CameraClarifai extends React.Component {
 	    window.XMLHttpRequest = RNFetchBlob.polyfill.XMLHttpRequest
 	    window.Blob = Blob
 	    
-	    const uid = "12345"
+	    const uid = "ItemPhoto"
 	    const imageRef = Firebase.storage.ref(uid).child("dp5.jpg")
 	    let mime = 'image/jpg'
 
@@ -84,7 +84,6 @@ export default class CameraClarifai extends React.Component {
 	}
     
 	render() {
-		console.log()
 		return (
 			<View style={{flex: 1}}>
             <RNCamera ref={ref => {this.camera = ref;}} style={styles.preview}>

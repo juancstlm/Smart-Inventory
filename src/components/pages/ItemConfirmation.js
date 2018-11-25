@@ -1,28 +1,21 @@
 import React, { Component } from 'react';
 import { View, Image, Text } from 'react-native';
-import firebase from 'firebase';
 import Button from '../ui/ItemConfirmationButton';
 import ItemConfirmationDetails from './ItemConfirmationDetails'
+import Firebase from "../../Firebase";
 
 class ItemConfirmation extends Component {
-
+ 
 	render() {
 		const { navigation } = this.props;
 		const imagePath = navigation.getParam('imagePath', 'NO-Path');
-		const itemName = navigation.getParam('itemName','No-Item');
-		
-		console.log("bitchhhhss");
-		console.log(imagePath.uri)
-		
-		console.log("bitchhhhss dosss");
-		console.log(itemName)
-
+		const itemName = navigation.getParam('itemName','No-Item');		
 		return (
 			<View style={styles.background}>
 			    
 			    <View style={styles.card1}>
 			        <View style={styles.itemNameContainer}>
-			            <Text style={styles.itemNameStyle}> {JSON.parse(JSON.stringify(itemName))}</Text>
+			            <Text style={styles.itemNameStyle}>{itemName}</Text>
 			        </View>
 			    </View>
 			

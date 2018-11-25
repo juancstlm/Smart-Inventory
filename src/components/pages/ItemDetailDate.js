@@ -6,11 +6,21 @@ import {format, compareAsc} from 'date-fns'
 import DatePicker from 'react-native-datepicker'
 
 class ItemDetailDate extends React.Component {
+    
+    state : {
+      Expirationdate: '',
+    } 
 
     constructor (props) {
       super(props)
       this.state = {
-        Expirationdate:"2018-11-16"
+        Expirationdate:"2000-00-00"
+      }
+    }
+
+    componentWillReceiveProps(nextProps){
+      if (nextProps.itemExpirationDate !== this.props.itemExpirationDate) {
+        this.setState({ Expirationdate: nextProps.itemExpirationDate })
       }
     }
 
@@ -22,8 +32,8 @@ class ItemDetailDate extends React.Component {
               mode="date"
               placeholder="select date"
               format="YYYY-MM-DD"
-              minDate="2018-11-16"
-              maxDate="2018-11-30"
+              minDate="2018-11-24"
+              maxDate="2018-12-30"
               confirmBtnText="Confirm"
               cancelBtnText="Cancel"
               customStyles={{

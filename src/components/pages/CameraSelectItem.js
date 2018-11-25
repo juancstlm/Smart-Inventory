@@ -33,11 +33,12 @@ export default class CameraSelectItem extends React.Component {
     	});
     }
 
-    selectItemButton(image,itemName){
-            this.props.navigation.navigate('ItemConfirmation', { 
-            	itemName: itemName,
-            	imagePath: image
-            });    	
+    selectItemButton(image){
+    	const itemName = this.state.picked;	
+        this.props.navigation.navigate('ItemConfirmation', { 
+        	itemName: itemName,
+        	imagePath: image
+        });    	
     }
     
 	render() {
@@ -47,17 +48,10 @@ export default class CameraSelectItem extends React.Component {
 		const imagePath = navigation.getParam('imagePath', 'NO-Path');
 		const items = navigation.getParam('items','No-Item');
 
-		console.log("items found are:")
-		console.log(items)	
-
 		var arr = [];
 		for(var i = 0, len = items.length; i < len; i++) {
-		  arr.push( {"key": items[i].id, "label": items[i].name});
+		  arr.push( {"key": items[i].name, "label": items[i].name});
 		}
-
-		console.log("items found are dos:")
-		console.log(arr)
-
 
 		return (
 			<View style={styles.preview}>
@@ -94,7 +88,7 @@ export default class CameraSelectItem extends React.Component {
 
 		        <TouchableHighlight
 		          style={styles.capture}
-		          onPress={ () => this.selectItemButton(imagePath,'Bike') }
+		          onPress={ () => this.selectItemButton(imagePath) }
 		          underlayColor="rgba(255, 255, 255, 0.5)"
 		        >
 		          <View />

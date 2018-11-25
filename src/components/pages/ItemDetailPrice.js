@@ -3,12 +3,22 @@ import { View, Image, Text,TextInput } from 'react-native';
 
 class ItemDetailPrice extends Component{
 	
-	constructor (props) {
-		super(props)
+	state : {
+		price: '',
+	} 
+
+	constructor(props) {
+		super(props);
 		this.state = {
-			itemPrice: '00.00'
-        }
-    }
+			price: '00.00'
+		}
+	}
+
+	componentWillReceiveProps(nextProps){
+	 	if (nextProps.itemPrice !== this.props.itemPrice) {
+	 		this.setState({ price: nextProps.itemPrice })
+	 	}
+	}
 
 	onChangedPrice(text){ 
 		var newText = ''; 
@@ -38,7 +48,7 @@ class ItemDetailPrice extends Component{
 						   style={styles.textInput}
 						   keyboardType='numeric'
 						   onChangeText={(text)=> this.onChangedPrice(text)}
-						   value={"$" + this.state.itemPrice}
+						   value={"$" + this.state.price}
 						   maxLength={10}  //setting limit of input
 						/>
 		          </View>
