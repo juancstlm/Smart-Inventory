@@ -76,7 +76,7 @@ class ItemConfirmationDetails extends Component {
         )
     }
 
-	handleClick = () => {
+	handleAddInventory = () => {
 		console.log("this is Inventories button");
 	}
 	
@@ -91,7 +91,7 @@ class ItemConfirmationDetails extends Component {
 			           </Text>		   
 				   </View>
 				   <View style={{flex: 1}}>
-				        <Button block onPress={this.handleClick}>
+				        <Button block onPress={this.handleAddInventory}>
 	                         <Text>ADD TO INVENTORY</Text>
 	                    </Button>
 					</View>

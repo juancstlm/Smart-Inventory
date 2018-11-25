@@ -9,16 +9,23 @@ class ItemConfirmation extends Component {
 	state : {
 		price: '',
 		expirationDate: '',
+		name: '',
+		imagePath: '',
+		imagefirebase: ''
 	}
 
 	constructor(props) {
 		super(props);
-		this.getData = this.getData.bind(this);
-		this.getPrice = this.getPrice.bind(this);				
+		const { params } = props.navigation.state;			
 		this.state = {
 	      price: '',
-	      expirationDate: ''
+	      expirationDate: '',
+	      name: params.itemName,
+	      imagePath: params.imagePath,
+	      imagefirebase: params.imagefirebase
 	    };
+	    this.getData = this.getData.bind(this);
+		this.getPrice = this.getPrice.bind(this);	
 	}
 
 	getPrice = (updatedPrice) => {
@@ -35,20 +42,36 @@ class ItemConfirmation extends Component {
 	    console.log("updated date: ",updatedData);
 	}
 
-	saveToFireBase = () => {
-		console.log("time to save to firebase");
+	async saveToFireBase() {
+		console.log("hiiiiiiii bitch");
+
+		Firebase.firestore.collection("Items").add({
+		    name: 'Tokyo',
+		})
+		.then(function(docRef) {
+		    console.log("Document written with ID: ", docRef.id);
+		})
+		.catch(function(error) {
+		    console.error("Error adding document: ", error);
+		});	
+
+		Firebase.firestore.collection("Items").doc("Sc1hSLwJfeKiGu92GdzT")
+		    .onSnapshot(function(doc) {
+		        console.log("This worked bitch: ", doc.data());
+		    });	
+
 	}
 
-	render() {
-		const { navigation } = this.props;
-		const imagePath = navigation.getParam('imagePath', 'NO-Path');
-		const itemName = navigation.getParam('itemName','No-Item');		
+	render() {	
+		console.log("image saved to firebase:")
+		console.log(this.state.imagefirebase);
+
 		return (
 			<View style={styles.background}>
 			    
 			    <View style={styles.card1}>
 			        <View style={styles.itemNameContainer}>
-			            <Text style={styles.itemNameStyle}>{itemName}</Text>
+			            <Text style={styles.itemNameStyle}>{this.state.name}</Text>
 			        </View>
 			    </View>
 			
@@ -60,7 +83,7 @@ class ItemConfirmation extends Component {
 			              height: null,
 			              borderRadius: 10
 			            }} 
-			            source={{ isStatic: true, uri: imagePath.uri }}
+			            source={{ isStatic: true, uri: this.state.imagePath.uri }}
 			        />
 			    </View>
 

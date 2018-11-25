@@ -14,6 +14,7 @@ export default class CameraClarifai extends React.Component {
 			loading: false,
 			itemsFromClarifai: [],
 			retrievedData: false,
+			imagefirebase: ''
 		}
     }
 
@@ -28,7 +29,6 @@ export default class CameraClarifai extends React.Component {
             };			
 			const data = await this.camera.takePictureAsync(options)
 			this.saveImageToFirebase2(data);
-			this.identifyImage(data);
 		}
 	}
 
@@ -53,16 +53,11 @@ export default class CameraClarifai extends React.Component {
 	          return imageRef.getDownloadURL()
 	        })
 	        .then((url) => {
-
-	          let userData = {}
-	          //userData[dpNo] = url
-	          //firebase.database().ref('users').child(uid).update({ ...userData})
-
-	          let obj = {}
-	          obj["loading"] = false
-	          obj["dp"] = url
-	          this.setState(obj)
-
+			  this.setState({
+				imagefirebase: url
+			  }, () => {
+				this.identifyImage(image);
+			  });
 	        })
 	        .catch((error) => {
 	          console.log(error)
@@ -77,7 +72,8 @@ export default class CameraClarifai extends React.Component {
 		app.models.predict(Clarifai.GENERAL_MODEL, {base64: imageData.base64})
 			.then((response) => this.props.navigation.navigate('CameraSelectItem', {
 			 imagePath: imageData, 
-			 items: response.outputs[0].data.concepts
+			 items: response.outputs[0].data.concepts,
+			 imagefirebase: this.state.imagefirebase
 			})
 			.catch((err) => alert(err))
 		);

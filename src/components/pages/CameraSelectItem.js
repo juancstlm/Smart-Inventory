@@ -8,11 +8,11 @@ export default class CameraSelectItem extends React.Component {
 
 	constructor(props){
 		super(props);
-
+		const { params } = props.navigation.state;
 		this.selectItemButton = this.selectItemButton.bind(this);
-        
         this.state = { 
         	picked: null,
+        	imagefirebase: params.imagefirebase
 		}
     }
 
@@ -37,7 +37,8 @@ export default class CameraSelectItem extends React.Component {
     	const itemName = this.state.picked;	
         this.props.navigation.navigate('ItemConfirmation', { 
         	itemName: itemName,
-        	imagePath: image
+        	imagePath: image,
+        	imagefirebase: this.state.imagefirebase
         });    	
     }
     
