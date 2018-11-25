@@ -5,8 +5,8 @@ import ItemProfile from '../ui/ItemProfile';
 import { Header, SearchBar, Avatar, Icon } from "react-native-elements";
 import InventoryCardSection from '../ui/InventoryCardSection';
 import Firebase from "../../Firebase";
-import {connect} from 'react-redux'
-import {Clipboard, Alert} from 'react-native';
+import { connect } from 'react-redux'
+import { Clipboard, Alert, Keyboard } from 'react-native';
 
 //make componet
 class InventoryDetail extends React.Component {
@@ -17,11 +17,19 @@ class InventoryDetail extends React.Component {
         search: "",
         users: [],
         currentUser: [],
+        searchFlag: false
     };
 
     static navigationOptions = {
         header: null
     };
+
+    componentWillMount(){ 
+        this.setState({
+            searchFlag: false
+        })
+        Keyboard.dismiss
+    }
 
     componentWillMount() {
         const inv = this.props.inventories.activeInventory
@@ -82,23 +90,22 @@ class InventoryDetail extends React.Component {
         } else {
             return this.props.inventories.activeInventory.items.map(item =>
                 <View style={styles.profileContainer} key={item.name}>
-                    <ItemProfile style={styles.profile} key={item.name} item={item}/>
+                    <ItemProfile style={styles.profile} key={item.name} item={item} />
                 </View>
             );
         }
     }
 
     renderUserProfileImages() {
+        console.log(this.state.users)
         return this.state.users.map(user => {
             if (user.image != undefined) {
                 return <View style={styles.thumbnailContainerStyle} key={user.firstName}>
                     <Avatar rounded source={{ uri: user.image }} />
-                    <Avatar rounded title='+' onPress={() =>this.invite()} />
                 </View>
             } else {
-                return <View style={styles.thumbnailContainerStyle}  key={user.firstName}>
+                return <View style={styles.thumbnailContainerStyle} key={user.firstName}>
                     <Avatar rounded title={user.firstName.charAt(0) + user.lastName.charAt(0)} />
-                    <Avatar rounded title='+' onPress={() =>this.invite()} />
                 </View>
             }
         });
@@ -109,20 +116,24 @@ class InventoryDetail extends React.Component {
             "Invitation Code",
             this.props.inventories.activeInventory.invite_id,
             [
-              {text: 'Cancel', onPress: () => console.log('Cancel Pressed'), style: 'cancel'},
-              {text: 'Copy', onPress: () => Clipboard.setString(this.props.inventories.activeInventory.invite_id)},
+                { text: 'Cancel', style: 'cancel' },
+                { text: 'Copy', onPress: () => Clipboard.setString(this.props.inventories.activeInventory.invite_id) },
             ],
             { cancelable: false }
-          )
+        )
         console.log(this.props.inventories.activeInventory.invite_id)
 
     }
 
     renderSearchBar() {
         return <SearchBar placeholder={"Type item name to search"}
-            autoFocus={true}
+            autoFocus={this.state.searchFlag}
             value={this.state.search}
-            onChangeText={text => this.setState({ search: text })}
+            onChangeText={text =>
+                this.setState({
+                    search: text,
+                    searchFlag: true,
+                })}
             autoCapitalize='none'
             containerStyle={{
                 width: "120%",
@@ -142,10 +153,10 @@ class InventoryDetail extends React.Component {
     renderProfileIcon() {
         if (this.props.user == "") {
             return <Avatar rounded onPress={this.goToProfile}
-                           source={{uri: this.props.user.image}}
+                source={{ uri: this.props.user.image }}
             />
         } else {
-            return <Avatar rounded source={{uri: this.props.user.image}} title={this.props.user.firstName.charAt(0) + this.props.user.lastName.charAt(0)} onPress={this.goToProfile} />
+            return <Avatar rounded source={{ uri: this.props.user.image }} title={this.props.user.firstName.charAt(0) + this.props.user.lastName.charAt(0)} onPress={this.goToProfile} />
         }
     }
 
@@ -155,11 +166,11 @@ class InventoryDetail extends React.Component {
 
     render() {
         return (
-            <View style={{ flex: 1, backgroundColor: "#2f3a49" }}>
+            <View style={{ flex: 1, backgroundColor: "#2f3a49" }} onPress={Keyboard.dismiss}>
                 <Header
                     statusBarProps={{ barStyle: "light-content" }}
                     leftComponent={<Icon name='arrow-back' color='#fff'
-                                         onPress={()=>this.props.navigation.goBack()}/>}
+                        onPress={() => this.props.navigation.goBack()} />}
                     centerComponent={
                         this.renderSearchBar()
                     }
@@ -182,9 +193,10 @@ class InventoryDetail extends React.Component {
 
                 <InventoryCardSection style={{ backgroundColor: '#fff' }}>
                     {this.renderUserProfileImages()}
+                    <Avatar rounded title='+' onPress={() => this.invite()} />
                 </InventoryCardSection>
 
-                <ScrollView contentContainerStyle={styles.container}>
+                <ScrollView contentContainerStyle={styles.container} onPress={Keyboard.dismiss}>
                     {this.renderItems()}
                 </ScrollView>
 
@@ -193,7 +205,7 @@ class InventoryDetail extends React.Component {
     }
 }
 
-export default connect(state=>state)(InventoryDetail)
+export default connect(state => state)(InventoryDetail)
 
 const styles = {
     textStyle: {

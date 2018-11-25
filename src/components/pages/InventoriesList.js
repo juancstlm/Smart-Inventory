@@ -2,7 +2,8 @@
 import React from "react";
 import InventoryProfile from "../ui/InventoryProfile";
 import InventoryCardSection from "../ui/InventoryCardSection";
-import { Header, SearchBar, Avatar } from "react-native-elements";
+import { Header, SearchBar, Avatar,} from "react-native-elements";
+import { Keyboard} from "react-native"
 import Firebase from "../../Firebase";
 import {
   Text,
@@ -16,7 +17,7 @@ import Modal from "react-native-modal";
 import Join from "../ui/Join";
 import Create from "../ui/Create";
 import ActionButton from 'react-native-action-button'
-import {connect} from 'react-redux'
+import { connect } from 'react-redux'
 
 class InventoriesList extends React.Component {
 
@@ -31,6 +32,7 @@ class InventoriesList extends React.Component {
     joinBackColor: "#2f3a49",
     createBackColor: "",
     search: "",
+    searchFlag: false
   };
 
   // This is so that react navigator hides the stack header
@@ -38,6 +40,12 @@ class InventoriesList extends React.Component {
     header: null
   };
 
+  componentWillMount() {
+    this.setState({
+      searchFlag:false
+    })
+    Keyboard.dismiss
+  }
   profileCallback = dataFromChild => {
     const { navigate } = this.props.navigation;
     //this.setState({childData: dataFromChild});
@@ -62,23 +70,23 @@ class InventoriesList extends React.Component {
 
   renderSearchBar() {
     return <SearchBar placeholder={"Type inventory name to search"}
-                      autoFocus={true}
-                      value={this.state.search}
-                      onChangeText={text => this.setState({ search: text })}
-                      autoCapitalize='none'
-                      containerStyle={{
-                        width: "120%",
-                        backgroundColor: "transparent",
-                        borderTopColor: "transparent",
-                        borderBottomColor: "transparent"
-                      }}
-                      inputContainerStyle={{
-                        backgroundColor: "#47576E",
-                        borderColor: "#47576E",
-                        borderWidth: 1
-                      }}
-                      inputStyle={{ backgroundColor: "transparent" }}
-                      placeholder="Search"/>;
+      autoFocus={this.state.searchFlag}
+      value={this.state.search}
+      onChangeText={text => this.setState({ search: text, searchFlag: true })}
+      autoCapitalize='none'
+      containerStyle={{
+        width: "120%",
+        backgroundColor: "transparent",
+        borderTopColor: "transparent",
+        borderBottomColor: "transparent"
+      }}
+      inputContainerStyle={{
+        backgroundColor: "#47576E",
+        borderColor: "#47576E",
+        borderWidth: 1
+      }}
+      inputStyle={{ backgroundColor: "transparent" }}
+      placeholder="Search" />;
   }
 
   goToProfile = () => {
@@ -97,28 +105,28 @@ class InventoriesList extends React.Component {
       });
 
       return results.map(inventory =>
-        <InventoryProfile key={inventory.name} inventory={inventory}  />
+        <InventoryProfile key={inventory.name} inventory={inventory} />
       );
     } else {
       return this.props.inventories.all.map(inventory =>
-        <InventoryProfile key={inventory.name} inventory={inventory} onPress={console.log('resdfa')}/>
+        <InventoryProfile key={inventory.name} inventory={inventory} onPress={console.log('resdfa')} />
       );
     }
   }
 
   renderProfileIcon() {
     if (this.props.user.firstName == "") {
-      return <Avatar rounded onPress={this.goToProfile} source={{ uri: this.props.user.image }}/>
+      return <Avatar rounded onPress={this.goToProfile} source={{ uri: this.props.user.image }} />
     } else {
       return <Avatar rounded source={{ uri: this.props.user.image }}
-                     title={String(this.props.user.firstName).charAt(0) + String(this.props.user.lastName).charAt(0)}
-                     onPress={this.goToProfile}/>
+        title={String(this.props.user.firstName).charAt(0) + String(this.props.user.lastName).charAt(0)}
+        onPress={this.goToProfile} />
     }
   }
 
   render() {
     return (
-      <SafeAreaView style={{ flex: 1, backgroundColor: "#2f3a49" }}>
+      <SafeAreaView style={{ flex: 1, backgroundColor: "#2f3a49" }} onPress={Keyboard.dismiss}>
         <Header
           statusBarProps={{ barStyle: "light-content" }}
           centerComponent={
@@ -137,7 +145,7 @@ class InventoriesList extends React.Component {
         <InventoryCardSection>
           <Text style={styles.textStyle}>Inventories</Text>
         </InventoryCardSection>
-        <ScrollView style={{ backgroundColor: "transparent" }}>
+        <ScrollView style={{ backgroundColor: "transparent" }} onPress={Keyboard.dismiss}>
           {this.renderInventories()}
         </ScrollView>
         <ActionButton buttonColor="rgba(231,76,60,1)" onPress={this._toggleModal}>
@@ -211,18 +219,18 @@ class InventoriesList extends React.Component {
               </TouchableOpacity>
             </InventoryCardSection>
 
-            {this.state.isJoin ? <Join/> : <Create inventories={this.props.inventories.all}/>}
+            {this.state.isJoin ? <Join /> : <Create inventories={this.props.inventories.all} />}
           </View>
         </Modal>
-        
-        <ActionButton buttonColor="rgba(231,76,60,1)" onPress={this._toggleModal}/>
-        
+
+        <ActionButton buttonColor="rgba(231,76,60,1)" onPress={this._toggleModal} />
+
       </SafeAreaView>
     );
   }
 }
 
-export default connect(state=>state)(InventoriesList)
+export default connect(state => state)(InventoriesList)
 
 const styles = {
   textStyle: {
