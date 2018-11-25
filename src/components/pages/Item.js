@@ -1,9 +1,15 @@
 import React, { Component } from 'react';
-import { View, Image, Text } from 'react-native';
+import { View, Image, Text, SafeAreaView } from 'react-native';
 import ItemDetail from './ItemDetail'
 import Firebase from "../../Firebase";
+import {connect} from 'react-redux';
 //source= {require("../../img/bike2.jpeg")}
+
 class Item extends Component{
+
+	static navigationOptions = {
+    header: null
+  };
 	
 	state : {
 		name: '',
@@ -45,8 +51,9 @@ class Item extends Component{
 		var image = this.state.image;
 		var price = this.state.price;
 		var expirationDate = this.state.expirationDate;
+		const item = this.props.inventories.activeItem
 		return(		
-			<View style={styles.background}>
+			<SafeAreaView style={styles.background}>
 
 			  <View style={styles.card1}>
 			    <Text style={styles.card1NameStyle}>
@@ -71,10 +78,12 @@ class Item extends Component{
 			       </ItemDetail>
 			  </View>
 		    
-		    </View>		    
+		    </SafeAreaView>
 		);
 	}
 };
+
+export default connect(state=>state)(Item);
 
 const styles ={
 	background: {
@@ -106,5 +115,3 @@ const styles ={
 		borderRadius: 10
 	}
 }
-
-export default Item;

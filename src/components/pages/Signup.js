@@ -47,7 +47,8 @@ export default class SignUp extends Component {
   };
 
   //Sign up using Firebase authentication and store values in realtime db.
-  //When users sign up using Firebase authentication, unique ids are generated. We use these ids as keys to identify users in our db.
+  //When users sign up using Firebase authentication, unique ids are generated. 
+  //We use these ids as keys to identify users in our db.
   signup = async () => {
     this.setState({
       loading: true,

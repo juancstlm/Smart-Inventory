@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import { View, Image, Text,TextInput } from 'react-native';
+import {connect} from 'react-redux'
+import {setActiveItemPrice} from '../../redux/actions/App'
 
 class ItemDetailPrice extends Component{
 	
@@ -31,9 +33,9 @@ class ItemDetailPrice extends Component{
 		for (var i=0; i < text.length; i++) { 
 			if(numbers.indexOf(text[i]) > -1 ) { 
 				newText = newText + text[i]; 
-			} 
-				this.setState({ myNumber: newText }); 
-		} 
+			}
+      this.props.dispatch(setActiveItemPrice(newText))
+		}
 	}
 
 	render(){
@@ -71,4 +73,4 @@ const styles ={
 	}
 }
 
-export default ItemDetailPrice;
+export default connect(state=>state.inventories.activeItem) (ItemDetailPrice);

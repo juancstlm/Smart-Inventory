@@ -1,20 +1,24 @@
 // imports
 import React from 'react';
-import { Text, ScrollView, View, Image } from 'react-native';
+import { Text, ScrollView, View, Image, FlatList } from 'react-native';
 import ItemProfile from '../ui/ItemProfile';
-import { Header, SearchBar, Avatar, Icon } from "react-native-elements";
+import { Header, SearchBar, Avatar, Icon, } from "react-native-elements";
 import InventoryCardSection from '../ui/InventoryCardSection';
 import Firebase from "../../Firebase";
+import {connect} from 'react-redux'
+import {getActiveInventoryItems, clearActiveInventory} from '../../redux/actions/App'
 
 //make componet
-export default class InventoryDetail extends React.Component {
+class InventoryDetail extends React.Component {
+
+    constructor(props){
+        super(props)
+      this.props.dispatch(getActiveInventoryItems())
+    }
 
     state = {
-        inventory: null,
-        items: [],
         search: "",
         users: [],
-        currentUser: [],
     };
 
     static navigationOptions = {
@@ -22,31 +26,8 @@ export default class InventoryDetail extends React.Component {
     };
 
     componentWillMount() {
-        inv = this.props.navigation.getParam('inventory', 'NO Inventory');
-        console.log("Inventory", inv)
-
-        this.setState({
-            inventory: inv,
-        });
-        items = []
+        const inv = this.props.inventories.activeInventory
         users = []
-
-        inv.items.map(item => {
-
-            Firebase.firestore.collection("Items").doc(item).get()
-                .then(doc => {
-                    if (!doc.exists) {
-                        console.log('No such document!');
-                    } else {
-                        items.push(doc.data())
-                        this.setState({ items: items });
-                    }
-                })
-                .catch(err => {
-                    console.log('Error getting document', err);
-                });
-
-        })
 
         inv.users.map(user => {
 
@@ -62,48 +43,32 @@ export default class InventoryDetail extends React.Component {
                 .catch(err => {
                     console.log('Error getting document', err);
                 });
-
         })
-
-        Firebase.firestore.collection("Users").doc(Firebase.auth.currentUser.uid).get()
-            .then(doc => {
-                if (!doc.exists) {
-                    console.log('No such document!');
-                } else {
-                    current = []
-                    current = doc.data()
-                    this.setState({ currentUser: current });
-                }
-            })
-            .catch(err => {
-                console.log('Error getting document', err);
-            });
-
     }
 
-
     renderItems() {
-        if (this.state.search != undefined || this.state.search != "") {
-
+        if(this.props.inventories.currentItemsDetails.length > 0){
+          if (this.state.search !== "" || this.state.search !== undefined) {
             var text = this.state.search
             var results = []
-            this.state.items.map(item => {
+            this.props.inventories.currentItemsDetails.map(item => {
                 if (item.name.toLowerCase().includes(text.toLowerCase())) {
-                    results.push(item)
+                  results.push(item)
                 }
-            }
+              }
             );
             return results.map(item =>
-                <View style={styles.profileContainer} key={item.name}>
-                    <ItemProfile style={styles.profile} key={item.name} item={item} />
-                </View>
+              <View style={styles.profileContainer} key={item.name}>
+                <ItemProfile style={styles.profile} key={item.name} item={item} />
+              </View>
             );
-        } else {
-            return this.state.inventory.items.map(item =>
-                <View style={styles.profileContainer} key={item.name}>
-                    <ItemProfile style={styles.profile} key={item.name} item={item} />
-                </View>
+          } else {
+            return this.props.inventories.currentItemsDetails.map(item =>
+              <View style={styles.profileContainer} key={item.name}>
+                <ItemProfile style={styles.profile} key={item.name} item={item}/>
+              </View>
             );
+          }
         }
     }
 
@@ -142,13 +107,18 @@ export default class InventoryDetail extends React.Component {
     }
 
     renderProfileIcon() {
-        if (this.state.currentUser == "") {
+        if (this.props.user == "") {
             return <Avatar rounded onPress={this.goToProfile}
-                           source={{uri: this.state.currentUser.image}}
+                           source={{uri: this.props.user.image}}
             />
         } else {
-            return <Avatar rounded source={{uri: this.state.currentUser.image}} title={this.state.currentUser.firstName.charAt(0) + this.state.currentUser.lastName.charAt(0)} onPress={this.goToProfile} />
+            return <Avatar rounded source={{uri: this.props.user.image}} title={this.props.user.firstName.charAt(0) + this.props.user.lastName.charAt(0)} onPress={this.goToProfile} />
         }
+    }
+
+    handleGoBack=()=>{
+        this.props.dispatch(clearActiveInventory())
+      this.props.navigation.goBack()
     }
 
     goToProfile = () => {
@@ -161,7 +131,7 @@ export default class InventoryDetail extends React.Component {
                 <Header
                     statusBarProps={{ barStyle: "light-content" }}
                     leftComponent={<Icon name='arrow-back' color='#fff'
-                                         onPress={()=>this.props.navigation.goBack()}/>}
+                                         onPress={this.handleGoBack}/>}
                     centerComponent={
                         this.renderSearchBar()
                     }
@@ -178,7 +148,7 @@ export default class InventoryDetail extends React.Component {
 
                 <InventoryCardSection>
                     <Text style={styles.textStyle}>
-                        {this.state.inventory.name + ' Inventory'}
+                        {this.props.inventories.activeInventory.name}
                     </Text>
                 </InventoryCardSection>
 
@@ -186,14 +156,22 @@ export default class InventoryDetail extends React.Component {
                     {this.renderUserProfileImages()}
                 </InventoryCardSection>
 
-                <ScrollView contentContainerStyle={styles.container}>
-                    {this.renderItems()}
-                </ScrollView>
+                <FlatList contentContainerStyle={styles.container}
+                          data={this.props.inventories.currentItemsDetails}
+                          numColumns={2}
+                          renderItem={({item}) =>
+                            <View style={styles.profileContainer} key={item.id}>
+                              <ItemProfile style={styles.profile} key={item.id} item={item}/>
+                            </View>}
+                >
+                </FlatList>
 
             </View>
         );
     }
 }
+
+export default connect(state=>state)(InventoryDetail)
 
 const styles = {
     textStyle: {
@@ -208,8 +186,6 @@ const styles = {
         color: 'white',
     },
     container: {
-        flexDirection: 'row',
-        flexWrap: 'wrap',
         padding: 5,
 
     },
@@ -226,7 +202,6 @@ const styles = {
         borderRadius: 20,
     },
     profileContainer: {
-        width: '50%',
         margin: 5,
         flex: 1,
     },

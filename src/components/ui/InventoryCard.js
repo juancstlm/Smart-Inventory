@@ -2,11 +2,10 @@ import React from "react";
 import { View, ImageBackground } from "react-native";
 
 export const InventoryCard = props => {
-  console.log("INV CARD", props.image)
   return (
     <ImageBackground
       source={{uri: props.image }}
-      imageStyle={{ resizeMode: "stretch", borderRadius: 6 }}
+      imageStyle={{ resizeMode: "cover", borderRadius: 6 }}
       style={styles.background}
     >
       <View style={styles.container}>{props.children}</View>
