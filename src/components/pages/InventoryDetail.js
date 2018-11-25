@@ -7,6 +7,7 @@ import InventoryCardSection from '../ui/InventoryCardSection';
 import Firebase from "../../Firebase";
 import {connect} from 'react-redux'
 import {getActiveInventoryItems, clearActiveInventory} from '../../redux/actions/App'
+import { Clipboard, Alert, Keyboard } from 'react-native';
 
 //make componet
 class InventoryDetail extends React.Component {
@@ -19,11 +20,19 @@ class InventoryDetail extends React.Component {
     state = {
         search: "",
         users: [],
+        searchFlag: false
     };
 
     static navigationOptions = {
         header: null
     };
+
+    componentWillMount(){ 
+        this.setState({
+            searchFlag: false
+        })
+        Keyboard.dismiss
+    }
 
     componentWillMount() {
         const inv = this.props.inventories.activeInventory
@@ -73,6 +82,7 @@ class InventoryDetail extends React.Component {
     }
 
     renderUserProfileImages() {
+        console.log(this.state.users)
         return this.state.users.map(user => {
             if (user.image != undefined) {
                 return <View style={styles.thumbnailContainerStyle} key={user.firstName}>
@@ -90,10 +100,29 @@ class InventoryDetail extends React.Component {
       return item.id
     }
 
+    invite() {
+        Alert.alert(
+            "Invitation Code",
+            this.props.inventories.activeInventory.invite_id,
+            [
+                { text: 'Cancel', style: 'cancel' },
+                { text: 'Copy', onPress: () => Clipboard.setString(this.props.inventories.activeInventory.invite_id) },
+            ],
+            { cancelable: false }
+        )
+        console.log(this.props.inventories.activeInventory.invite_id)
+
+    }
+
     renderSearchBar() {
         return <SearchBar placeholder={"Type item name to search"}
+            autoFocus={this.state.searchFlag}
             value={this.state.search}
-            onChangeText={text => this.setState({ search: text })}
+            onChangeText={text =>
+                this.setState({
+                    search: text,
+                    searchFlag: true,
+                })}
             autoCapitalize='none'
             containerStyle={{
                 width: "120%",
@@ -113,10 +142,10 @@ class InventoryDetail extends React.Component {
     renderProfileIcon() {
         if (this.props.user == "") {
             return <Avatar rounded onPress={this.goToProfile}
-                           source={{uri: this.props.user.image}}
+                source={{ uri: this.props.user.image }}
             />
         } else {
-            return <Avatar rounded source={{uri: this.props.user.image}} title={this.props.user.firstName.charAt(0) + this.props.user.lastName.charAt(0)} onPress={this.goToProfile} />
+            return <Avatar rounded source={{ uri: this.props.user.image }} title={this.props.user.firstName.charAt(0) + this.props.user.lastName.charAt(0)} onPress={this.goToProfile} />
         }
     }
 
@@ -131,7 +160,7 @@ class InventoryDetail extends React.Component {
 
     render() {
         return (
-            <View style={{ flex: 1, backgroundColor: "#2f3a49" }}>
+            <View style={{ flex: 1, backgroundColor: "#2f3a49" }} onPress={Keyboard.dismiss}>
                 <Header
                     statusBarProps={{ barStyle: "light-content" }}
                     leftComponent={<Icon name='arrow-back' color='#fff'
@@ -158,6 +187,7 @@ class InventoryDetail extends React.Component {
 
                 <InventoryCardSection style={{ backgroundColor: '#fff' }}>
                     {this.renderUserProfileImages()}
+                    <Avatar rounded title='+' onPress={() => this.invite()} />
                 </InventoryCardSection>
 
                 <FlatList contentContainerStyle={styles.container}
@@ -176,7 +206,7 @@ class InventoryDetail extends React.Component {
     }
 }
 
-export default connect(state=>state)(InventoryDetail)
+export default connect(state => state)(InventoryDetail)
 
 const styles = {
     textStyle: {
@@ -200,6 +230,7 @@ const styles = {
         alignItems: 'center',
         marginLeft: 5,
         marginRight: 5,
+        flexDirection: 'row',
     },
     thumbnailStyle: {
         height: 50,
