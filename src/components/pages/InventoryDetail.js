@@ -86,6 +86,10 @@ class InventoryDetail extends React.Component {
         });
     }
 
+    keyExtractor(item, index){
+      return item.id
+    }
+
     renderSearchBar() {
         return <SearchBar placeholder={"Type item name to search"}
             value={this.state.search}
@@ -159,6 +163,7 @@ class InventoryDetail extends React.Component {
                 <FlatList contentContainerStyle={styles.container}
                           data={this.props.inventories.currentItemsDetails}
                           numColumns={2}
+                          keyExtractor={this.keyExtractor}
                           renderItem={({item}) =>
                             <View style={styles.profileContainer} key={item.id}>
                               <ItemProfile style={styles.profile} key={item.id} item={item}/>
