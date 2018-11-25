@@ -62,6 +62,7 @@ class InventoriesList extends React.Component {
 
   renderSearchBar() {
     return <SearchBar placeholder={"Type inventory name to search"}
+                      autoFocus={true}
                       value={this.state.search}
                       onChangeText={text => this.setState({ search: text })}
                       autoCapitalize='none'
