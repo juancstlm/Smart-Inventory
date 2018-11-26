@@ -41,12 +41,14 @@ class Create extends React.Component {
         }
       });
       if( add === true){
-            Firebase.firestore.collection('Inventories').add({
+            ref = Firebase.firestore.collection('Inventories').doc()
+            ref.set({
               image: 'https://c1.staticflickr.com/5/4916/45053006915_f22a94ea77_c.jpg',
               items: [],
               name: this.state.name,
               owner_id: Firebase.auth.currentUser.uid,
-              users: []
+              users: [],
+              invite_id: ref.id,
             }).then(ref => {
               console.log('Added document with ID: ', ref.id);
             });
