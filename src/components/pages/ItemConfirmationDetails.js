@@ -1,209 +1,24 @@
 import React, { Component } from 'react';
 import { Modal, Text, View, Image, Dimensions, TextInput } from 'react-native';
 import { Divider } from 'react-native-elements'
-import DatePicker from 'react-native-datepicker'
-import Button from '../ui/AddInventoryButton';
-import ModalFilterPicker from 'react-native-modal-filter-picker'
 import ItemConfirmationDetailsPrice from './ItemConfirmationDetailsPrice'
+import ItemConfirmationDetailsDate from './ItemConfirmationDetailsDate'
+import ItemConfirmationDetailsInventory from './ItemConfirmationDetailsInventory'
 
 class ItemConfirmationDetails extends Component {
 	
-	state : {
-		price: '',
-	} 
-
-	constructor(props) {
-		super(props);
-		this.state = {
-			price: '00.00',
-			Expirationdate:"2018-11-30",	      
-			picked: null,
-	        visible: false,
-	        inventories: [
-	        {
-				key: 'kenya',
-				label: 'Kenya',
-			},
-			{
-				key: 'uganda',
-				label: 'Uganda',
-			},
-			{
-				key: 'libya',
-				label: 'Libya',
-			},
-			{
-				key: 'morocco',
-				label: 'Morocco',
-			},
-			{
-				key: 'estonia',
-				label: 'Estonia',
-			},
-			]
-		}
-	}
-	
-	onShow = () => {
-		this.setState({ visible: true });
-	}
-
-    onSelect = (picked) => {
-    	this.setState({
-    		picked: picked,
-    		visible: false
-    	})
-    }
-
-    onCancel = () => {
-    	this.setState({
-    		visible: false
-    	});
-    }
-
-	onChangedPrice(text){ 
-		var newText = ''; 
-		var numbers = '0123456789'; 
-		
-		if(text.length < 1){ 
-			this.setState({ myNumber: '' }); 
-		} 
-
-		for (var i=0; i < text.length; i++) { 
-			if(numbers.indexOf(text[i]) > -1 ) { 
-				newText = newText + text[i]; 
-			}
-		}
-		this.props.sendPrice(newText);
-	}
-
-    displayDatePicker(){
-          return (
-            <DatePicker
-              style={{width: 150}}
-              date={this.state.Expirationdate}
-              mode="date"
-              placeholder="select date"
-              format="YYYY-MM-DD"
-              minDate="2018-11-24"
-              maxDate="2018-12-30"
-              confirmBtnText="Confirm"
-              cancelBtnText="Cancel"
-              customStyles={{
-                dateIcon: {
-                  position: 'absolute',
-                  left: 0,
-                  top: 4,
-                  marginLeft: 0
-                },
-                dateInput: {
-                  marginLeft: 36,
-                  borderWidth: 0
-                },
-                dateIcon: {
-                  width:0,
-                  height:0,
-                },
-                dateText: {
-                  fontSize: 17,
-                  color: '#2F3A49'
-                }   
-              }}
-              onDateChange={(date) => {
-              	this.setState({
-              		Expirationdate: date
-              	})
-              	this.props.sendDate(date);
-              }}
-            />  
-        )
-    }
-
-	handleAddInventory = () => {
-		console.log("this is Inventories button");
-	}
-
-	renderInventoryModal(){
-		return(
-			<View>
-			</View>
-		);
-	}
-
-	renderInventory(){
-		return(
-		    <View style={styles.InventoryContainer}>		           
-		           <View style={{flex: 1, paddingLeft: 10, paddingTop: 10}}>
-			           <Text  
-			           style={{ fontSize: 17, color: '#2F3A49'}}
-			           > 
-		           			{this.state.picked} 
-			           </Text>		   
-				   </View>
-				   <View style={{flex: 1}}>
-				        <Button block onPress={this.onShow}>
-	                         <Text>ADD TO INVENTORY</Text>
-	                    </Button>
-					</View>
-		    </View>
-		)
-	}
-
-	renderPrice(){
-		var price = "00.00"
-		return(
-			<View style={styles.priceContainer}>				
-				<View style={{paddingLeft: 10}}>
-					<Text style={{fontSize: 17, color: '#2F3A49'}}> Enter Price:  
-					</Text>
-				</View>
-				
-				<View style={{paddingRight: 15}}> 
-					<TextInput 
-					   style={{fontSize: 17, color: '#2F3A49'}}
-					   keyboardType='numeric'
-					   onChangeText={(text)=> this.onChangedPrice(text)}
-					   value={"$" + this.state.price}
-					   maxLength={10}  //setting limit of input
-					/>
-				</View>
-			</View>		
-		)
-	}
-
-	renderDate(){
-		var data = "2000-00-00"
-		return(
-			<View style={styles.dataContainer}>
-				<View style={{paddingLeft: 10}}>
-					<Text style={{fontSize: 17, color: '#2F3A49'}}> Expiration date:  
-					</Text>
-				</View>
-				
-				<View style={{paddingRight: 0}}> 
-					{this.displayDatePicker()}
-				</View>			
-			</View>		
-		)
-	}
-
 	render() {
-		const { visible, picked } = this.state;
-		var { width, height } = Dimensions.get('window')
-		return (
-		
-			<View style={styles.background}>
-			    {this.renderInventory()}
-			    {this.renderPrice()}
-			    {this.renderDate()}
-			    <ModalFilterPicker
-		          visible={visible}
-		          onSelect={this.onSelect}
-		          onCancel={this.onCancel}
-		          options={this.state.inventories}
-		        />
-			</View>
-		
+		return (		
+			<View style={styles.background}>		    
+			    <ItemConfirmationDetailsInventory sendInventory={this.props.sendInventory}>
+			    </ItemConfirmationDetailsInventory>
+
+			    <ItemConfirmationDetailsPrice sendPrice={this.props.sendPrice}>
+			    </ItemConfirmationDetailsPrice>
+			    
+			    <ItemConfirmationDetailsDate sendDate={this.props.sendDate}>
+			    </ItemConfirmationDetailsDate>
+			</View>		
 		);
 	}
 }
@@ -211,21 +26,6 @@ class ItemConfirmationDetails extends Component {
 const styles = {
 	background: {
 		flex: 1
-	},
-	InventoryContainer: {
-		flex: 1
-	},
-	priceContainer:{
-		flex: 1,
-		flexDirection: 'row',
-		justifyContent: 'space-between',
-		alignItems: 'center',
-	},
-	dataContainer:{
-		flex: 1,
-		flexDirection: 'row',
-		justifyContent: 'space-between',
-		alignItems: 'center',
 	},
 	line: {
 		borderBottomColor: '#D3D3D3',

@@ -1,37 +1,85 @@
 import React, { Component } from 'react';
 import { View, Image, Text,TextInput,Dimensions } from 'react-native';
 import Button from '../ui/AddInventoryButton';
+import DatePicker from 'react-native-datepicker'
 
 class ItemConfirmationDetailsDate extends Component{
-	
+
+	state : {
+		Expirationdate: '',
+	} 
+
+	constructor(props) {
+		super(props);
+		this.state = {
+			Expirationdate:"2018-11-30",
+		}
+	}
+
+    displayDatePicker(){
+          return (
+            <DatePicker
+              style={{width: 150}}
+              date={this.state.Expirationdate}
+              mode="date"
+              placeholder="select date"
+              format="YYYY-MM-DD"
+              minDate="2018-11-24"
+              maxDate="2018-12-30"
+              confirmBtnText="Confirm"
+              cancelBtnText="Cancel"
+              customStyles={{
+                dateIcon: {
+                  position: 'absolute',
+                  left: 0,
+                  top: 4,
+                  marginLeft: 0
+                },
+                dateInput: {
+                  marginLeft: 36,
+                  borderWidth: 0
+                },
+                dateIcon: {
+                  width:0,
+                  height:0,
+                },
+                dateText: {
+                  fontSize: 17,
+                  color: '#2F3A49'
+                }   
+              }}
+              onDateChange={(date) => {
+              	this.setState({
+              		Expirationdate: date
+              	})
+              	this.props.sendDate(date);
+              }}
+            />  
+        )
+    }
+
 	render(){
-		return(		
-			    <View style={styles.CategoryContainer}>
-			       <View style={styles.line}>
-			       </View>
-			       <View style={{flex: 1, paddingLeft: 10, paddingTop: 10}}>
-			       <Text style={styles.attributesTitle}> Categories </Text>
-			       </View>
-			    </View>			
+		return(
+			<View style={styles.dataContainer}>
+				<View style={{paddingLeft: 10}}>
+					<Text style={{fontSize: 17, color: '#2F3A49'}}> Expiration datey:  
+					</Text>
+				</View>
+				
+				<View style={{paddingRight: 0}}> 
+					{this.displayDatePicker()}
+				</View>			
+			</View>					
 		);
 	}
 };
 
 const styles ={
-	CategoryContainer: {
-		flex: 1
-	},
-	line: {
-		borderBottomColor: '#D3D3D3',
-        borderBottomWidth: .5,
-        marginLeft: 10,
-        marginRight: 10,
-        paddingTop: 10
-	},	
-	attributesTitle:{
-		flex: 3,
-		fontSize: 17,
-		color: '#2F3A49'
+	dataContainer:{
+		flex: 1,
+		flexDirection: 'row',
+		justifyContent: 'space-between',
+		alignItems: 'center',
 	}
 }
 

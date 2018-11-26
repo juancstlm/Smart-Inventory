@@ -12,8 +12,7 @@ class ItemConfirmation extends Component {
 		name: '',
 		imagePath: '',
 		imagefirebase: '',
-		visible: '',
-		picked: '',
+		inventory: ''
 	}
 
 	constructor(props) {
@@ -22,12 +21,14 @@ class ItemConfirmation extends Component {
 		this.state = {
 	      price: '',
 	      expirationDate: '',
+	      inventory: '',
 	      name: params.itemName,
 	      imagePath: params.imagePath,
 	      imagefirebase: params.imagefirebase,
 	    };
 	    this.getData = this.getData.bind(this);
-		this.getPrice = this.getPrice.bind(this);	
+		this.getPrice = this.getPrice.bind(this);
+		this.getInventory = this.getInventory.bind(this);	
 	}
 
 	getPrice = (updatedPrice) => {
@@ -41,12 +42,17 @@ class ItemConfirmation extends Component {
 		this.setState({
 			expirationDate: updatedData,
 		});
-	    console.log("updated date: ",updatedData);
+	    console.log("updated datey: ",updatedData);
+	}
+
+	getInventory = (updatedInventory) => {
+		this.setState({
+			inventory: updatedInventory,
+		});
+	    console.log("updated inventoryyy: ",updatedInventory);
 	}
 
 	async saveToFireBase() {
-
-		//Firebase.firestore.setLogLevel('debug');
 
 		console.log("hiiiiiiii bitch");
 		Firebase.firestore.collection("Items").add({
@@ -89,7 +95,7 @@ class ItemConfirmation extends Component {
 			    </View>
 
 			    <View style={styles.card3}>
-			        <ItemConfirmationDetails sendDate={this.getData} sendPrice={this.getPrice}>
+			        <ItemConfirmationDetails sendDate={this.getData} sendPrice={this.getPrice} sendInventory={this.getInventory}>
 			        </ItemConfirmationDetails>
 			    </View>
 					
