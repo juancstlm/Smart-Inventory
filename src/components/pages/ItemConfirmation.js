@@ -12,7 +12,8 @@ class ItemConfirmation extends Component {
 		name: '',
 		imagePath: '',
 		imagefirebase: '',
-		inventory: ''
+		inventory: '',
+		Matches: [] 
 	}
 
 	constructor(props) {
@@ -25,6 +26,7 @@ class ItemConfirmation extends Component {
 	      name: params.itemName,
 	      imagePath: params.imagePath,
 	      imagefirebase: params.imagefirebase,
+	      Matches: [] 
 	    };
 	    this.getData = this.getData.bind(this);
 		this.getPrice = this.getPrice.bind(this);
@@ -54,7 +56,6 @@ class ItemConfirmation extends Component {
 
 	async saveToFireBase() {
 
-		console.log("hiiiiiiii bitch");
 		Firebase.firestore.collection("Items").add({
 		    name: 'Tokyo',
 		})
@@ -65,13 +66,8 @@ class ItemConfirmation extends Component {
 		    console.error("Error adding document: ", error);
 		});	
 
-		Firebase.firestore.collection("Items").doc("Sc1hSLwJfeKiGu92GdzT")
-		    .onSnapshot(function(doc) {
-		        console.log("This worked bitch: ", doc.data());
-		    });	
-
 	}
-
+	
 	render() {	
 		return (
 			<View style={styles.background}>
@@ -100,8 +96,8 @@ class ItemConfirmation extends Component {
 			    </View>
 					
 			    <View style={styles.card4}>
-			        <Button block onPress={this.onSelect}>
-                         <Text>CONTINUE</Text>
+			        <Button block onPress={this.saveToFireBase}>
+                         <Text>SAVE</Text>
                     </Button>
 			    </View>
 			    

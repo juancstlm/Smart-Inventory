@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { View, Image, Text,TextInput,Dimensions } from 'react-native';
 import Button from '../ui/AddInventoryButton';
 import ModalFilterPicker from 'react-native-modal-filter-picker'
+import Firebase from "../../Firebase";
 
 class ItemConfirmationDetailsInventory extends Component{
 
@@ -14,31 +15,30 @@ class ItemConfirmationDetailsInventory extends Component{
 		this.state = {      
 			picked: null,
 	        visible: false,
-	        inventories: [
-	        {
-				key: 'kenya',
-				label: 'Kenya',
-			},
-			{
-				key: 'uganda',
-				label: 'Uganda',
-			},
-			{
-				key: 'libya',
-				label: 'Libya',
-			},
-			{
-				key: 'morocco',
-				label: 'Morocco',
-			},
-			{
-				key: 'estonia',
-				label: 'Estonia',
-			},
-			]
+	        inventories: []
 		}
 	}
 
+	async componentDidMount() {
+		var currentThis = this;
+		var inventories = [];
+
+		Firebase.firestore.collection("Inventories").get().then(function(querySnapshot) {
+		    querySnapshot.forEach(function(doc) {
+		        inventories.push({
+		        	name: doc.data().name,
+		        	image: doc.data().image,
+
+		        })
+		    });
+			var arr = [];
+			for(var i = 0, len = inventories.length; i < len; i++) {
+			  arr.push( {"key": inventories[i].name, "label": inventories[i].name});
+			}
+			currentThis.setState({ inventories: arr });	    
+		});
+	}
+	
 	onShow = () => {
 		this.setState({ visible: true });
 	}

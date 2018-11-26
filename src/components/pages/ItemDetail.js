@@ -3,21 +3,16 @@ import { View, Image, Text,ScrollView, TextInput } from 'react-native';
 import { Dimensions } from 'react-native'
 import Moment from 'react-moment';
 import {format, compareAsc} from 'date-fns'
-import DatePicker from 'react-native-datepicker'
 import ItemDetailPrice from './ItemDetailPrice'
 import ItemDetailDate from './ItemDetailDate'
-import ItemDetailCategories from './ItemDetailCategories'
 import ItemDetailInventory from './ItemDetailInventory'
 
 class ItemDetail extends React.Component{
 
 	render(){
-		const displayCategories = false;
 		price = this.props.itemPrice;
-		console.log("price bitch tres: ", price);
-
 		expirationDate = this.props.itemExpirationDate;
-		console.log("expiration date dos: ",expirationDate);
+
 		return(		
 		    <ScrollView style={styles.scrollViewStyle}>
 
