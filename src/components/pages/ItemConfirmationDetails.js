@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
-import { Text, View, Image, Dimensions, TextInput } from 'react-native';
+import { Modal, Text, View, Image, Dimensions, TextInput } from 'react-native';
 import { Divider } from 'react-native-elements'
 import DatePicker from 'react-native-datepicker'
 import Button from '../ui/AddInventoryButton';
+import ModalFilterPicker from 'react-native-modal-filter-picker'
+import ItemConfirmationDetailsPrice from './ItemConfirmationDetailsPrice'
 
 class ItemConfirmationDetails extends Component {
 	
@@ -14,9 +16,50 @@ class ItemConfirmationDetails extends Component {
 		super(props);
 		this.state = {
 			price: '00.00',
-			Expirationdate:"2018-11-30"
+			Expirationdate:"2018-11-30",	      
+			picked: null,
+	        visible: false,
+	        inventories: [
+	        {
+				key: 'kenya',
+				label: 'Kenya',
+			},
+			{
+				key: 'uganda',
+				label: 'Uganda',
+			},
+			{
+				key: 'libya',
+				label: 'Libya',
+			},
+			{
+				key: 'morocco',
+				label: 'Morocco',
+			},
+			{
+				key: 'estonia',
+				label: 'Estonia',
+			},
+			]
 		}
 	}
+	
+	onShow = () => {
+		this.setState({ visible: true });
+	}
+
+    onSelect = (picked) => {
+    	this.setState({
+    		picked: picked,
+    		visible: false
+    	})
+    }
+
+    onCancel = () => {
+    	this.setState({
+    		visible: false
+    	});
+    }
 
 	onChangedPrice(text){ 
 		var newText = ''; 
@@ -79,7 +122,14 @@ class ItemConfirmationDetails extends Component {
 	handleAddInventory = () => {
 		console.log("this is Inventories button");
 	}
-	
+
+	renderInventoryModal(){
+		return(
+			<View>
+			</View>
+		);
+	}
+
 	renderInventory(){
 		return(
 		    <View style={styles.InventoryContainer}>		           
@@ -87,11 +137,11 @@ class ItemConfirmationDetails extends Component {
 			           <Text  
 			           style={{ fontSize: 17, color: '#2F3A49'}}
 			           > 
-		           			Inventories 
+		           			{this.state.picked} 
 			           </Text>		   
 				   </View>
 				   <View style={{flex: 1}}>
-				        <Button block onPress={this.handleAddInventory}>
+				        <Button block onPress={this.onShow}>
 	                         <Text>ADD TO INVENTORY</Text>
 	                    </Button>
 					</View>
@@ -138,6 +188,7 @@ class ItemConfirmationDetails extends Component {
 	}
 
 	render() {
+		const { visible, picked } = this.state;
 		var { width, height } = Dimensions.get('window')
 		return (
 		
@@ -145,6 +196,12 @@ class ItemConfirmationDetails extends Component {
 			    {this.renderInventory()}
 			    {this.renderPrice()}
 			    {this.renderDate()}
+			    <ModalFilterPicker
+		          visible={visible}
+		          onSelect={this.onSelect}
+		          onCancel={this.onCancel}
+		          options={this.state.inventories}
+		        />
 			</View>
 		
 		);

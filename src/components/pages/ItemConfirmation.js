@@ -11,7 +11,9 @@ class ItemConfirmation extends Component {
 		expirationDate: '',
 		name: '',
 		imagePath: '',
-		imagefirebase: ''
+		imagefirebase: '',
+		visible: '',
+		picked: '',
 	}
 
 	constructor(props) {
@@ -22,7 +24,7 @@ class ItemConfirmation extends Component {
 	      expirationDate: '',
 	      name: params.itemName,
 	      imagePath: params.imagePath,
-	      imagefirebase: params.imagefirebase
+	      imagefirebase: params.imagefirebase,
 	    };
 	    this.getData = this.getData.bind(this);
 		this.getPrice = this.getPrice.bind(this);	
@@ -43,8 +45,10 @@ class ItemConfirmation extends Component {
 	}
 
 	async saveToFireBase() {
-		console.log("hiiiiiiii bitch");
 
+		//Firebase.firestore.setLogLevel('debug');
+
+		console.log("hiiiiiiii bitch");
 		Firebase.firestore.collection("Items").add({
 		    name: 'Tokyo',
 		})
@@ -63,9 +67,6 @@ class ItemConfirmation extends Component {
 	}
 
 	render() {	
-		console.log("image saved to firebase:")
-		console.log(this.state.imagefirebase);
-
 		return (
 			<View style={styles.background}>
 			    
@@ -91,14 +92,13 @@ class ItemConfirmation extends Component {
 			        <ItemConfirmationDetails sendDate={this.getData} sendPrice={this.getPrice}>
 			        </ItemConfirmationDetails>
 			    </View>
-			
-			
+					
 			    <View style={styles.card4}>
-			        <Button block onPress={this.saveToFireBase}>
+			        <Button block onPress={this.onSelect}>
                          <Text>CONTINUE</Text>
                     </Button>
 			    </View>
-
+			    
 			</View>
 		);
 	}
