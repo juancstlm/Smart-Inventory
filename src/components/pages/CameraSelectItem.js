@@ -75,7 +75,7 @@ export default class CameraSelectItem extends React.Component {
 
 			      <View style={styles.container}>
 			        <TouchableOpacity style={styles.buttonStyle} onPress={this.onShow}>
-			          <Text style={styles.textStyle}>Select country</Text>
+			          <Text style={styles.textStyle}>Select item</Text>
 			        </TouchableOpacity>      
 			        <Text style={{fontSize: 15, color: 'black'}}>Selected:</Text>
 			        <Text>{picked}</Text>
