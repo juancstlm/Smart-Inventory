@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Image, Text, SafeAreaView } from 'react-native';
+import { View, Image, Text, SafeAreaView} from 'react-native';
 import ItemDetail from './ItemDetail'
 import Firebase from "../../Firebase";
 import {connect} from 'react-redux';
@@ -93,7 +93,7 @@ class Item extends Component{
 		});
 	    console.log("updated quantity: ",updatedQuantity);
 	}
-
+	
 	render(){
 		const item = this.props.inventories.activeItem
 		return(		

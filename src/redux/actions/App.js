@@ -69,6 +69,18 @@ export const getActiveInventoryItems = () =>{
   }
 }
 
+// Add the current user to the specified inventory users lis
+// Retrieves the inventory for the user
+export const joinInventory = (code) =>{
+  return async (dispatch) => await Firebase.firestore.collection(C.INVENTORIES)
+    .doc(code).get().then(doc => {
+        dispatch({
+          type: C.JOIN_INVENTORY,
+          payload: {...doc.data(), id: doc.id}
+        })
+      })
+}
+
 export const getSharedInventories = () => {
   return async (dispatch) => await Firebase.firestore.collection(C.INVENTORIES)
     .where("users", 'array-contains', Firebase.auth.currentUser.uid)

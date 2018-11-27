@@ -1,33 +1,36 @@
 // imports
 import React from 'react';
-import { Text, ScrollView, View, Image, FlatList } from 'react-native';
+import { Text, ScrollView, View, Image, FlatList, SafeAreaView, } from 'react-native';
 import ItemProfile from '../ui/ItemProfile';
 import { Header, SearchBar, Avatar, Icon, } from "react-native-elements";
 import InventoryCardSection from '../ui/InventoryCardSection';
 import Firebase from "../../Firebase";
-import {connect} from 'react-redux'
-import {getActiveInventoryItems, clearActiveInventory} from '../../redux/actions/App'
+import { connect } from 'react-redux'
+import { getActiveInventoryItems, clearActiveInventory } from '../../redux/actions/App'
 import { Clipboard, Alert, Keyboard } from 'react-native';
+import ActionButton from 'react-native-action-button'
+import Modal from "react-native-modal";
 
 //make componet
 class InventoryDetail extends React.Component {
 
-    constructor(props){
+    constructor(props) {
         super(props)
-      this.props.dispatch(getActiveInventoryItems())
+        this.props.dispatch(getActiveInventoryItems())
     }
 
     state = {
         search: "",
         users: [],
-        searchFlag: false
+        searchFlag: false,
+        isModalVisible: false,
     };
 
     static navigationOptions = {
-        header: null
+        header: null,
     };
 
-    componentWillMount(){ 
+    componentWillMount() {
         this.setState({
             searchFlag: false
         })
@@ -55,34 +58,48 @@ class InventoryDetail extends React.Component {
         })
     }
 
+    _toggleModal = () =>
+        this.setState({ isModalVisible: !this.state.isModalVisible });
+
+
     renderItems() {
-        if(this.props.inventories.currentItemsDetails.length > 0){
-          if (this.state.search !== "" || this.state.search !== undefined) {
-            var text = this.state.search
-            var results = []
-            this.props.inventories.currentItemsDetails.map(item => {
-                if (item.name.toLowerCase().includes(text.toLowerCase())) {
-                  results.push(item)
+        if (this.props.inventories.currentItemsDetails.length > 0) {
+            if (this.state.search !== "" || this.state.search !== undefined) {
+                var text = this.state.search
+                var results = []
+                this.props.inventories.currentItemsDetails.map(item => {
+                    if (item.name.toLowerCase().includes(text.toLowerCase())) {
+                        results.push(item)
+                    }
                 }
-              }
-            );
-            return results.map(item =>
-              <View style={styles.profileContainer} key={item.name}>
-                <ItemProfile style={styles.profile} key={item.name} item={item} />
-              </View>
-            );
-          } else {
-            return this.props.inventories.currentItemsDetails.map(item =>
-              <View style={styles.profileContainer} key={item.name}>
-                <ItemProfile style={styles.profile} key={item.name} item={item}/>
-              </View>
-            );
-          }
+                );
+                return <FlatList contentContainerStyle={styles.container}
+                                 data={results}
+                                 numColumns={2}
+                                 keyExtractor={this.keyExtractor}
+                                 ListEmptyComponent={<Text>No Items Matched</Text>}
+                                 renderItem={({ item }) =>
+                                   <View style={styles.profileContainer} key={item.id}>
+                                     <ItemProfile style={styles.profile} key={item.id} item={item} />
+                                   </View>}
+                >
+                </FlatList>
+            } else {
+                return <FlatList contentContainerStyle={styles.container}
+                                 data={this.props.inventories.currentItemsDetails}
+                                 numColumns={2}
+                                 keyExtractor={this.keyExtractor}
+                                 renderItem={({ item }) =>
+                                   <View style={styles.profileContainer} key={item.id}>
+                                     <ItemProfile style={styles.profile} key={item.id} item={item} />
+                                   </View>}
+                >
+                </FlatList>
+            }
         }
     }
 
     renderUserProfileImages() {
-        console.log(this.state.users)
         return this.state.users.map(user => {
             if (user.image != undefined) {
                 return <View style={styles.thumbnailContainerStyle} key={user.firstName}>
@@ -96,8 +113,8 @@ class InventoryDetail extends React.Component {
         });
     }
 
-    keyExtractor(item, index){
-      return item.id
+    keyExtractor(item, index) {
+        return item.id
     }
 
     invite() {
@@ -110,7 +127,6 @@ class InventoryDetail extends React.Component {
             ],
             { cancelable: false }
         )
-        console.log(this.props.inventories.activeInventory.invite_id)
 
     }
 
@@ -149,9 +165,9 @@ class InventoryDetail extends React.Component {
         }
     }
 
-    handleGoBack=()=>{
+    handleGoBack = () => {
         this.props.dispatch(clearActiveInventory())
-      this.props.navigation.goBack()
+        this.props.navigation.goBack()
     }
 
     goToProfile = () => {
@@ -160,11 +176,11 @@ class InventoryDetail extends React.Component {
 
     render() {
         return (
-            <View style={{ flex: 1, backgroundColor: "#2f3a49" }} onPress={Keyboard.dismiss}>
+            <SafeAreaView style={{ flex: 1, backgroundColor: "#2f3a49" }} onPress={Keyboard.dismiss}>
                 <Header
                     statusBarProps={{ barStyle: "light-content" }}
                     leftComponent={<Icon name='arrow-back' color='#fff'
-                                         onPress={this.handleGoBack}/>}
+                        onPress={this.handleGoBack} />}
                     centerComponent={
                         this.renderSearchBar()
                     }
@@ -189,19 +205,10 @@ class InventoryDetail extends React.Component {
                     {this.renderUserProfileImages()}
                     <Avatar rounded title='+' onPress={() => this.invite()} />
                 </InventoryCardSection>
+              {this.renderItems()}
+                <ActionButton buttonColor="rgba(231,76,60,1)" onPress={() => (this.props.navigation.navigate("CameraClarifai"))} />
 
-                <FlatList contentContainerStyle={styles.container}
-                          data={this.props.inventories.currentItemsDetails}
-                          numColumns={2}
-                          keyExtractor={this.keyExtractor}
-                          renderItem={({item}) =>
-                            <View style={styles.profileContainer} key={item.id}>
-                              <ItemProfile style={styles.profile} key={item.id} item={item}/>
-                            </View>}
-                >
-                </FlatList>
-
-            </View>
+            </SafeAreaView>
         );
     }
 }
