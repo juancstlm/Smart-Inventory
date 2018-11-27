@@ -12,52 +12,96 @@ class Item extends Component{
 	};
 	
 	state : {
-		name: '',
 		price: '',
 		image: '',
 		quantity: '',
-		categories: [],
 		expirationDate: '',
+		users: [],
 	} 
 
 	constructor(props) {
 		super(props);
 		this.state = {
-			name: '',
 			price: '',
 			image: '',
 			quantity: '',
-			categories: [],
 			expirationDate: '',
+			users: []
 		}
+		this.updateDate = this.updateDate.bind(this);
+		this.updatePrice = this.updatePrice.bind(this);
+		this.updateQuantity = this.updateQuantity.bind(this);	
+		this.updateItem = this.updateItem.bind(this);
 	}
 
-	async componentDidMount() {
-		var currentThis = this;
+    componentWillMount() {
+        const inv = this.props.inventories.activeInventory
+        users = []
 
-		Firebase.firestore.collection("Items").doc("Sc1hSLwJfeKiGu92GdzT")
-		    .onSnapshot(function(doc) {
-		        console.log("Current data bitch: ", doc.data());
-		        currentThis.setState({ 
-		        	name: doc.data().name,
-		        	image: doc.data().image,
-		        	price: doc.data().price,
-		        	expirationDate: doc.data().expirationDate, 
-		        })
-		    });
+        inv.users.map(user => {
+            Firebase.firestore.collection("Users").doc(user).get()
+                .then(doc => {
+                    if (!doc.exists) {
+                        console.log('No such document!');
+                    } else {
+                        users.push(doc.data());
+                        this.setState({ users: users });
+                    }
+                })
+                .catch(err => {
+                    console.log('Error getting document', err);
+                });
+        })
+    }
+
+	updateFireBase = (updateMade) => {
+		var id = this.props.inventories.activeItem.id;
+        Firebase.firestore.collection("Items").doc(id).update(updateMade)
+        .then(function() {
+            console.log("Document successfully written!");
+        })
+        .catch(function(error) {
+            console.error("Error writing document: ", error);
+        });		
+	}
+
+	updateItem = () => {
+		var updateMade = {};
+		if(this.state.price){updateMade.price = Number(this.state.price);}
+		if(this.state.expirationDate){updateMade.expirationDate = this.state.expirationDate;}
+		if(this.state.quantity){updateMade.quantity = Number(this.state.quantity);}
+	    this.updateFireBase(updateMade);
+	}
+
+	updatePrice = (updatedPrice) => {
+		this.setState({
+			price: updatedPrice,
+		});
+	    console.log("updated price:",updatedPrice);
+	}
+
+	updateDate = (updatedData) => {
+		this.setState({
+			expirationDate: updatedData,
+		});
+	    console.log("updated date:",updatedData);
+	}
+
+	updateQuantity = (updatedQuantity) => {
+		this.setState({
+			quantity: updatedQuantity,
+		});
+	    console.log("updated quantity: ",updatedQuantity);
 	}
 
 	render(){
-		var image = this.state.image;
-		var price = this.state.price;
-		var expirationDate = this.state.expirationDate;
 		const item = this.props.inventories.activeItem
 		return(		
 			<SafeAreaView style={styles.background}>
 
 			  <View style={styles.card1}>
 			    <Text style={styles.card1NameStyle}>
-			        {this.state.name}
+			        {item.name}
 			    </Text>
 			  </View>
 
@@ -69,12 +113,21 @@ class Item extends Component{
 			              height: null,
 			              borderRadius: 10
 			            }} 
-			            source={{ uri: image }}
+			            source={{ uri: item.image }}
 			      />
 			  </View>
 			
 			  <View style={styles.card3}>
-			       <ItemDetail itemPrice={price} itemExpirationDate={expirationDate}>
+			       <ItemDetail 
+			       		itemPrice={item.price} 
+			       		itemExpirationDate={item.expirationDate} 
+			       		itemQuantity={item.quantity}
+			       		users={this.state.users}
+			       		sendDate={this.updateDate} 
+			       		sendPrice={this.updatePrice}
+			       		sendQuantity={this.updateQuantity}
+			       		updateItem={this.updateItem}
+		       		>
 			       </ItemDetail>
 			  </View>
 		    

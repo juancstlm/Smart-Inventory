@@ -69,7 +69,7 @@ class SmartInventory extends Component {
         CameraSelectItem: CameraSelectItem,
       },
       {
-        initialRouteName: "CameraClarifai",
+        initialRouteName: "InventoriesList",
         // headerMode: 'none'
       }
     );

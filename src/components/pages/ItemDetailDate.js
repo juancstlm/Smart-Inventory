@@ -14,17 +14,18 @@ class ItemDetailDate extends React.Component {
     constructor (props) {
       super(props)
       this.state = {
-        Expirationdate:"2000-00-00"
+        Expirationdate: this.props.itemExpirationDate
       }
     }
 
     componentWillReceiveProps(nextProps){
-      if (nextProps.itemExpirationDate !== this.props.itemExpirationDate) {
-        this.setState({ Expirationdate: nextProps.itemExpirationDate })
-      }
+      // if (nextProps.itemExpirationDate !== this.props.itemExpirationDate) {
+      //   this.setState({ Expirationdate: nextProps.itemExpirationDate })
+      // }
     }
 
     displayDatePicker(){
+
           return (
             <DatePicker
               style={{width: 150}}
@@ -32,8 +33,8 @@ class ItemDetailDate extends React.Component {
               mode="date"
               placeholder="select date"
               format="YYYY-MM-DD"
-              minDate="2018-11-24"
-              maxDate="2018-12-30"
+              minDate="2018-11-27"
+              maxDate="2019-12-30"
               confirmBtnText="Confirm"
               cancelBtnText="Cancel"
               customStyles={{
@@ -56,7 +57,12 @@ class ItemDetailDate extends React.Component {
                   color: '#2F3A49'
                 }   
               }}
-              onDateChange={(date) => {this.setState({Expirationdate: date})}}
+              onDateChange={(date) => {
+                this.setState({
+                  Expirationdate: date
+                })
+                this.props.sendDate(date);
+              }}
             />  
         )
     }

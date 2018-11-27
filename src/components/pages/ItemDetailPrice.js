@@ -31,10 +31,11 @@ class ItemDetailPrice extends Component{
 		} 
 
 		for (var i=0; i < text.length; i++) { 
-			if(numbers.indexOf(text[i]) > -1 ) { 
+			if(numbers.indexOf(text[i]) > -1 || text[i] == '.') { 
 				newText = newText + text[i]; 
 			}
 		}
+		this.props.sendPrice(newText);
 	}
 
 	render(){
@@ -44,12 +45,14 @@ class ItemDetailPrice extends Component{
 		               <Text style={{fontSize: 17, color: '#2F3A49'}} > Price
 		               </Text>
 		              </View>
-		       		<View style={{paddingRight: 15}}> 
+		       		<View style={{paddingRight: 15,flexDirection: 'row'}}>
+		       			<Text style={{fontSize: 17, color: '#2F3A49'}}> $
+		       			</Text> 
 						<TextInput 
 						   style={styles.textInput}
 						   keyboardType='numeric'
 						   onChangeText={(text)=> this.onChangedPrice(text)}
-						   value={"$" + this.state.price}
+						   value={"" + this.props.itemPrice}
 						   maxLength={10}  //setting limit of input
 						/>
 		          </View>

@@ -10,10 +10,9 @@ class ItemConfirmation extends Component {
 		price: '',
 		expirationDate: '',
 		name: '',
+		quantity: '',
 		imagePath: '',
 		imagefirebase: '',
-		inventory: '',
-		Matches: [] 
 	}
 
 	constructor(props) {
@@ -22,50 +21,57 @@ class ItemConfirmation extends Component {
 		this.state = {
 	      price: '',
 	      expirationDate: '',
-	      inventory: '',
+	      quantity: '',
 	      name: params.itemName,
 	      imagePath: params.imagePath,
 	      imagefirebase: params.imagefirebase,
-	      Matches: [] 
 	    };
-	    this.getData = this.getData.bind(this);
-		this.getPrice = this.getPrice.bind(this);
-		this.getInventory = this.getInventory.bind(this);	
+	    this.setDate = this.setDate.bind(this);
+		this.setPrice = this.setPrice.bind(this);
+		this.setQuantity = this.setQuantity.bind(this);
 	}
 
-	getPrice = (updatedPrice) => {
+	saveItemToFireBase = (item) => {
+        Firebase.firestore.collection("Items").add(item)
+        .then(function() {
+            console.log("Document successfully written!");
+        })
+        .catch(function(error) {
+            console.error("Error writing document: ", error);
+        });  
+        
+        this.props.navigation.navigate('InventoriesList')   		
+	}
+
+	saveItem = () => {
+		var item = {};
+		if(this.state.name){item.name = this.state.name;}
+		if(this.state.imagefirebase){item.Image = this.state.imagefirebase;}
+		if(this.state.price){item.price = Number(this.state.price);}
+		if(this.state.expirationDate){item.expirationDate = this.state.expirationDate;}
+		if(this.state.quantity){item.quantity = Number(this.state.quantity);}
+	    this.saveItemToFireBase(item);
+	}
+
+	setPrice = (updatedPrice) => {
 		this.setState({
 			price: updatedPrice,
 		});
 	    console.log("updated price: ",updatedPrice);
 	}
 
-	getData = (updatedData) => {
+	setDate = (updatedData) => {
 		this.setState({
 			expirationDate: updatedData,
 		});
-	    console.log("updated datey: ",updatedData);
+	    console.log("updated date: ",updatedData);
 	}
 
-	getInventory = (updatedInventory) => {
+	setQuantity = (updatedQuantity) => {
 		this.setState({
-			inventory: updatedInventory,
+			quantity: updatedQuantity,
 		});
-	    console.log("updated inventoryyy: ",updatedInventory);
-	}
-
-	async saveToFireBase() {
-
-		Firebase.firestore.collection("Items").add({
-		    name: 'Tokyo',
-		})
-		.then(function(docRef) {
-		    console.log("Document written with ID: ", docRef.id);
-		})
-		.catch(function(error) {
-		    console.error("Error adding document: ", error);
-		});	
-
+	    console.log("updated quantity: ",updatedQuantity);
 	}
 	
 	render() {	
@@ -91,12 +97,12 @@ class ItemConfirmation extends Component {
 			    </View>
 
 			    <View style={styles.card3}>
-			        <ItemConfirmationDetails sendDate={this.getData} sendPrice={this.getPrice} sendInventory={this.getInventory}>
+			        <ItemConfirmationDetails sendDate={this.setDate} sendPrice={this.setPrice} sendQuantity={this.setQuantity}>
 			        </ItemConfirmationDetails>
 			    </View>
 					
 			    <View style={styles.card4}>
-			        <Button block onPress={this.saveToFireBase}>
+			        <Button block onPress={this.saveItem}>
                          <Text>SAVE</Text>
                     </Button>
 			    </View>

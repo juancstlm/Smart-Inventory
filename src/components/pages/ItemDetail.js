@@ -5,34 +5,46 @@ import Moment from 'react-moment';
 import {format, compareAsc} from 'date-fns'
 import ItemDetailPrice from './ItemDetailPrice'
 import ItemDetailDate from './ItemDetailDate'
+import ItemDetailsQuantity from './ItemDetailsQuantity'
 import ItemDetailInventory from './ItemDetailInventory'
 
 class ItemDetail extends React.Component{
 
+	update = () => {
+		this.props.updateItem();
+	}
+
 	render(){
 		price = this.props.itemPrice;
 		expirationDate = this.props.itemExpirationDate;
-
+		quantity = this.props.itemQuantity;
+		users = this.props.users;
 		return(		
 		    <ScrollView style={styles.scrollViewStyle}>
 
-		        <ItemDetailPrice itemPrice={price}>
+		        <ItemDetailPrice itemPrice={price} sendPrice={this.props.sendPrice}>
 		        </ItemDetailPrice>
   
 			    <View style={styles.horizontalLine}>
 			    </View>
 
-		        <ItemDetailDate itemExpirationDate={expirationDate}>
+		        <ItemDetailDate itemExpirationDate={expirationDate} sendDate={this.props.sendDate}>
 		        </ItemDetailDate>
 
-		        <ItemDetailInventory>
+			    <View style={styles.horizontalLine}>
+			    </View>
+
+		        <ItemDetailsQuantity itemQuantity={quantity} sendQuantity={this.props.sendQuantity}>
+		        </ItemDetailsQuantity>
+
+		        <ItemDetailInventory users={users}>
 		        </ItemDetailInventory>
 
 			    <View style={styles.editContainer}>	       
 			       <View style={styles.horizontalLine}>
 			       </View>	       
 			       <View style={{justifyContent: 'center', flex: 1}}> 
-			               <Text style={{textAlign: 'center', color: '#F7931E',fontSize: 15}}>
+			               <Text style={{textAlign: 'center', color: '#F7931E',fontSize: 15}} onPress={this.update}>
 			                   EDIT ATTRIBUTES
 			               </Text> 
 			       </View>	    

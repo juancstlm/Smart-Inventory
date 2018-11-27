@@ -1,21 +1,20 @@
 import React, { Component } from 'react';
 import { View, Image, Text,TextInput,Dimensions } from 'react-native';
-import Button from '../ui/AddInventoryButton';
 
-class ItemConfirmationDetailsPrice extends Component{
+class ItemConfirmationDetailsQuantity extends Component{
 
 	state : {
-		price: '',
+		quantity: '',
 	} 
 
 	constructor(props) {
 		super(props);
 		this.state = {
-			price: '00.00'
+			quantity: '1'
 		}
 	}
 
-	onChangedPrice(text){ 
+	onQuantityChange(text){ 
 		var newText = ''; 
 		var numbers = '0123456789'; 
 		
@@ -24,39 +23,37 @@ class ItemConfirmationDetailsPrice extends Component{
 		} 
 
 		for (var i=0; i < text.length; i++) { 
-			if(numbers.indexOf(text[i]) > -1 || text[i] == '.') { 
+			if(numbers.indexOf(text[i]) > -1 ) { 
 				newText = newText + text[i]; 
 			}
 		}
-		this.props.sendPrice(newText);
+		this.props.sendQuantity(newText);
 	}
 
 	render(){
 		return(		
-			<View style={styles.priceContainer}>				
+			<View style={styles.qContainer}>
 				<View style={{paddingLeft: 10}}>
-					<Text style={{fontSize: 17, color: '#2F3A49'}}> Enter price:  
+					<Text style={{fontSize: 17, color: '#2F3A49'}}> Enter quantity:  
 					</Text>
 				</View>
 				
-	       		<View style={{paddingRight: 15,flexDirection: 'row'}}>
-	       			<Text style={{fontSize: 17, color: '#2F3A49'}}> $
-	       			</Text> 
+				<View style={{paddingRight: 15}}> 
 					<TextInput 
 					   style={{fontSize: 17, color: '#2F3A49'}}
 					   keyboardType='numeric'
-					   onChangeText={(text)=> this.onChangedPrice(text)}
-					   value={this.state.price}
+					   onChangeText={(text)=> this.onQuantityChange(text)}
+					   value={this.state.quantity}
 					   maxLength={10}  //setting limit of input
 					/>
-				</View>
+				</View>		
 			</View>	
 		);
 	}
 };
 
 const styles ={
-	priceContainer:{
+	qContainer:{
 		flex: 1,
 		flexDirection: 'row',
 		justifyContent: 'space-between',
@@ -64,4 +61,4 @@ const styles ={
 	}
 }
 
-export default ItemConfirmationDetailsPrice;
+export default ItemConfirmationDetailsQuantity;

@@ -3,21 +3,21 @@ import { Modal, Text, View, Image, Dimensions, TextInput } from 'react-native';
 import { Divider } from 'react-native-elements'
 import ItemConfirmationDetailsPrice from './ItemConfirmationDetailsPrice'
 import ItemConfirmationDetailsDate from './ItemConfirmationDetailsDate'
-import ItemConfirmationDetailsInventory from './ItemConfirmationDetailsInventory'
+import ItemConfirmationDetailsQuantity from './ItemConfirmationDetailsQuantity'
 
 class ItemConfirmationDetails extends Component {
 	
 	render() {
 		return (		
 			<View style={styles.background}>		    
-			    <ItemConfirmationDetailsInventory sendInventory={this.props.sendInventory}>
-			    </ItemConfirmationDetailsInventory>
-
 			    <ItemConfirmationDetailsPrice sendPrice={this.props.sendPrice}>
 			    </ItemConfirmationDetailsPrice>
 			    
 			    <ItemConfirmationDetailsDate sendDate={this.props.sendDate}>
 			    </ItemConfirmationDetailsDate>
+
+			    <ItemConfirmationDetailsQuantity sendQuantity={this.props.sendQuantity}>
+			    </ItemConfirmationDetailsQuantity>
 			</View>		
 		);
 	}

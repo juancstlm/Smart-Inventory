@@ -6,6 +6,7 @@ import Button from '../ui/AddInventoryButton';
 class ItemDetailInventory extends React.Component {
 
 	render(){
+		users = this.props.users;
 		return(	
 			    <View style={styles.InventoryContainer}>
 			       <View style={styles.horizontalLine}>
@@ -15,13 +16,8 @@ class ItemDetailInventory extends React.Component {
 				      </Text>
 				   </View>
 				   <View style={{flex: 1}}>
-					   <ItemDetailInventoryList>
+					   <ItemDetailInventoryList users={users}>
 					   </ItemDetailInventoryList>			   
-					   <View style={{flex: 1}}>
-						   	<Button block onPress={() => this.props.navigation.navigate('Landing')}>
-		                         <Text>Add To Inventory</Text>
-		                    </Button>
-					   </View>
 				   </View>
 			    </View>
 		);

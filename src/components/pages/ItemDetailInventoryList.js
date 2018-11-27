@@ -2,8 +2,19 @@ import React, { Component } from 'react';
 import { View, Image, Text } from 'react-native';
 
 class ItemDetailInventoryList extends React.Component {
+	
+	renderUsersInInventory(){        
+        return this.props.users.map(user => {
+            if (user.image != undefined) {
+                return <Image style={styles.thumbnailStyle}  source={{ uri: user.image }} />
+            } else {
+            }
+        });      
+
+	}
 
 	render(){
+		users = this.props.users;
 		return(	
 			<View style={styles.ellipseContainer}>
 					
@@ -16,9 +27,7 @@ class ItemDetailInventoryList extends React.Component {
 
 				<View style={styles.inventoryUsersDisplay}>
 					<View style={styles.usersListContainer}>
-		                <Image style={styles.thumbnailStyle}  source= {require("../../img/bike.png")} />
-		                <Image style={styles.thumbnailStyle}  source= {require("../../img/bike2.jpeg")} />
-		                <Image style={styles.thumbnailStyle}  source= {require("../../img/orange.png")} />
+						{this.renderUsersInInventory()}
 	                </View>
 				</View>
 		
@@ -30,7 +39,7 @@ class ItemDetailInventoryList extends React.Component {
 
 const styles ={
 	ellipseContainer:{
-		flex: 4,
+		flex: 1,
   	    borderRadius: 10,
   	    margin: 10,
   	    backgroundColor: '#FCFCFC',

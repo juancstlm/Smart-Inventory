@@ -24,8 +24,8 @@ class ItemConfirmationDetailsDate extends Component{
               mode="date"
               placeholder="select date"
               format="YYYY-MM-DD"
-              minDate="2018-11-24"
-              maxDate="2018-12-30"
+              minDate="2018-11-27"
+              maxDate="2019-12-30"
               confirmBtnText="Confirm"
               cancelBtnText="Cancel"
               customStyles={{
@@ -62,7 +62,7 @@ class ItemConfirmationDetailsDate extends Component{
 		return(
 			<View style={styles.dataContainer}>
 				<View style={{paddingLeft: 10}}>
-					<Text style={{fontSize: 17, color: '#2F3A49'}}> Expiration datey:  
+					<Text style={{fontSize: 17, color: '#2F3A49'}}> Expiration date:  
 					</Text>
 				</View>
 				
