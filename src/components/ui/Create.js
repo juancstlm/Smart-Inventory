@@ -30,7 +30,7 @@ class Create extends React.Component {
   create = () => {
     var add = true;
     if (this.state.name === ''){
-      console.log('name not set')
+      console.log('Inventory name not set')
     }
     else{
       //create an inventory object and add user as owner
