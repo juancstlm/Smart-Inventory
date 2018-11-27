@@ -11,7 +11,8 @@ import {
   ScrollView,
   View,
   SafeAreaView,
-  TouchableOpacity
+  TouchableOpacity,
+  FlatList
 } from "react-native";
 import Modal from "react-native-modal";
 import Join from "../ui/Join";
@@ -32,7 +33,7 @@ class InventoriesList extends React.Component {
     joinBackColor: "#2f3a49",
     createBackColor: "",
     search: "",
-    searchFlag: false
+    searchFlag: false,
   };
 
   // This is so that react navigator hides the stack header
@@ -109,7 +110,7 @@ class InventoriesList extends React.Component {
       );
     } else {
       return this.props.inventories.all.map(inventory =>
-        <InventoryProfile key={inventory.id} inventory={inventory} onPress={console.log('resdfa')}/>
+        <InventoryProfile key={inventory.id} inventory={inventory}/>
       );
     }
   }
@@ -122,6 +123,14 @@ class InventoriesList extends React.Component {
         title={String(this.props.user.firstName).charAt(0) + String(this.props.user.lastName).charAt(0)}
         onPress={this.goToProfile} />
     }
+  }
+
+  handleRefresh = () =>{
+
+  }
+
+  keyExtractor(item, index) {
+    return item.id
   }
 
   render() {
@@ -145,9 +154,18 @@ class InventoriesList extends React.Component {
         <InventoryCardSection>
           <Text style={styles.textStyle}>Inventories</Text>
         </InventoryCardSection>
-        <ScrollView style={{ backgroundColor: "transparent" }} onPress={Keyboard.dismiss}>
-          {this.renderInventories()}
-        </ScrollView>
+        <FlatList
+          data={this.props.inventories.all}
+          numColumns={1}
+          extraData={this.props.inventories.all}
+          refreshing={this.props.inventories.refreshing}
+          keyExtractor={this.keyExtractor}
+          onRefresh={this.handleRefresh}
+          initialNumToRender={4}
+          ListEmptyComponent={<Text>No Inventories</Text>}
+          renderItem={({item}) => <InventoryProfile key={item.id} inventory={item}/>}
+        >
+        </FlatList>
         <ActionButton buttonColor="rgba(231,76,60,1)" onPress={this._toggleModal}>
 
         </ActionButton>

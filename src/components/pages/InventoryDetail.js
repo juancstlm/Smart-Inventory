@@ -208,7 +208,7 @@ class InventoryDetail extends React.Component {
                 >
                 </FlatList>
 
-                <ActionButton buttonColor="rgba(231,76,60,1)" onPress={() => (this.props.navigation.navigate("CameraCoreML"))} />
+                <ActionButton buttonColor="rgba(231,76,60,1)" onPress={() => (this.props.navigation.navigate("CameraClarifai"))} />
 
             </SafeAreaView>
         );

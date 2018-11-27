@@ -1,6 +1,7 @@
 import C from '../../constants'
 const initialState = {
   all: [],
+  refreshing: false,
   activeInventory: {},
   currentItemsDetails: [],
   activeItem: {}
