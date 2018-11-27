@@ -28,7 +28,6 @@ class InventoryDetail extends React.Component {
 
     static navigationOptions = {
         header: null,
-      gesturesEnabled: false,
     };
 
     componentWillMount() {
@@ -101,7 +100,6 @@ class InventoryDetail extends React.Component {
     }
 
     renderUserProfileImages() {
-        console.log(this.state.users)
         return this.state.users.map(user => {
             if (user.image != undefined) {
                 return <View style={styles.thumbnailContainerStyle} key={user.firstName}>
@@ -129,7 +127,6 @@ class InventoryDetail extends React.Component {
             ],
             { cancelable: false }
         )
-        console.log(this.props.inventories.activeInventory.invite_id)
 
     }
 

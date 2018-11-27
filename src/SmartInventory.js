@@ -18,8 +18,9 @@ import CameraClarifai from './components/pages/CameraClarifai'
 import CameraSelectItem from './components/pages/CameraSelectItem'
 import {connect} from 'react-redux'
 import {getUserDetails, getAuthStatus, getOwnInventories,
-  getSharedInventories
+  getSharedInventories, clearActiveInventory
 } from '../src/redux/actions/App'
+import store from './redux/store'
 
 const mapStateToProps = ({user}) => ({
   user,
@@ -70,8 +71,12 @@ class SmartInventory extends Component {
       },
       {
         initialRouteName: "InventoriesList",
-        // headerMode: 'none'
-      }
+        onTransitionEnd: (t)=>{
+          if (t.index === 0) {
+            store.dispatch(clearActiveInventory())
+          }
+        }
+      },
     );
 
     return (

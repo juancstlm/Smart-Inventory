@@ -12,10 +12,8 @@ class InventoryItem extends React.Component {
   getWidth = function() {
 
     let percent = Number(this.props.item.availableQuantity)/Number(this.props.item.quantity);
-    console.log('percent', this.props.item)
     percent *= 100
     let width = percent + "%";
-    console.log(width)
     return width;
   };
 
