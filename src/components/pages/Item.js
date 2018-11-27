@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Image, Text, SafeAreaView } from 'react-native';
+import { View, Image, Text, SafeAreaView} from 'react-native';
 import ItemDetail from './ItemDetail'
 import {connect} from 'react-redux';
 
@@ -9,6 +9,7 @@ class Item extends Component{
     header: null
   };
 	
+
 	render(){
 
 		const item = this.props.inventories.activeItem

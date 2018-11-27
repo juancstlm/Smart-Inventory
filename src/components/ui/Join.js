@@ -2,10 +2,15 @@ import React from 'react';
 import {TouchableOpacity, Text, TextInput, View, StyleSheet, Image} from 'react-native';
 import {Button} from 'react-native-elements';
 import QRCodeScanner from 'react-native-qrcode-scanner';
+import Toaster, { ToastStyles } from 'react-native-toaster'
+import rootReducer from  '../../redux/reducers/inventories'
+import Firebase from '../../Firebase'
+import * as firebase from 'firebase';
+import inventories from '../../redux/reducers/inventories';
 
 class Join extends React.Component {
 
-  state={scan: false, qrcode: '', disableJoin: true}
+  state={scan: false, qrcode: '', disableJoin: true, message: null}
 
   onSuccess= (e) => {
     this.setState({qrcode: e.data})
@@ -20,12 +25,30 @@ class Join extends React.Component {
   }
 
   join = () => {
+    myState = this;
     if (this.state.qrcode === ''){
       console.log('Join code not set')
     }
     else{
       //add user as member of inventory with join code 'qrcode'
+
+      var inv = Firebase.firestore.collection("Inventories").doc(this.state.qrcode);
+      // Atomically add a new user to the "users" array field.
+      inv.update({
+          users: firebase.firestore.FieldValue.arrayUnion(Firebase.auth.currentUser.uid)
+      }).then(function() {
+        console.log("User successfully Added!");
+        myState.setState({message: { text: 'Joined Inventory!', styles: ToastStyles.success }});
+        
+      }).catch(function(error) {
+          // The document probably doesn't exist.
+          console.log("Error adding user: ");
+          myState.setState({message: { text: 'Inavlid Invite Code!', styles: ToastStyles.error }});
+          
+      });
+    
     }
+      
   }
 
   render(){
@@ -70,6 +93,9 @@ class Join extends React.Component {
 
           </View>
         }
+
+        { <Toaster message={this.state.message} onHide={()=> {this.setState({message: null})}}/>}
+
         <View style={{width: '40%', alignItems:'stretch'}}>
           <Button onPress={this.join} title='JOIN' disabled={this.state.disableJoin}/>
         </View>
