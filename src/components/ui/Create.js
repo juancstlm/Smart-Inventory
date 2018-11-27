@@ -1,10 +1,11 @@
 import React from 'react';
 import {Text,TextInput, View} from 'react-native';
-import {Button, ButtonGroup, Avatar, SearchBar} from 'react-native-elements';
+import {Button, ButtonGroup, Avatar, SearchBar, Input} from 'react-native-elements';
 import InventoryCardSection from "../ui/InventoryCardSection";
 import Firebase from "../../Firebase";
 import Toaster, { ToastStyles } from 'react-native-toaster'
 import store from "../../redux/store";
+import {joinInventory} from '../../redux/actions/App'
 
 class Create extends React.Component {
 
@@ -34,6 +35,7 @@ class Create extends React.Component {
     }
     else{
       //create an inventory object and add user as owner
+      // TODO move all of this into a redux thunk
       this.props.inventories.map(inv => {
         console.log(inv.name);
         if (inv.name.toLowerCase() === this.state.name.toLowerCase()) {
@@ -41,7 +43,8 @@ class Create extends React.Component {
         }
       });
       if( add === true){
-            ref = Firebase.firestore.collection('Inventories').doc()
+            let ref = Firebase.firestore.collection('Inventories').doc()
+            let id = ref.id;
             ref.set({
               image: 'https://c1.staticflickr.com/5/4916/45053006915_f22a94ea77_c.jpg',
               items: [],
@@ -49,8 +52,9 @@ class Create extends React.Component {
               owner_id: Firebase.auth.currentUser.uid,
               users: [],
               invite_id: ref.id,
-            }).then(ref => {
-              console.log('Added document with ID: ', ref.id);
+            }).then(() => {
+              store.dispatch(joinInventory(id))
+              console.log('Added document with ID: ', id);
             });
 
             this.setState({message: { text: 'Inventory Created!', styles: ToastStyles.success }});
@@ -72,7 +76,7 @@ class Create extends React.Component {
     console.log(this.state.inventories);
     return (
       <View style={{flex: 1, height: '100%',width:'100%', backgroundColor: '#2f3a49', alignItems: 'center'}}>
-        <TextInput
+        <Input
           onChangeText={(text) => {this.setState({name: text});
             this.setState({ disableCreate: (this.state.name.length < 2) });}}
           clearButtonMode='while-editing'
@@ -91,7 +95,7 @@ class Create extends React.Component {
           placeholder={" Inventory name"}
           placeholderTextColor={"white"}/>
 
-        <Text style={{color: "white", height: 22,fontSize: 18, alignSelf: 'auto', marginBottom: 1}}>
+        <Text style={{marginTop: 15, color: "white", height: 22,fontSize: 18, alignSelf: 'auto', marginBottom: 1}}>
           Sharing:
         </Text>
 

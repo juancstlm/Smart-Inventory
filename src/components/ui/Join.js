@@ -1,12 +1,13 @@
 import React from 'react';
 import {TouchableOpacity, Text, TextInput, View, StyleSheet, Image} from 'react-native';
-import {Button} from 'react-native-elements';
+import {Button, Input} from 'react-native-elements';
 import QRCodeScanner from 'react-native-qrcode-scanner';
 import Toaster, { ToastStyles } from 'react-native-toaster'
-import rootReducer from  '../../redux/reducers/inventories'
+import store from  '../../redux/store'
 import Firebase from '../../Firebase'
-import * as firebase from 'firebase';
+import * as firebase from 'firebase'
 import inventories from '../../redux/reducers/inventories';
+import {joinInventory} from '../../redux/actions/App'
 
 class Join extends React.Component {
 
@@ -36,10 +37,10 @@ class Join extends React.Component {
       // Atomically add a new user to the "users" array field.
       inv.update({
           users: firebase.firestore.FieldValue.arrayUnion(Firebase.auth.currentUser.uid)
-      }).then(function() {
-        console.log("User successfully Added!");
+      }).then(data =>{
+        console.log("User successfully Added!", data);
         myState.setState({message: { text: 'Joined Inventory!', styles: ToastStyles.success }});
-        
+        store.dispatch(joinInventory(this.state.qrcode))
       }).catch(function(error) {
           // The document probably doesn't exist.
           console.log("Error adding user: ");
@@ -54,7 +55,7 @@ class Join extends React.Component {
   render(){
     return (
       <View style={{flex: 1, height: '100%',width:'100%', backgroundColor: '#2f3a49', alignItems: 'center'}}>
-        <TextInput
+        <Input
           onChangeText={(text) => {this.setState({qrcode: text});
             this.setState({disableJoin: (this.state.qrcode.length < 5)});}}
           clearButtonMode='while-editing'
@@ -72,7 +73,7 @@ class Join extends React.Component {
           }}
           placeholder={" Enter quick share code"}
           placeholderTextColor={"white"}/>
-        <Text style={{color: "white", height: 40, fontSize: 18}}>
+        <Text style={{color: "white", marginTop: 15, height: 40, fontSize: 18}}>
           Join Via QR Code
         </Text>
 
