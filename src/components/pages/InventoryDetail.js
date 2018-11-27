@@ -27,7 +27,8 @@ class InventoryDetail extends React.Component {
     };
 
     static navigationOptions = {
-        header: null
+        header: null,
+      gesturesEnabled: false,
     };
 
     componentWillMount() {
@@ -73,17 +74,28 @@ class InventoryDetail extends React.Component {
                     }
                 }
                 );
-                return results.map(item =>
-                    <View style={styles.profileContainer} key={item.name}>
-                        <ItemProfile style={styles.profile} key={item.name} item={item} />
-                    </View>
-                );
+                return <FlatList contentContainerStyle={styles.container}
+                                 data={results}
+                                 numColumns={2}
+                                 keyExtractor={this.keyExtractor}
+                                 ListEmptyComponent={<Text>No Items Matched</Text>}
+                                 renderItem={({ item }) =>
+                                   <View style={styles.profileContainer} key={item.id}>
+                                     <ItemProfile style={styles.profile} key={item.id} item={item} />
+                                   </View>}
+                >
+                </FlatList>
             } else {
-                return this.props.inventories.currentItemsDetails.map(item =>
-                    <View style={styles.profileContainer} key={item.name}>
-                        <ItemProfile style={styles.profile} key={item.name} item={item} />
-                    </View>
-                );
+                return <FlatList contentContainerStyle={styles.container}
+                                 data={this.props.inventories.currentItemsDetails}
+                                 numColumns={2}
+                                 keyExtractor={this.keyExtractor}
+                                 renderItem={({ item }) =>
+                                   <View style={styles.profileContainer} key={item.id}>
+                                     <ItemProfile style={styles.profile} key={item.id} item={item} />
+                                   </View>}
+                >
+                </FlatList>
             }
         }
     }
@@ -196,18 +208,7 @@ class InventoryDetail extends React.Component {
                     {this.renderUserProfileImages()}
                     <Avatar rounded title='+' onPress={() => this.invite()} />
                 </InventoryCardSection>
-
-                <FlatList contentContainerStyle={styles.container}
-                    data={this.props.inventories.currentItemsDetails}
-                    numColumns={2}
-                    keyExtractor={this.keyExtractor}
-                    renderItem={({ item }) =>
-                        <View style={styles.profileContainer} key={item.id}>
-                            <ItemProfile style={styles.profile} key={item.id} item={item} />
-                        </View>}
-                >
-                </FlatList>
-
+              {this.renderItems()}
                 <ActionButton buttonColor="rgba(231,76,60,1)" onPress={() => (this.props.navigation.navigate("CameraClarifai"))} />
 
             </SafeAreaView>
