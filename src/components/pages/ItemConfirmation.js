@@ -21,7 +21,7 @@ class ItemConfirmation extends Component {
 		this.state = {
 	      price: '',
 	      expirationDate: '',
-	      quantity: '',
+	      quantity: '1',
 	      name: params.itemName,
 	      imagePath: params.imagePath,
 	      imagefirebase: params.imagefirebase,
@@ -44,12 +44,15 @@ class ItemConfirmation extends Component {
 	}
 
 	saveItem = () => {
+
+
 		var item = {};
 		if(this.state.name){item.name = this.state.name;}
 		if(this.state.imagefirebase){item.Image = this.state.imagefirebase;}
 		if(this.state.price){item.price = Number(this.state.price);}
 		if(this.state.expirationDate){item.expirationDate = this.state.expirationDate;}
 		if(this.state.quantity){item.quantity = Number(this.state.quantity);}
+		if(this.state.quantity){item.availableQuantity = Number(this.state.quantity);}
 	    this.saveItemToFireBase(item);
 	}
 
