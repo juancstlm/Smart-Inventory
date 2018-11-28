@@ -3,6 +3,8 @@ import { View, Image, Text } from 'react-native';
 import Button from '../ui/ItemConfirmationButton';
 import ItemConfirmationDetails from './ItemConfirmationDetails'
 import Firebase from "../../Firebase";
+import {saveItemToFireBase} from "../../redux/actions/App";
+import store from '../../redux/store'
 
 class ItemConfirmation extends Component {
 	
@@ -29,31 +31,34 @@ class ItemConfirmation extends Component {
 	    this.setDate = this.setDate.bind(this);
 		this.setPrice = this.setPrice.bind(this);
 		this.setQuantity = this.setQuantity.bind(this);
+    store.dispatch(saveItemToFireBase({name:''}));
 	}
 
-	saveItemToFireBase = (item) => {
-        Firebase.firestore.collection("Items").add(item)
-        .then(function() {
-            console.log("Document successfully written!");
-        })
-        .catch(function(error) {
-            console.error("Error writing document: ", error);
-        });  
-        
-        this.props.navigation.navigate('InventoriesList')   		
-	}
+	// saveItemToFireBase = (item) => {
+	// 		console.log('ITEM', item)
+  //       Firebase.firestore.collection("Items").doc().set(
+	// 				{
+	// 					name: 'tests'
+	// 				}
+	// 			)
+  //       .then(() => {
+  //         this.props.navigation.navigate('InventoriesList')
+  //         console.log("Document successfully written!");
+  //       })
+  //       .catch(function(error) {
+  //           console.error("Error writing document: ", error);
+  //       });
+	// }
 
 	saveItem = () => {
-
-
-		var item = {};
+    var item = {};
 		if(this.state.name){item.name = this.state.name;}
-		if(this.state.imagefirebase){item.Image = this.state.imagefirebase;}
+		if(this.state.imagefirebase){item.image = this.state.imagefirebase;}
 		if(this.state.price){item.price = Number(this.state.price);}
 		if(this.state.expirationDate){item.expirationDate = this.state.expirationDate;}
 		if(this.state.quantity){item.quantity = Number(this.state.quantity);}
 		if(this.state.quantity){item.availableQuantity = Number(this.state.quantity);}
-	    this.saveItemToFireBase(item);
+    store.dispatch(saveItemToFireBase(item));
 	}
 
 	setPrice = (updatedPrice) => {

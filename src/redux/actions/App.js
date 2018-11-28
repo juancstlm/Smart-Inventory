@@ -81,6 +81,13 @@ export const joinInventory = (code) =>{
       })
 }
 
+export const saveItemToFireBase = (item) =>{
+  return async (dispatch) => await Firebase.firestore.collection(C.ITEMS).doc().set({
+  ...item
+    // OH YEAH BABY SPREAD IT
+  }).then(() => dispatch({type: C.SAVE_ITEM_TO_FIREBASE}))
+};
+
 export const getSharedInventories = () => {
   return async (dispatch) => await Firebase.firestore.collection(C.INVENTORIES)
     .where("users", 'array-contains', Firebase.auth.currentUser.uid)
