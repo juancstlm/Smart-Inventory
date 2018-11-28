@@ -14,7 +14,7 @@ class Item extends Component{
 	state : {
 		price: '',
 		image: '',
-		quantity: '',
+		availableQuantity: '',
 		expirationDate: '',
 		users: [],
 	} 
@@ -24,7 +24,7 @@ class Item extends Component{
 		this.state = {
 			price: '',
 			image: '',
-			quantity: '',
+			availableQuantity: '',
 			expirationDate: '',
 			users: []
 		}
@@ -69,7 +69,7 @@ class Item extends Component{
 		var updateMade = {};
 		if(this.state.price){updateMade.price = Number(this.state.price);}
 		if(this.state.expirationDate){updateMade.expirationDate = this.state.expirationDate;}
-		if(this.state.quantity){updateMade.quantity = Number(this.state.quantity);}
+		if(this.state.availableQuantity){updateMade.availableQuantity = Number(this.state.availableQuantity);}
 	    this.updateFireBase(updateMade);
 	}
 
@@ -89,7 +89,7 @@ class Item extends Component{
 
 	updateQuantity = (updatedQuantity) => {
 		this.setState({
-			quantity: updatedQuantity,
+			availableQuantity: updatedQuantity,
 		});
 	    console.log("updated quantity: ",updatedQuantity);
 	}
@@ -121,7 +121,7 @@ class Item extends Component{
 			       <ItemDetail 
 			       		itemPrice={item.price} 
 			       		itemExpirationDate={item.expirationDate} 
-			       		itemQuantity={item.quantity}
+			       		itemQuantity={item.availableQuantity}
 			       		users={this.state.users}
 			       		sendDate={this.updateDate} 
 			       		sendPrice={this.updatePrice}

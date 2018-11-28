@@ -5,6 +5,7 @@ import CaptureButton2 from '../ui/CaptureButton2';
 import Config from 'react-native-config'
 import Firebase from "../../Firebase";
 import RNFetchBlob from 'react-native-fetch-blob'
+import uuid from 'react-native-uuid';
 
 export default class CameraClarifai extends React.Component {
 
@@ -33,6 +34,7 @@ export default class CameraClarifai extends React.Component {
 	}
 
 	 saveImageToFirebase2(image){
+	 	var UUID = uuid.v1();
 	    this.setState({ loading: true })
 	    const Blob = RNFetchBlob.polyfill.Blob
 	    const fs = RNFetchBlob.fs
@@ -40,7 +42,7 @@ export default class CameraClarifai extends React.Component {
 	    window.Blob = Blob
 	    
 	    const uid = "ItemPhoto"
-	    const imageRef = Firebase.storage.ref(uid).child("dp5.jpg")
+	    const imageRef = Firebase.storage.ref(uid).child(UUID+".jpg")
 	    let mime = 'image/jpg'
 
 	    Blob.build(image.base64, { type: `${mime};BASE64` })

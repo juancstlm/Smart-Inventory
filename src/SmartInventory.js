@@ -70,7 +70,7 @@ class SmartInventory extends Component {
         CameraSelectItem: CameraSelectItem,
       },
       {
-        initialRouteName: "CameraClarifai",
+        initialRouteName: "InventoriesList",
         onTransitionEnd: (t)=>{
           if (t.index === 0) {
             store.dispatch(clearActiveInventory())
