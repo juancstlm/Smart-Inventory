@@ -31,7 +31,6 @@ class ItemConfirmation extends Component {
 	    this.setDate = this.setDate.bind(this);
 		this.setPrice = this.setPrice.bind(this);
 		this.setQuantity = this.setQuantity.bind(this);
-    store.dispatch(saveItemToFireBase({name:''}));
 	}
 
 	// saveItemToFireBase = (item) => {
