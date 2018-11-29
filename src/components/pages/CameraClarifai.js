@@ -33,37 +33,77 @@ export default class CameraClarifai extends React.Component {
     }
   }
 
-  saveImageToFirebase2(image){
-    var UUID = uuid.v1();
-    this.setState({ loading: true })
-    const Blob = RNFetchBlob.polyfill.Blob
-    const fs = RNFetchBlob.fs
-    window.XMLHttpRequest = RNFetchBlob.polyfill.XMLHttpRequest
-    window.Blob = Blob
+  // saveImageToFirebase2(image){
+  //   var UUID = uuid.v1();
+  //   this.setState({ loading: true })
+  //   const Blob = RNFetchBlob.polyfill.Blob
+  //   const fs = RNFetchBlob.fs
+  //   window.XMLHttpRequest = RNFetchBlob.polyfill.XMLHttpRequest
+  //   window.Blob = Blob
 
-    const uid = "ItemPhoto"
-    const imageRef = Firebase.storage.ref(uid).child(UUID+".jpg")
+  //   const uid = "ItemPhoto"
+  //   const imageRef = Firebase.storage.ref(uid).child(UUID+".jpg")
+  //   let mime = 'image/jpg'
+
+  //   Blob.build(image.base64, { type: `${mime};BASE64` })
+  //     .then((blob) => {
+  //       uploadBlob = blob
+  //       return imageRef.put(blob, { contentType: mime })
+  //     })
+  //     .then(() => {
+  //       uploadBlob.close()
+  //       return imageRef.getDownloadURL()
+  //     })
+  //     .then((url) => {
+  //       this.setState({
+  //         imagefirebase: url
+  //       }, () => {
+  //         this.identifyImage(image);
+  //       });
+  //     })
+  //     .catch((error) => {
+  //       console.log(error)
+  //     })
+  // }
+
+
+  saveImageToFirebase2(imagetaken){
+    let uploadBlob = null
     let mime = 'image/jpg'
+    const uid = "ItemPhoto"
+    var UUID = uuid.v1();
 
-    Blob.build(image.base64, { type: `${mime};BASE64` })
+    const originalXMLHttpRequest = window.XMLHttpRequest;
+    const originalBlob = window.Blob;
+    window.XMLHttpRequest = RNFetchBlob.polyfill.XMLHttpRequest
+    window.Blob = RNFetchBlob.polyfill.Blob
+
+    const imageRef = Firebase.storage.ref(uid).child(UUID+".jpg")
+
+
+    Blob.build(imagetaken.base64, { type: `${mime};BASE64` })
       .then((blob) => {
         uploadBlob = blob
         return imageRef.put(blob, { contentType: mime })
       })
       .then(() => {
         uploadBlob.close()
+        window.XMLHttpRequest = originalXMLHttpRequest ;
+        window.Blob = originalBlob
         return imageRef.getDownloadURL()
       })
       .then((url) => {
         this.setState({
           imagefirebase: url
         }, () => {
-          this.identifyImage(image);
+          this.identifyImage(imagetaken);
         });
+
       })
       .catch((error) => {
-        console.log(error)
+        console.log(error);
       })
+
   }
 
   identifyImage(imageData){

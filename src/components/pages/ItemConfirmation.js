@@ -3,8 +3,9 @@ import { View, Image, Text } from 'react-native';
 import Button from '../ui/ItemConfirmationButton';
 import ItemConfirmationDetails from './ItemConfirmationDetails'
 import Firebase from "../../Firebase";
-import {saveItemToFireBase} from "../../redux/actions/App";
+import {saveItemToFireBase, addItemToInventory} from "../../redux/actions/App";
 import store from '../../redux/store'
+import uuid from 'react-native-uuid';
 
 class ItemConfirmation extends Component {
 	
@@ -33,22 +34,6 @@ class ItemConfirmation extends Component {
 		this.setQuantity = this.setQuantity.bind(this);
 	}
 
-	// saveItemToFireBase = (item) => {
-	// 		console.log('ITEM', item)
-  //       Firebase.firestore.collection("Items").doc().set(
-	// 				{
-	// 					name: 'tests'
-	// 				}
-	// 			)
-  //       .then(() => {
-  //         this.props.navigation.navigate('InventoriesList')
-  //         console.log("Document successfully written!");
-  //       })
-  //       .catch(function(error) {
-  //           console.error("Error writing document: ", error);
-  //       });
-	// }
-
 	saveItem = () => {
     var item = {};
 		if(this.state.name){item.name = this.state.name;}
@@ -57,7 +42,9 @@ class ItemConfirmation extends Component {
 		if(this.state.expirationDate){item.expirationDate = this.state.expirationDate;}
 		if(this.state.quantity){item.quantity = Number(this.state.quantity);}
 		if(this.state.quantity){item.availableQuantity = Number(this.state.quantity);}
-    store.dispatch(saveItemToFireBase(item));
+		var UUID = uuid.v1();
+    store.dispatch(saveItemToFireBase(item, UUID));
+    store.dispatch(addItemToInventory(UUID, store.getState().inventories.activeInventory.id));
 	}
 
 	setPrice = (updatedPrice) => {

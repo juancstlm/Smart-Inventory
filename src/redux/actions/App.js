@@ -1,5 +1,6 @@
 import C from '../../constants'
 import Firebase from '../../Firebase'
+import * as firebase from 'firebase'
 
 
 export const getUserDetails = (uid) => {
@@ -81,12 +82,22 @@ export const joinInventory = (code) =>{
       })
 }
 
-export const saveItemToFireBase = (item) =>{
-  return async (dispatch) => await Firebase.firestore.collection(C.ITEMS).doc().set({
-  ...item
-    // OH YEAH BABY SPREAD IT
-  }).then(() => dispatch({type: C.SAVE_ITEM_TO_FIREBASE}))
-};
+export const addItemToInventory = (item, inventory ) => {
+  console.log(item, inventory)
+  return async (dispatch) => await Firebase.firestore.collection(C.INVENTORIES).doc(inventory)
+    .update({items: firebase.firestore.FieldValue.arrayUnion(item)}).then(()=>{
+      dispatch({type: C.ADD_ITEM_TO_INVENTORY})
+    })
+}
+
+export const saveItemToFireBase = (item, id) =>{
+  return async (dispatch) => await
+    Firebase.firestore.collection(C.ITEMS).doc(id).set({
+        ...item
+        // OH YEAH BABY SPREAD IT
+      }).then(() =>{
+        dispatch({type: C.SAVE_ITEM_TO_FIREBASE})})
+}
 
 export const getSharedInventories = () => {
   return async (dispatch) => await Firebase.firestore.collection(C.INVENTORIES)
