@@ -6,8 +6,13 @@ import Firebase from "../../Firebase";
 import {saveItemToFireBase, addItemToInventory} from "../../redux/actions/App";
 import store from '../../redux/store'
 import uuid from 'react-native-uuid';
+import { Icon } from "react-native-elements";
 
 class ItemConfirmation extends Component {
+
+  static navigationOptions = {
+    headerTransparent: true,
+  };
 	
 	state : {
 		price: '',
@@ -45,6 +50,7 @@ class ItemConfirmation extends Component {
 		var UUID = uuid.v1();
     store.dispatch(saveItemToFireBase(item, UUID));
     store.dispatch(addItemToInventory(UUID, store.getState().inventories.activeInventory.id));
+    this.props.navigation.navigate('InventoryDetail')
 	}
 
 	setPrice = (updatedPrice) => {

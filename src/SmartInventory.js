@@ -42,7 +42,6 @@ class SmartInventory extends Component {
     Firebase.init();
 
     Firebase.auth.onAuthStateChanged(user => {
-
       if(!!user){
         this.props.getUserDetails(user.uid);
         this.props.getOwnInventories();

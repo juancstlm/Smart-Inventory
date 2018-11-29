@@ -6,8 +6,14 @@ import Config from 'react-native-config'
 import Firebase from "../../Firebase";
 import RNFetchBlob from 'react-native-fetch-blob'
 import uuid from 'react-native-uuid';
+import { Icon } from "react-native-elements";
 
 export default class CameraClarifai extends React.Component {
+
+  static navigationOptions = {
+    headerRight: <Icon name="exit-to-app" color="#fff" />,
+    header: null,
+  };
 
   constructor(props){
     super(props);

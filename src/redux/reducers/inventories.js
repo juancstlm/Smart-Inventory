@@ -18,7 +18,7 @@ export default (state = initialState, action) => {
     case C.GET_OWN_INVENTORIES: return {...state, all: [...state.all, ...action.payload]}
     case C.CLEAR_ACTIVE_INVENTORY: return {...state, activeInventory: {}, currentItemsDetails: [], activeItem: {}};
     case C.JOIN_INVENTORY: return {...state, all: [...state.all, action.payload]};
-    case C.SAVE_ITEM_TO_FIREBASE: return state
+    case C.SAVE_ITEM_TO_FIREBASE: return {...state, currentItemsDetails: [...state.currentItemsDetails, action.payload]};
     default: return state;
   }
 }

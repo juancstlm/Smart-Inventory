@@ -96,7 +96,9 @@ export const saveItemToFireBase = (item, id) =>{
         ...item
         // OH YEAH BABY SPREAD IT
       }).then(() =>{
-        dispatch({type: C.SAVE_ITEM_TO_FIREBASE})})
+        dispatch({type: C.SAVE_ITEM_TO_FIREBASE,
+          payload: {...item, id: id}
+        })})
 }
 
 export const getSharedInventories = () => {
